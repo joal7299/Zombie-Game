@@ -95,6 +95,14 @@ class Player {
     }
     else if(this.isGoingBack) {
       if(this.rightArmIsOn) {
+        graphics.fillRect(-32, 0, 15, 25);
+      }
+      if(this.leftArmIsOn){
+        graphics.fillRect(17, 0, 15, 25);
+      }
+    }
+    else {
+      if(this.rightArmIsOn) {
         graphics.fillRect(-32, 0, 15, 15);
       }
       if(this.leftArmIsOn){
