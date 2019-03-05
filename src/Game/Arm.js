@@ -1,13 +1,14 @@
-class Bullet {
+class Arm {
   constructor() {
     this.x = 0;
     this.y = 0;
-    this.radius = 6;
     this.forward = 0;
+    this.radius = 25;
     this.moveSpeed = 200;
     this.isActive = false;
+    this.isMoving = true;
 
-    this.activeTime = 0;
+    this.moveTime = 0;
   }
 
   activate(x, y, forward) {
@@ -15,11 +16,17 @@ class Bullet {
     this.y = y;
     this.forward = forward;
     this.isActive = true;
-    this.activeTime = 2000;
+    this.moveTime = 1000;
+    this.moveSpeed = 400;
   }
 
   deactivate() {
     this.isActive = false;
+  }
+
+  stopMoving() {
+    this.isMoving = false;
+    this.moveSpeed = 0;
   }
 
   update(deltaTime) {
@@ -31,9 +38,9 @@ class Bullet {
       this.y += this.moveSpeed * forwardY * deltaTime / 1000;
 
       // Deactivate bullet when it's been alive for too long 
-      this.activeTime -= deltaTime;
-      if (this.activeTime < 0) {
-        this.deactivate();
+      this.moveTime -= deltaTime;
+      if (this.moveTime < 0) {
+        this.stopMoving();
       }
     }
   }
@@ -42,10 +49,10 @@ class Bullet {
     if (this.isActive) {
       graphics.save();
       graphics.translate(this.x, this.y);
-      graphics.fillCircle(0, 0, this.radius);
+      graphics.fillRect(17, 0, 15, 35);
       graphics.restore();
     }
   }
 }
 
-module.exports = Bullet;
+module.exports = Arm;

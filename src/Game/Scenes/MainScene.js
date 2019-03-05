@@ -2,7 +2,7 @@ const Phaser = require('phaser');
 
 //Import Actors
 const Player = require('../Player');
-const Bullet = require('../Bullet');
+const Arm = require('../Arm');
 const Enemy = require('../Enemy');
 
 function isCircleCollision(c1, c2) {
@@ -38,20 +38,16 @@ class MainScene extends Phaser.Scene {
 
         //Game vars
         this.p1 = new Player(this.game.config.width / 2, this.game.config.height / 2);
-
-        this.bullets = [];
-        for (let i = 0; i < 20; i ++) {
-            this.bullets.push(new Bullet());
-        }
+        
+        //create arm objects
+        this.leftArm = new Arm();
+        this.rightArm = new Arm();
 
         this.enemies = [];
             for (let i = 0; i < 20; i ++) {
                 this.enemies.push(new Enemy());
             }
         this.enemySpawnTime = 2000;
-
-        // Code for only firing bullet on space up
-        this.isLastSpaceDown = false;
     }
 
     update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it is not used
@@ -59,28 +55,33 @@ class MainScene extends Phaser.Scene {
         this.p1.update(deltaTime, this.keys);
 
         // Keep player on screen
-        if (this.p1.x > this.game.config.width + 5) {
+        if (this.p1.x > this.game.config.width + 10) {
             this.p1.setX(0);
         }
 
-        if (this.p1.x < -5) {
-            this.p1.setX(this.game.config.width - 5);
+        if (this.p1.x < -10) {
+            this.p1.setX(this.game.config.width - 10);
         }
 
-        if (this.p1.y > this.game.config.height + 5) {
+        if (this.p1.y > this.game.config.height + 10) {
             this.p1.setY(0);
         }
 
-        if (this.p1.y < -5) {
-            this.p1.setY(this.game.config.height - 5);
+        if (this.p1.y < -10) {
+            this.p1.setY(this.game.config.height - 10);
         }
 
-        // Fire bullet once when space key is pressed
-        if (this.keys.space.isDown && !this.isLastSpaceDown) {
-            this.newBullet = this.bullets.find(b => !b.isActive);
-            if (this.newBullet) this.newBullet.activate(this.p1.x, this.p1.y, this.p1.cannonRot);
+        // Fires left arm once when the a key is pressed
+        if (this.keys.a.isDown && this.p1.leftArmIsOn) {
+            this.leftArm.activate(this.p1.x + 17, this.p1.y, this.p1.forwardRot);
+            this.p1.leftArmIsOn = false;
         }
-        this.isLastSpaceDown = this.keys.space.isDown;
+
+        // Fires right arm once when the d key is pressed
+        if (this.keys.d.isDown && this.p1.rightArmIsOn) {
+            this.rightArm.activate(this.p1.x - 17, this.p1.y, this.p1.forwardRot);
+            this.p1.rightArmIsOn = false;
+        }
 
         // Spawn enemies every 2 sec
         if (this.enemySpawnTime < 0) {
@@ -90,23 +91,38 @@ class MainScene extends Phaser.Scene {
         }
         this.enemySpawnTime -= deltaTime;
 
-        // Update bullets
-        this.bullets.forEach(b => b.update(deltaTime));
+        // Reattach arm when player collides with fired left arm
+        if (!this.p1.leftArmIsOn && isCircleCollision(this.p1, this.leftArm) && this.leftArm.moveTime < 700) {
+            this.leftArm.deactivate();
+            this.p1.leftArmIsOn = true;
+        }
+
+        // Reattach arm when player collides with fired right arm
+        if (!this.p1.rightArmIsOn && isCircleCollision(this.p1, this.rightArm) && this.rightArm.moveTime < 700) {
+            this.rightArm.deactivate();
+            this.p1.rightArmIsOn = true;
+        }
+
+        // Update arms
+        this.leftArm.update(deltaTime);
+        this.rightArm.update(deltaTime);
+
         this.enemies.forEach(e => {
-            if (e.isActive) {
-            this.bullets.forEach(b => {
-                if (b.isActive && isCircleCollision(e, b)) {
-                    e.deactivate();
-                    b.deactivate();
-                }
-            });
+            if (e.isActive && this.leftArm.isActive && isCircleCollision(e, this.leftArm)) {
+                e.deactivate();
+                this.leftArm.stopMoving();
+            }
+            if (e.isActive && this.rightArm.isActive && isCircleCollision(e, this.rightArm)) {
+                e.deactivate();
+                this.rightArm.stopMoving();
             }
         });
 
         // Draw everything
         this.graphics.clear();
         this.p1.draw(this.graphics);
-        this.bullets.forEach(b => b.draw(this.graphics));
+        this.leftArm.draw(this.graphics);
+        this.rightArm.draw(this.graphics);
         this.enemies.forEach(e => e.draw(this.graphics));
     }
 }

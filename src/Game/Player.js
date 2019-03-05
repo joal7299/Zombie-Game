@@ -7,11 +7,15 @@ class Player {
     this.radius = 20; // radius used for collision detection
 
     // movement
-    this.moveSpeed = 100;
+    this.moveSpeed = 200;
     this.forwardRot = 0;
-    this.rotSpeed = 1;
+    this.rotSpeed = 2.5;
+    this.isGoingForward = false;
+    this.isGoingBack = false;
 
-    this.cannonRot = 0;
+    //arms
+    this.leftArmIsOn = true;
+    this.rightArmIsOn = true;
 
     // Geometry used for rendering
     this.baseGeo = [
@@ -35,20 +39,21 @@ class Player {
 
   update(deltaTime, keys) {
     // Player Movement
-    if (keys.a.isDown) {
-      this.cannonRot -= this.rotSpeed * deltaTime / 1000
-    }
-    else if (keys.d.isDown) {
-      this.cannonRot += this.rotSpeed * deltaTime / 1000
-    }
+    // if (keys.a.isDown) {
+    //   this.cannonRot -= this.rotSpeed * deltaTime / 1000
+    // }
+    // else if (keys.d.isDown) {
+    //   this.cannonRot += this.rotSpeed * deltaTime / 1000
+    // }
 
     // Player Movement
     if (keys.left.isDown) {
       this.forwardRot -= this.rotSpeed * deltaTime / 1000
     }
-    else if (keys.right.isDown) {
+    if (keys.right.isDown) {
       this.forwardRot += this.rotSpeed * deltaTime / 1000
     }
+
 
     // Calculate forward vector
     const forwardX = -Math.sin(this.forwardRot);
@@ -57,6 +62,18 @@ class Player {
     if (keys.up.isDown) {
       this.x += this.moveSpeed * forwardX * deltaTime / 1000;
       this.y += this.moveSpeed * forwardY * deltaTime / 1000;
+      this.isGoingForward = true;
+    }
+    else if(!keys.up.isDown) {
+      this.isGoingForward = false;
+    }
+    if (keys.down.isDown) {
+      this.x -= this.moveSpeed * forwardX * deltaTime / 1000;
+      this.y -= this.moveSpeed * forwardY * deltaTime / 1000;
+      this.isGoingBack = true;
+    }
+    else if(!keys.down.isDown) {
+      this.isGoingBack = false;
     }
   }
 
@@ -66,14 +83,24 @@ class Player {
     graphics.translate(this.x, this.y);
     graphics.rotate(this.forwardRot);
     graphics.strokePoints(this.baseGeo);
-    graphics.restore();
-
-    // render cannon
-    graphics.save();
-    graphics.translate(this.x, this.y);
-    graphics.rotate(this.cannonRot);
-    graphics.fillCircle(0, 0, 12);
-    graphics.fillRect(-5, 0, 10, 25);
+    
+    //arms
+    if(this.isGoingForward) {
+      if(this.rightArmIsOn) {
+        graphics.fillRect(-32, 0, 15, 35);
+      }
+      if(this.leftArmIsOn){
+        graphics.fillRect(17, 0, 15, 35);
+      }
+    }
+    else if(this.isGoingBack) {
+      if(this.rightArmIsOn) {
+        graphics.fillRect(-32, 0, 15, 15);
+      }
+      if(this.leftArmIsOn){
+        graphics.fillRect(17, 0, 15, 15);
+      }
+    }
     graphics.restore();
   }
 }
