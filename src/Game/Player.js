@@ -11,8 +11,7 @@ class Player {
     this.forwardRot = 0;
     this.rotSpeed = 1;
 
-    this.canRot = Math.PI/2;
-    this.canSpeed = 2;
+    this.cannonRot = 0;
 
     // Geometry used for rendering
     this.baseGeo = [
@@ -36,46 +35,43 @@ class Player {
 
   update(deltaTime, keys) {
     // Player Movement
+    if (keys.a.isDown) {
+      this.cannonRot -= this.rotSpeed * deltaTime / 1000
+    }
+    else if (keys.d.isDown) {
+      this.cannonRot += this.rotSpeed * deltaTime / 1000
+    }
+
+    // Player Movement
     if (keys.left.isDown) {
-      this.forwardRot -= this.rotSpeed * deltaTime / 1000;
+      this.forwardRot -= this.rotSpeed * deltaTime / 1000
     }
     else if (keys.right.isDown) {
-      this.forwardRot += this.rotSpeed * deltaTime / 1000;
+      this.forwardRot += this.rotSpeed * deltaTime / 1000
     }
 
     // Calculate forward vector
-    const forwardX = Math.cos(this.forwardRot);
-    const forwardY = Math.sin(this.forwardRot);
+    const forwardX = -Math.sin(this.forwardRot);
+    const forwardY = Math.cos(this.forwardRot);
     
-    if (keys.down.isDown) {
+    if (keys.up.isDown) {
       this.x += this.moveSpeed * forwardX * deltaTime / 1000;
       this.y += this.moveSpeed * forwardY * deltaTime / 1000;
     }
-
-    if (keys.up.isDown) {
-      this.x -= this.moveSpeed * forwardX * deltaTime / 1000;
-      this.y -= this.moveSpeed * forwardY * deltaTime / 1000;
-    }
-
-    if (keys.a.isDown) {
-      this.canRot -= this.canSpeed * deltaTime / 1000;
-    }
-    else if (keys.d.isDown) {
-      this.canRot += this.canSpeed * deltaTime / 1000;
-    }
-
-    //console.log(this.x, this.y)
   }
 
   draw(graphics) {
     // render player base
     graphics.save();
     graphics.translate(this.x, this.y);
-    graphics.rotate(this.forwardRot+Math.PI/2);
+    graphics.rotate(this.forwardRot);
     graphics.strokePoints(this.baseGeo);
+    graphics.restore();
 
     // render cannon
-    graphics.rotate(this.canRot-Math.PI/2);
+    graphics.save();
+    graphics.translate(this.x, this.y);
+    graphics.rotate(this.cannonRot);
     graphics.fillCircle(0, 0, 12);
     graphics.fillRect(-5, 0, 10, 25);
     graphics.restore();
