@@ -73,13 +73,13 @@ class MainScene extends Phaser.Scene {
 
         // Fires left arm once when the a key is pressed
         if (this.keys.a.isDown && this.p1.leftArmIsOn) {
-            this.leftArm.activate(this.p1.x, this.p1.y, this.p1.forwardRot);
+            this.leftArm.activate(this.p1.x + (17 * Math.sin(Math.PI/2 + this.p1.forwardRot)), this.p1.y + (17 * Math.cos(Math.PI/2 - this.p1.forwardRot)), this.p1.forwardRot);
             this.p1.leftArmIsOn = false;
         }
 
         // Fires right arm once when the d key is pressed
         if (this.keys.d.isDown && this.p1.rightArmIsOn) {
-            this.rightArm.activate(this.p1.x, this.p1.y, this.p1.forwardRot);
+            this.rightArm.activate(this.p1.x + (32 * Math.sin(3*Math.PI/2 + this.p1.forwardRot)), this.p1.y + (32 * Math.cos(3*Math.PI/2 - this.p1.forwardRot)), this.p1.forwardRot);
             this.p1.rightArmIsOn = false;
         }
 
@@ -92,13 +92,13 @@ class MainScene extends Phaser.Scene {
         this.enemySpawnTime -= deltaTime;
 
         // Reattach arm when player collides with fired left arm
-        if (!this.p1.leftArmIsOn && isCircleCollision(this.p1, this.leftArm) && this.leftArm.moveTime < 700) {
+        if (!this.p1.leftArmIsOn && isCircleCollision(this.p1, this.leftArm) && this.leftArm.moveTime < 300) {
             this.leftArm.deactivate();
             this.p1.leftArmIsOn = true;
         }
 
         // Reattach arm when player collides with fired right arm
-        if (!this.p1.rightArmIsOn && isCircleCollision(this.p1, this.rightArm) && this.rightArm.moveTime < 700) {
+        if (!this.p1.rightArmIsOn && isCircleCollision(this.p1, this.rightArm) && this.rightArm.moveTime < 300) {
             this.rightArm.deactivate();
             this.p1.rightArmIsOn = true;
         }
