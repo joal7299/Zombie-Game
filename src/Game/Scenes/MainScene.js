@@ -128,10 +128,10 @@ class MainScene extends Phaser.Scene {
         this.enemies.forEach(e => e.draw(this.graphics));
         //map rectanlges
         //map outer walls
-        this.graphics.fillRect(-1, 0, 1, 600);
-        this.graphics.fillRect(0, 0, 800, 1);
-        this.graphics.fillRect(0, 600, 800, 1);
-        this.graphics.fillRect(800, 0, 1, 800);
+        this.graphics.fillRect(0, 0, 1, 600);
+        this.graphics.fillRect(0, 0, 799, 1);
+        this.graphics.fillRect(0, 599, 800, 1);
+        this.graphics.fillRect(799, 0, 1, 800);
 
         //inner walls
         this.graphics.fillRect(100, 0, 5, 30);
