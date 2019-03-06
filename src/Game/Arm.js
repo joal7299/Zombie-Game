@@ -4,7 +4,7 @@ class Arm {
     this.y = 0;
     this.forward = 0;
     this.radius = 25;
-    this.moveSpeed = 200;
+    this.moveSpeed = 400;
     this.isActive = false;
     this.isMoving = true;
 
@@ -49,7 +49,8 @@ class Arm {
     if (this.isActive) {
       graphics.save();
       graphics.translate(this.x, this.y);
-      graphics.fillRect(17, 0, 15, 35);
+      graphics.rotate(this.forward);
+      graphics.fillRect(0, 0, 15, 35);
       graphics.restore();
     }
   }

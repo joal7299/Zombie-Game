@@ -73,13 +73,13 @@ class MainScene extends Phaser.Scene {
 
         // Fires left arm once when the a key is pressed
         if (this.keys.a.isDown && this.p1.leftArmIsOn) {
-            this.leftArm.activate(this.p1.x + 17, this.p1.y, this.p1.forwardRot);
+            this.leftArm.activate(this.p1.x, this.p1.y, this.p1.forwardRot);
             this.p1.leftArmIsOn = false;
         }
 
         // Fires right arm once when the d key is pressed
         if (this.keys.d.isDown && this.p1.rightArmIsOn) {
-            this.rightArm.activate(this.p1.x - 17, this.p1.y, this.p1.forwardRot);
+            this.rightArm.activate(this.p1.x, this.p1.y, this.p1.forwardRot);
             this.p1.rightArmIsOn = false;
         }
 
