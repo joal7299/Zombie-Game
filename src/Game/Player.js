@@ -18,15 +18,16 @@ class Player {
     this.rightArmIsOn = true;
 
     // Geometry used for rendering
-    this.baseGeo = [
-      new Phaser.Geom.Point(-17, 10),
-      new Phaser.Geom.Point(-8, 20),
-      new Phaser.Geom.Point(8, 20),
-      new Phaser.Geom.Point(17, 10),
-      new Phaser.Geom.Point(17, -20),
-      new Phaser.Geom.Point(-17, -20),
-      new Phaser.Geom.Point(-17, 10),
-    ];
+    // this.baseGeo = [
+    //   new Phaser.Geom.Point(-17, 10),
+    //   new Phaser.Geom.Point(-8, 20),
+    //   new Phaser.Geom.Point(8, 20),
+    //   new Phaser.Geom.Point(17, 10),
+    //   new Phaser.Geom.Point(17, -20),
+    //   new Phaser.Geom.Point(-17, -20),
+    //   new Phaser.Geom.Point(-17, 10),
+    // ];
+    this.setTexture('zombie');
   }
 
   setX(newX) {
@@ -38,13 +39,6 @@ class Player {
   }
 
   update(deltaTime, keys) {
-    // Player Movement
-    // if (keys.a.isDown) {
-    //   this.cannonRot -= this.rotSpeed * deltaTime / 1000
-    // }
-    // else if (keys.d.isDown) {
-    //   this.cannonRot += this.rotSpeed * deltaTime / 1000
-    // }
 
     // Player Movement
     if (keys.left.isDown) {
@@ -82,7 +76,8 @@ class Player {
     graphics.save();
     graphics.translate(this.x, this.y);
     graphics.rotate(this.forwardRot);
-    graphics.strokePoints(this.baseGeo);
+    //graphics.strokePoints(this.baseGeo);
+    this.setPosition(this.x,this.y);
 
 
     
