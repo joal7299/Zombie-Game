@@ -15,10 +15,34 @@
       }
 
       #start-screen {
-        position: absolute;
-        text-align: center;
-        color: white;
+        text-align:center;
+        padding: 250px;
+        background-color: black;
+        /* grid-row-end: 3;
+        grid-column-start: 2; */
       }
+
+      h1 {
+        color: white;
+        background-color: black;
+      }
+
+      h2 {
+        color: white;
+        background-color: black;
+      }
+
+      /* #container {
+        width:800px;
+        height:600px;
+        margin:0px auto;
+        background-color:black;
+        padding:0px;
+        box-sizing:border-box;
+        display: grid;
+        grid-template-columns: repeat(3, 33.3333%);
+        grid-template-rows: repeat(3, 33.3333%);
+      } */
 
       .hidden {
         display: none;
@@ -27,10 +51,12 @@
   </head>
 
   <body>
-    <div id="start-screen" class="hidden">
-      <h1>Zombie Game</h1>
-      <h2>Press space to begin</h2>
-    </div>
+    <!-- <div id = "container" class="hidden"> -->
+      <div id="start-screen" class="hidden">
+          <h1>Zombie Game</h1>
+          <h2>Press space to begin</h2>
+      </div>
+    <!-- </div> -->
   </body>
 
   <script>
