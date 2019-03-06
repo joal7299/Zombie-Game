@@ -83,6 +83,10 @@ class Player {
     graphics.translate(this.x, this.y);
     graphics.rotate(this.forwardRot);
     graphics.strokePoints(this.baseGeo);
+
+
+    
+
     
     //arms
     if(this.isGoingForward) {

@@ -118,12 +118,40 @@ class MainScene extends Phaser.Scene {
             }
         });
 
+        
+
         // Draw everything
         this.graphics.clear();
         this.p1.draw(this.graphics);
         this.leftArm.draw(this.graphics);
         this.rightArm.draw(this.graphics);
         this.enemies.forEach(e => e.draw(this.graphics));
+        //map rectanlges
+        //map outer walls
+        this.graphics.fillRect(-1, 0, 1, 600);
+        this.graphics.fillRect(0, 0, 800, 1);
+        this.graphics.fillRect(0, 600, 800, 1);
+        this.graphics.fillRect(800, 0, 1, 800);
+
+        //inner walls
+        this.graphics.fillRect(100, 0, 5, 30);
+        this.graphics.fillRect(100, 100, 5, 200);
+        this.graphics.fillRect(0, 300, 300, 5);
+        this.graphics.fillRect(400, 0, 5, 300);
+        this.graphics.fillRect(365, 300, 40, 5);
+        this.graphics.fillRect(400, 200, 100, 5);
+        this.graphics.fillRect(500, 100, 100, 5);
+        this.graphics.fillRect(600, 200, 80, 5);
+        this.graphics.fillRect(740, 200, 80, 5);
+        this.graphics.fillRect(600, 100, 5, 300);
+        this.graphics.fillRect(0, 400, 740, 5);
+        this.graphics.fillRect(400, 460, 5, 140);
+
+        //this.graphics.fillRect(20, 10, 5, 5);
+
+        
+
+        
     }
 }
 
