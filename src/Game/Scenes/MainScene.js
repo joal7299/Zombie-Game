@@ -41,7 +41,7 @@ create() {
         });
 
     //Game vars
-    this.p1 = new Player(this.game.config.width / 2, this.game.config.height / 2);
+    this.p1 = new Player(this.graphics, this.game.config.width / 2, this.game.config.height / 2);
     
     //create arm objects
     this.leftArm = new Arm();

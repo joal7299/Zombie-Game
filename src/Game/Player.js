@@ -1,7 +1,9 @@
 const Phaser = require('phaser');
 
-class Player {
-  constructor(x, y) {
+class Player extends Phaser.GameObjects.Sprite {
+  constructor(scene, x, y) {
+    super(scene, x, y);
+
     this.x = x;
     this.y = y;
     this.radius = 20; // radius used for collision detection
@@ -28,8 +30,10 @@ class Player {
     //   new Phaser.Geom.Point(-17, 10),
     // ];
     this.setTexture('zombie');
+    this.setPosition(this.x, this.y);
   }
 
+  
   setX(newX) {
     this.x = newX;
   }
