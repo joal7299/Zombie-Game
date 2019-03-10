@@ -45,8 +45,6 @@ create() {
     
 
 
-
-
     //Phaser Elements
     this.keys = {
         left: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT),
@@ -74,7 +72,7 @@ create() {
         for (let i = 0; i < 20; i ++) {
             this.enemies.push(new Enemy());
         }
-    this.enemySpawnTime = 2000;
+    //this.enemySpawnTime = 2000;
 }
 
 update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it is not used
@@ -110,13 +108,19 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
         this.p1.rightArmIsOn = false;
     }
 
-    // Spawn enemies every 2 sec
-    if (this.enemySpawnTime < 0) {
-        this.newEnemy = this.enemies.find(e => !e.isActive);
-        if (this.newEnemy) this.newEnemy.activate(Math.random() * this.game.config.width, Math.random() * this.game.config.height);
-        this.enemySpawnTime = 5000;
-    }
-    this.enemySpawnTime -= deltaTime;
+    // Spawn enemies 
+    this.enemies[0].activate(100, 200);
+    this.enemies[1].activate(400, 250);
+    this.enemies[2].activate(600, 50);
+    this.enemies[3].activate(400, 350);
+    this.enemies[4].activate(50, 500);
+    this.enemies[5].activate(400, 500);
+
+    
+    
+       
+    
+    //this.enemySpawnTime -= deltaTime;
 
     // Reattach arm when player collides with fired left arm
     if (!this.p1.leftArmIsOn && isCircleCollision(this.p1, this.leftArm) && this.leftArm.moveTime < 300) {
