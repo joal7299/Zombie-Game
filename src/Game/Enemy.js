@@ -1,4 +1,4 @@
-class Bullet {
+class Enemy {
   constructor() {
     this.x = 0;
     this.y = 0;
@@ -32,4 +32,4 @@ class Bullet {
   }
 }
 
-module.exports = Bullet;
+module.exports = Enemy;

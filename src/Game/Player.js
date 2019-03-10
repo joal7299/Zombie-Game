@@ -95,7 +95,8 @@ class Player extends Phaser.GameObjects.Sprite {
         graphics.fillRect(-25, 0, 15, 35);
       }
       if(this.leftArmIsOn){
-        graphics.fillRect(10, 0, 15, 35);
+        //this.add.image(10, 0, 'leftarm');
+         graphics.fillRect(10, 0, 15, 35);
       }
     }
     else if(this.isGoingBack) {

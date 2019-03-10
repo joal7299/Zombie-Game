@@ -21,6 +21,7 @@ class MainScene extends Phaser.Scene {
 
 preload() {
     this.load.image('zombie', '../assets/zombie.png');
+    this.load.image('leftarm', '../assets/leftarm.png');
 }
 
 create() {
@@ -42,6 +43,7 @@ create() {
 
     //Game vars
     this.p1 = this.add.existing(new Player(this, this.game.config.width / 2, this.game.config.height / 2));
+    //this.p1.setCollideWorldBounds(true);
     
     //create arm objects
     this.leftArm = new Arm();
