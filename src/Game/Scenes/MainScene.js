@@ -79,56 +79,56 @@ create() {
 
 update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it is not used
     // Update Player
-    // this.p1.update(deltaTime, this.keys);
+    this.p1.update(deltaTime, this.keys);
 
-    // // Keep player on screen
-    // if (this.p1.x > this.game.config.width + 10) {
-    //     this.p1.setX(0);
-    // }
+    // Keep player on screen
+    if (this.p1.x > this.game.config.width + 10) {
+        this.p1.setX(0);
+    }
 
-    // if (this.p1.x < -10) {
-    //     this.p1.setX(this.game.config.width - 10);
-    // }
+    if (this.p1.x < -10) {
+        this.p1.setX(this.game.config.width - 10);
+    }
 
-    // if (this.p1.y > this.game.config.height + 10) {
-    //     this.p1.setY(0);
-    // }
+    if (this.p1.y > this.game.config.height + 10) {
+        this.p1.setY(0);
+    }
 
-    // if (this.p1.y < -10) {
-    //     this.p1.setY(this.game.config.height - 10);
-    // }
+    if (this.p1.y < -10) {
+        this.p1.setY(this.game.config.height - 10);
+    }
 
-    // Fires left arm once when the a key is pressed
-    // if (this.keys.a.isDown && this.p1.leftArmIsOn) {
-    //     this.leftArm.activate(this.p1.x + (17 * Math.sin(Math.PI/2 + this.p1.forwardRot)), this.p1.y + (17 * Math.cos(Math.PI/2 - this.p1.forwardRot)), this.p1.forwardRot);
-    //     this.p1.leftArmIsOn = false;
-    // }
+    //Fires left arm once when the a key is pressed
+    if (this.keys.a.isDown && this.p1.leftArmIsOn) {
+        this.leftArm.activate(this.p1.x + (17 * Math.sin(Math.PI/2 + this.p1.forwardRot)), this.p1.y + (17 * Math.cos(Math.PI/2 - this.p1.forwardRot)), this.p1.forwardRot);
+        this.p1.leftArmIsOn = false;
+    }
 
-    // // Fires right arm once when the d key is pressed
-    // if (this.keys.d.isDown && this.p1.rightArmIsOn) {
-    //     this.rightArm.activate(this.p1.x + (32 * Math.sin(3*Math.PI/2 + this.p1.forwardRot)), this.p1.y + (32 * Math.cos(3*Math.PI/2 - this.p1.forwardRot)), this.p1.forwardRot);
-    //     this.p1.rightArmIsOn = false;
-    // }
+    // Fires right arm once when the d key is pressed
+    if (this.keys.d.isDown && this.p1.rightArmIsOn) {
+        this.rightArm.activate(this.p1.x + (32 * Math.sin(3*Math.PI/2 + this.p1.forwardRot)), this.p1.y + (32 * Math.cos(3*Math.PI/2 - this.p1.forwardRot)), this.p1.forwardRot);
+        this.p1.rightArmIsOn = false;
+    }
 
-    // // Spawn enemies every 2 sec
-    // if (this.enemySpawnTime < 0) {
-    //     this.newEnemy = this.enemies.find(e => !e.isActive);
-    //     if (this.newEnemy) this.newEnemy.activate(Math.random() * this.game.config.width, Math.random() * this.game.config.height);
-    //     this.enemySpawnTime = 5000;
-    // }
-    // this.enemySpawnTime -= deltaTime;
+    // Spawn enemies every 2 sec
+    if (this.enemySpawnTime < 0) {
+        this.newEnemy = this.enemies.find(e => !e.isActive);
+        if (this.newEnemy) this.newEnemy.activate(Math.random() * this.game.config.width, Math.random() * this.game.config.height);
+        this.enemySpawnTime = 5000;
+    }
+    this.enemySpawnTime -= deltaTime;
 
-    // // Reattach arm when player collides with fired left arm
-    // if (!this.p1.leftArmIsOn && isCircleCollision(this.p1, this.leftArm) && this.leftArm.moveTime < 300) {
-    //     this.leftArm.deactivate();
-    //     this.p1.leftArmIsOn = true;
-    // }
+    // Reattach arm when player collides with fired left arm
+    if (!this.p1.leftArmIsOn && isCircleCollision(this.p1, this.leftArm) && this.leftArm.moveTime < 300) {
+        this.leftArm.deactivate();
+        this.p1.leftArmIsOn = true;
+    }
 
-    // // Reattach arm when player collides with fired right arm
-    // if (!this.p1.rightArmIsOn && isCircleCollision(this.p1, this.rightArm) && this.rightArm.moveTime < 300) {
-    //     this.rightArm.deactivate();
-    //     this.p1.rightArmIsOn = true;
-    // }
+    // Reattach arm when player collides with fired right arm
+    if (!this.p1.rightArmIsOn && isCircleCollision(this.p1, this.rightArm) && this.rightArm.moveTime < 300) {
+        this.rightArm.deactivate();
+        this.p1.rightArmIsOn = true;
+    }
 
     // Update arms
     this.leftArm.update(deltaTime);
@@ -149,7 +149,7 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
 
     // Draw everything
     this.graphics.clear();
-    //this.p1.draw(this.graphics);
+    this.p1.draw(this.graphics);
     this.leftArm.draw(this.graphics);
     this.rightArm.draw(this.graphics);
     this.enemies.forEach(e => e.draw(this.graphics));
@@ -176,7 +176,7 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
 
     // Draw everything
     this.graphics.clear();
-    //this.p1.draw(this.graphics);
+    this.p1.draw(this.graphics);
     this.leftArm.draw(this.graphics);
     this.rightArm.draw(this.graphics);
     this.enemies.forEach(e => e.draw(this.graphics));
