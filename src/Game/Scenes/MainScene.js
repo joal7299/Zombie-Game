@@ -14,6 +14,8 @@ function isCircleCollision(c1, c2) {
     return (distSq < radiiSq);
   }
 
+var walls;
+
 class MainScene extends Phaser.Scene {
     constructor() {
         super('MainScene');
@@ -21,9 +23,30 @@ class MainScene extends Phaser.Scene {
 
 preload() {
     this.load.image('zombie', '../assets/zombie.png');
+    this.load.image('wall', '../assets/wall.png');
 }
 
+
+
 create() {
+    //creating walls as a static group
+    walls = this.physics.add.staticGroup();
+
+    //width then height
+    this.add.image(50, 100, 'wall').setScale(10, .5);
+    this.add.image(100, 25, 'wall').setScale(.5, 5);
+    this.add.image(200, 300, 'wall').setScale(40, .5);
+    this.add.image(400, 100, 'wall').setScale(.5, 20);
+    this.add.image(500, 300, 'wall').setScale(20, .5);
+    this.add.image(600, 200, 'wall').setScale(.5, 20);
+    this.add.image(450, 400, 'wall').setScale(70, .5);
+    this.add.image(300, 450, 'wall').setScale(.5, 10);
+    this.add.image(500, 550, 'wall').setScale(.5, 10);
+    
+
+
+
+
     //Phaser Elements
     this.keys = {
         left: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT),
