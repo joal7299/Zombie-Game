@@ -34,7 +34,7 @@ create() {
 
     //width then height
     this.add.image(50, 100, 'wall').setScale(10, .5);
-    this.add.image(100, 25, 'wall').setScale(.5, 5);
+    //this.add.image(100, 25, 'wall').setScale(.5, 5);
     this.add.image(200, 300, 'wall').setScale(40, .5);
     this.add.image(400, 100, 'wall').setScale(.5, 20);
     this.add.image(500, 300, 'wall').setScale(20, .5);
@@ -42,6 +42,8 @@ create() {
     this.add.image(450, 400, 'wall').setScale(70, .5);
     this.add.image(300, 450, 'wall').setScale(.5, 10);
     this.add.image(500, 550, 'wall').setScale(.5, 10);
+
+    
     
 
 
@@ -73,6 +75,14 @@ create() {
             this.enemies.push(new Enemy());
         }
     //this.enemySpawnTime = 2000;
+    
+    //spawning enemies
+    this.enemies[0].activate(100, 200);
+    this.enemies[1].activate(400, 250);
+    this.enemies[2].activate(600, 50);
+    this.enemies[3].activate(400, 350);
+    this.enemies[4].activate(50, 500);
+    this.enemies[5].activate(400, 500);
 }
 
 update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it is not used
@@ -109,12 +119,12 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
     }
 
     // Spawn enemies 
-    this.enemies[0].activate(100, 200);
-    this.enemies[1].activate(400, 250);
-    this.enemies[2].activate(600, 50);
-    this.enemies[3].activate(400, 350);
-    this.enemies[4].activate(50, 500);
-    this.enemies[5].activate(400, 500);
+    // this.enemies[0].activate(100, 200);
+    // this.enemies[1].activate(400, 250);
+    // this.enemies[2].activate(600, 50);
+    // this.enemies[3].activate(400, 350);
+    // this.enemies[4].activate(50, 500);
+    // this.enemies[5].activate(400, 500);
 
     
     
