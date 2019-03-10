@@ -18,7 +18,7 @@ class Arm {
     this.isActive = true;
     this.moveTime = 400;
     this.moveSpeed = 400;
-    console.log(this.x);
+    //console.log(this.x);
   }
 
   deactivate() {
