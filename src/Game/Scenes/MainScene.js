@@ -14,6 +14,8 @@ function isCircleCollision(c1, c2) {
     return (distSq < radiiSq);
   }
 
+var walls;
+
 class MainScene extends Phaser.Scene {
     constructor() {
         super('MainScene');
@@ -21,10 +23,31 @@ class MainScene extends Phaser.Scene {
 
 preload() {
     this.load.image('zombie', '../assets/zombie.png');
+    this.load.image('wall', '../assets/wall.png');
     this.load.image('leftarm', '../assets/leftarm.png');
 }
 
+
+
 create() {
+    //creating walls as a static group
+    walls = this.physics.add.staticGroup();
+
+    //width then height
+    this.add.image(50, 100, 'wall').setScale(10, .5);
+    //this.add.image(100, 25, 'wall').setScale(.5, 5);
+    this.add.image(200, 300, 'wall').setScale(40, .5);
+    this.add.image(400, 100, 'wall').setScale(.5, 20);
+    this.add.image(500, 300, 'wall').setScale(20, .5);
+    this.add.image(600, 200, 'wall').setScale(.5, 20);
+    this.add.image(450, 400, 'wall').setScale(70, .5);
+    this.add.image(300, 450, 'wall').setScale(.5, 10);
+    this.add.image(500, 550, 'wall').setScale(.5, 10);
+
+    
+    
+
+
     //Phaser Elements
     this.keys = {
         left: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT),
@@ -53,7 +76,15 @@ create() {
         for (let i = 0; i < 20; i ++) {
             this.enemies.push(new Enemy());
         }
-    this.enemySpawnTime = 2000;
+    //this.enemySpawnTime = 2000;
+    
+    //spawning enemies
+    this.enemies[0].activate(100, 200);
+    this.enemies[1].activate(400, 250);
+    this.enemies[2].activate(600, 50);
+    this.enemies[3].activate(400, 350);
+    this.enemies[4].activate(50, 500);
+    this.enemies[5].activate(400, 500);
 }
 
 update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it is not used
@@ -89,13 +120,19 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
         this.p1.rightArmIsOn = false;
     }
 
-    // Spawn enemies every 2 sec
-    if (this.enemySpawnTime < 0) {
-        this.newEnemy = this.enemies.find(e => !e.isActive);
-        if (this.newEnemy) this.newEnemy.activate(Math.random() * this.game.config.width, Math.random() * this.game.config.height);
-        this.enemySpawnTime = 5000;
-    }
-    this.enemySpawnTime -= deltaTime;
+    // Spawn enemies 
+    // this.enemies[0].activate(100, 200);
+    // this.enemies[1].activate(400, 250);
+    // this.enemies[2].activate(600, 50);
+    // this.enemies[3].activate(400, 350);
+    // this.enemies[4].activate(50, 500);
+    // this.enemies[5].activate(400, 500);
+
+    
+    
+       
+    
+    //this.enemySpawnTime -= deltaTime;
 
     // Reattach arm when player collides with fired left arm
     if (!this.p1.leftArmIsOn && isCircleCollision(this.p1, this.leftArm) && this.leftArm.moveTime < 300) {
