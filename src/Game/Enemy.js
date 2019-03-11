@@ -1,35 +1,40 @@
-class Enemy {
-  constructor() {
-    this.x = 0;
-    this.y = 0;
-    this.radius = 20;
-    this.isActive = false;
 
-    this.activeTime = 0;
-  }
+  class Enemy extends Phaser.GameObjects.Sprite {
+    constructor(scene, x, y) {
+      super(scene, x, y);
+      this.x = x;
+      this.y = y;
+      this.radius = 20;
+      this.isActive = false;
 
-  activate(x, y) {
-    this.x = x;
-    this.y = y;
-    this.isActive = true;
-  }
+      this.activeTime = 0;
 
-  deactivate() {
-    this.isActive = false;
-  }
+      this.setTexture('enemy').setScale(.08);
+    }
 
-  update(deltaTime) {
+    activate(x, y) {
+      this.x = x;
+      this.y = y;
+      this.isActive = true;
+    }
 
-  }
+    deactivate() {
+      this.isActive = false;
+    }
 
-  draw(graphics) {
-    if (this.isActive) {
-      graphics.save();
-      graphics.translate(this.x, this.y);
-      graphics.strokeCircle(0, 0, this.radius);
-      graphics.restore();
+    update(deltaTime) {
+
+    }
+
+    draw(graphics) {
+      if (this.isActive) {
+        graphics.save();
+        graphics.translate(this.x, this.y);
+        graphics.strokeCircle(0, 0, this.radius);
+        this.setPosition(this.x, this.y);
+        graphics.restore();
+      }
     }
   }
-}
 
-module.exports = Enemy;
+  module.exports = Enemy;

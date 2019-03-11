@@ -25,6 +25,7 @@ preload() {
     this.load.image('zombie', '../assets/zombie.png');
     this.load.image('wall', '../assets/wall.png');
     this.load.image('leftarm', '../assets/leftarm.png');
+    this.load.image('enemy', '../assets/enemy.png');
 }
 
 
@@ -74,17 +75,26 @@ create() {
 
     this.enemies = [];
         for (let i = 0; i < 20; i ++) {
-            this.enemies.push(new Enemy());
+            this.enemies.push(new Enemy(this));
         }
     //this.enemySpawnTime = 2000;
+
+    this.e1 = this.add.existing(new Enemy(this, 100, 200));
+    this.e2 = this.add.existing(new Enemy(this, 400, 250));
+    this.e3 = this.add.existing(new Enemy(this, 600, 50));
+    this.e4 = this.add.existing(new Enemy(this, 400, 350));
+    this.e5 = this.add.existing(new Enemy(this, 50, 500));
+    this.e6 = this.add.existing(new Enemy(this, 400, 500));
     
     //spawning enemies
-    this.enemies[0].activate(100, 200);
-    this.enemies[1].activate(400, 250);
-    this.enemies[2].activate(600, 50);
-    this.enemies[3].activate(400, 350);
-    this.enemies[4].activate(50, 500);
-    this.enemies[5].activate(400, 500);
+    // this.enemies[0].activate(100, 200);
+    // this.enemies[1].activate(400, 250);
+    // this.enemies[2].activate(600, 50);
+    // this.enemies[3].activate(400, 350);
+    // this.enemies[4].activate(50, 500);
+    // this.enemies[5].activate(400, 500);
+
+    
 }
 
 update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it is not used
