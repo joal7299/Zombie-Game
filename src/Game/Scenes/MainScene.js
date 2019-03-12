@@ -25,6 +25,10 @@ preload() {
     this.load.image('zombie', '../assets/zombie.png');
     this.load.image('wall', '../assets/wall.png');
     this.load.image('leftarm', '../assets/leftarm.png');
+    this.load.image('rightarm', '../assets/rightarm.png');
+    this.load.image('zombieright', '../assets/zombieright.png');
+    this.load.image('zombieleft', '../assets/zombieleft.png');
+    this.load.image('zombienoarms', '../assets/zombienoarms.png');
 }
 
 
@@ -65,12 +69,16 @@ create() {
         });
 
     //Game vars
-    this.p1 = this.add.existing(new Player(this, this.game.config.width / 2, this.game.config.height / 2));
-    //this.p1.setCollideWorldBounds(true);
+    this.p1 = this.add.existing(new Player(this, 50, 50));
+    // console.log(this.p1.enableBody);
+    // this.p1.enableBody = true;
+    // console.log(this.p1.enableBody);
+    //this.p1.physicsBodyType = Phaser.Physics.ARCADE;
+    //this.p1.setCollideWorldBounds = true;
     
     //create arm objects
-    this.leftArm = new Arm();
-    this.rightArm = new Arm();
+    this.leftArm = this.add.existing(new Arm(this, true));
+    this.rightArm = this.add.existing(new Arm(this, false));
 
     this.enemies = [];
         for (let i = 0; i < 20; i ++) {
@@ -110,13 +118,13 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
 
     //Fires left arm once when the a key is pressed
     if (this.keys.a.isDown && this.p1.leftArmIsOn) {
-        this.leftArm.activate(this.p1.x + (17 * Math.sin(Math.PI/2 + this.p1.forwardRot)), this.p1.y + (17 * Math.cos(Math.PI/2 - this.p1.forwardRot)), this.p1.forwardRot);
+        this.leftArm.activate(this.p1.x, this.p1.y, this.p1.forwardRot);
         this.p1.leftArmIsOn = false;
     }
 
     // Fires right arm once when the d key is pressed
     if (this.keys.d.isDown && this.p1.rightArmIsOn) {
-        this.rightArm.activate(this.p1.x + (32 * Math.sin(3*Math.PI/2 + this.p1.forwardRot)), this.p1.y + (32 * Math.cos(3*Math.PI/2 - this.p1.forwardRot)), this.p1.forwardRot);
+        this.rightArm.activate(this.p1.x, this.p1.y, this.p1.forwardRot);
         this.p1.rightArmIsOn = false;
     }
 
@@ -135,13 +143,13 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
     //this.enemySpawnTime -= deltaTime;
 
     // Reattach arm when player collides with fired left arm
-    if (!this.p1.leftArmIsOn && isCircleCollision(this.p1, this.leftArm) && this.leftArm.moveTime < 300) {
+    if (!this.p1.leftArmIsOn && isCircleCollision(this.p1, this.leftArm) && this.leftArm.moveTime < 200) {
         this.leftArm.deactivate();
         this.p1.leftArmIsOn = true;
     }
 
     // Reattach arm when player collides with fired right arm
-    if (!this.p1.rightArmIsOn && isCircleCollision(this.p1, this.rightArm) && this.rightArm.moveTime < 300) {
+    if (!this.p1.rightArmIsOn && isCircleCollision(this.p1, this.rightArm) && this.rightArm.moveTime < 200) {
         this.rightArm.deactivate();
         this.p1.rightArmIsOn = true;
     }
@@ -177,18 +185,18 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
     this.graphics.fillRect(800, 0, 1, 800);
 
     //inner walls
-    this.graphics.fillRect(100, 0, 5, 30);
-    this.graphics.fillRect(100, 100, 5, 200);
-    this.graphics.fillRect(0, 300, 300, 5);
-    this.graphics.fillRect(400, 0, 5, 300);
-    this.graphics.fillRect(365, 300, 40, 5);
-    this.graphics.fillRect(400, 200, 100, 5);
-    this.graphics.fillRect(500, 100, 100, 5);
-    this.graphics.fillRect(600, 200, 80, 5);
-    this.graphics.fillRect(740, 200, 80, 5);
-    this.graphics.fillRect(600, 100, 5, 300);
-    this.graphics.fillRect(0, 400, 740, 5);
-    this.graphics.fillRect(400, 460, 5, 140);
+    // this.graphics.fillRect(100, 0, 5, 30);
+    // this.graphics.fillRect(100, 100, 5, 200);
+    // this.graphics.fillRect(0, 300, 300, 5);
+    // this.graphics.fillRect(400, 0, 5, 300);
+    // this.graphics.fillRect(365, 300, 40, 5);
+    // this.graphics.fillRect(400, 200, 100, 5);
+    // this.graphics.fillRect(500, 100, 100, 5);
+    // this.graphics.fillRect(600, 200, 80, 5);
+    // this.graphics.fillRect(740, 200, 80, 5);
+    // this.graphics.fillRect(600, 100, 5, 300);
+    // this.graphics.fillRect(0, 400, 740, 5);
+    // this.graphics.fillRect(400, 460, 5, 140);
 
     // Draw everything
     this.graphics.clear();

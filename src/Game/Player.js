@@ -6,6 +6,7 @@ class Player extends Phaser.GameObjects.Sprite {
 
       this.setTexture('zombie').setScale(.3);
       //this.setPosition(x, y);
+      //this.leftArm = Phaser.GameObjects.Sprite('leftarm');
 
       this.x = x;
       this.y = y;
@@ -13,7 +14,7 @@ class Player extends Phaser.GameObjects.Sprite {
 
       //movement
       this.moveSpeed = 200;
-      this.forwardRot = 0;
+      this.forwardRot = -Math.PI/2;
       this.rotSpeed = 2.5;
       this.isGoingForward = false;
       this.isGoingBack = false;
@@ -91,28 +92,45 @@ class Player extends Phaser.GameObjects.Sprite {
 
     //arms
     if(this.isGoingForward) {
-      if(this.rightArmIsOn) {
-        graphics.fillRect(-25, 0, 15, 35);
+      if(this.rightArmIsOn && this.leftArmIsOn){
+        this.setTexture('zombie').setScale(.3);
       }
-      if(this.leftArmIsOn){
-        //this.add.image(10, 0, 'leftarm');
-         graphics.fillRect(10, 0, 15, 35);
+      else if(this.rightArmIsOn) {
+        this.setTexture('zombieright').setScale(.3);
+      }
+      else if(this.leftArmIsOn){
+        this.setTexture('zombieleft').setScale(.3);
+      }
+      else if(!this.leftArmIsOn && !this.rightArmIsOn){
+        this.setTexture('zombienoarms').setScale(.3);
       }
     }
     else if(this.isGoingBack) {
-      if(this.rightArmIsOn) {
-        graphics.fillRect(-25, 0, 15, 25);
+      if(this.rightArmIsOn && this.leftArmIsOn){
+        this.setTexture('zombie').setScale(.3);
       }
-      if(this.leftArmIsOn){
-        graphics.fillRect(10, 0, 15, 25);
+      else if(this.rightArmIsOn) {
+        this.setTexture('zombieright').setScale(.3);
+      }
+      else if(this.leftArmIsOn){
+        this.setTexture('zombieleft').setScale(.3);
+      }
+      else if(!this.leftArmIsOn && !this.rightArmIsOn){
+        this.setTexture('zombienoarms').setScale(.3);
       }
     }
     else {
-      if(this.rightArmIsOn) {
-        graphics.fillRect(-25, 0, 15, 15);
+      if(this.rightArmIsOn && this.leftArmIsOn){
+        this.setTexture('zombie').setScale(.3);
       }
-      if(this.leftArmIsOn){
-        graphics.fillRect(10, 0, 15, 15);
+      else if(this.rightArmIsOn) {
+        this.setTexture('zombieright').setScale(.3);
+      }
+      else if(this.leftArmIsOn){
+        this.setTexture('zombieleft').setScale(.3);
+      }
+      else if(!this.leftArmIsOn && !this.rightArmIsOn){
+        this.setTexture('zombienoarms').setScale(.3);
       }
     }
     graphics.restore();
