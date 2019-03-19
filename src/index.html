@@ -32,31 +32,25 @@
         background-color: black;
       }
 
-      /* #container {
-        width:800px;
-        height:600px;
-        margin:0px auto;
-        background-color:black;
-        padding:0px;
-        box-sizing:border-box;
-        display: grid;
-        grid-template-columns: repeat(3, 33.3333%);
-        grid-template-rows: repeat(3, 33.3333%);
-      } */
-
       .hidden {
+        display: none;
+      }
+
+      .hidden2 {
         display: none;
       }
     </style>
   </head>
 
   <body>
-    <!-- <div id = "container" class="hidden"> -->
-      <div id="start-screen" class="hidden">
-          <h1>Zombie Game</h1>
-          <h2>Press space to begin</h2>
-      </div>
-    <!-- </div> -->
+    <div id="start-screen" class="hidden">
+        <h1>Zombie Game</h1>
+        <h2>Press space to begin</h2>
+    </div>
+    <div id="end-screen-win" class="hidden2">
+      <h1>Success</h1>
+      <h2>Press space to play again</h2>
+  </div>
   </body>
 
   <script>

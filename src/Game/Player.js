@@ -10,7 +10,7 @@ class Player extends Phaser.GameObjects.Sprite {
 
       this.x = x;
       this.y = y;
-      this.radius = 20; // radius used for collision detection
+      this.radius = 25; // radius used for collision detection
 
       //movement
       this.moveSpeed = 200;
@@ -18,6 +18,9 @@ class Player extends Phaser.GameObjects.Sprite {
       this.rotSpeed = 2.5;
       this.isGoingForward = false;
       this.isGoingBack = false;
+      this.isColliding = false;
+      this.isHit = false;
+      //this.bounceTime = 200;
 
       //arms
       this.leftArmIsOn = true;
@@ -61,7 +64,17 @@ class Player extends Phaser.GameObjects.Sprite {
     const forwardX = -Math.sin(this.forwardRot);
     const forwardY = Math.cos(this.forwardRot);
     
-    if (keys.up.isDown) {
+    if (this.isColliding && this.isGoingForward) {
+      this.x -= this.moveSpeed * forwardX * deltaTime / 1000;
+      this.y -= this.moveSpeed * forwardY * deltaTime / 1000;
+    }
+
+    if (this.isColliding && this.isGoingBack) {
+      this.x += this.moveSpeed * forwardX * deltaTime / 1000;
+      this.y += this.moveSpeed * forwardY * deltaTime / 1000;
+    }
+
+    if (keys.up.isDown && !this.isColliding) {
       this.x += this.moveSpeed * forwardX * deltaTime / 1000;
       this.y += this.moveSpeed * forwardY * deltaTime / 1000;
       this.isGoingForward = true;
@@ -69,7 +82,7 @@ class Player extends Phaser.GameObjects.Sprite {
     else if(!keys.up.isDown) {
       this.isGoingForward = false;
     }
-    if (keys.down.isDown) {
+    if (keys.down.isDown && !this.isColliding) {
       this.x -= this.moveSpeed * forwardX * deltaTime / 1000;
       this.y -= this.moveSpeed * forwardY * deltaTime / 1000;
       this.isGoingBack = true;
@@ -86,6 +99,7 @@ class Player extends Phaser.GameObjects.Sprite {
     graphics.rotate(this.forwardRot);
     //graphics.strokePoints(this.baseGeo);
     this.setPosition(this.x,this.y);
+    graphics.fillCircle(0,0,this.radius);
 
 
     
