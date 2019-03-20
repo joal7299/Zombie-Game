@@ -6,17 +6,21 @@ class Player extends Phaser.GameObjects.Sprite {
 
       this.setTexture('zombie').setScale(.3);
       //this.setPosition(x, y);
+      //this.leftArm = Phaser.GameObjects.Sprite('leftarm');
 
       this.x = x;
       this.y = y;
-      this.radius = 20; // radius used for collision detection
+      this.radius = 25; // radius used for collision detection
 
       //movement
       this.moveSpeed = 200;
-      this.forwardRot = 0;
+      this.forwardRot = -Math.PI/2;
       this.rotSpeed = 2.5;
       this.isGoingForward = false;
       this.isGoingBack = false;
+      this.isColliding = false;
+      this.isHit = false;
+      //this.bounceTime = 200;
 
       //arms
       this.leftArmIsOn = true;
@@ -60,7 +64,17 @@ class Player extends Phaser.GameObjects.Sprite {
     const forwardX = -Math.sin(this.forwardRot);
     const forwardY = Math.cos(this.forwardRot);
     
-    if (keys.up.isDown) {
+    if (this.isColliding && this.isGoingForward) {
+      this.x -= this.moveSpeed * forwardX * deltaTime / 1000;
+      this.y -= this.moveSpeed * forwardY * deltaTime / 1000;
+    }
+
+    if (this.isColliding && this.isGoingBack) {
+      this.x += this.moveSpeed * forwardX * deltaTime / 1000;
+      this.y += this.moveSpeed * forwardY * deltaTime / 1000;
+    }
+
+    if (keys.up.isDown && !this.isColliding) {
       this.x += this.moveSpeed * forwardX * deltaTime / 1000;
       this.y += this.moveSpeed * forwardY * deltaTime / 1000;
       this.isGoingForward = true;
@@ -68,7 +82,7 @@ class Player extends Phaser.GameObjects.Sprite {
     else if(!keys.up.isDown) {
       this.isGoingForward = false;
     }
-    if (keys.down.isDown) {
+    if (keys.down.isDown && !this.isColliding) {
       this.x -= this.moveSpeed * forwardX * deltaTime / 1000;
       this.y -= this.moveSpeed * forwardY * deltaTime / 1000;
       this.isGoingBack = true;
@@ -85,34 +99,52 @@ class Player extends Phaser.GameObjects.Sprite {
     graphics.rotate(this.forwardRot);
     //graphics.strokePoints(this.baseGeo);
     this.setPosition(this.x,this.y);
+    graphics.fillCircle(0,0,this.radius);
 
 
     
 
     //arms
     if(this.isGoingForward) {
-      if(this.rightArmIsOn) {
-        graphics.fillRect(-25, 0, 15, 35);
+      if(this.rightArmIsOn && this.leftArmIsOn){
+        this.setTexture('zombie').setScale(.3);
       }
-      if(this.leftArmIsOn){
-        //this.add.image(10, 0, 'leftarm');
-         graphics.fillRect(10, 0, 15, 35);
+      else if(this.rightArmIsOn) {
+        this.setTexture('zombieright').setScale(.3);
+      }
+      else if(this.leftArmIsOn){
+        this.setTexture('zombieleft').setScale(.3);
+      }
+      else if(!this.leftArmIsOn && !this.rightArmIsOn){
+        this.setTexture('zombienoarms').setScale(.3);
       }
     }
     else if(this.isGoingBack) {
-      if(this.rightArmIsOn) {
-        graphics.fillRect(-25, 0, 15, 25);
+      if(this.rightArmIsOn && this.leftArmIsOn){
+        this.setTexture('zombie').setScale(.3);
       }
-      if(this.leftArmIsOn){
-        graphics.fillRect(10, 0, 15, 25);
+      else if(this.rightArmIsOn) {
+        this.setTexture('zombieright').setScale(.3);
+      }
+      else if(this.leftArmIsOn){
+        this.setTexture('zombieleft').setScale(.3);
+      }
+      else if(!this.leftArmIsOn && !this.rightArmIsOn){
+        this.setTexture('zombienoarms').setScale(.3);
       }
     }
     else {
-      if(this.rightArmIsOn) {
-        graphics.fillRect(-25, 0, 15, 15);
+      if(this.rightArmIsOn && this.leftArmIsOn){
+        this.setTexture('zombie').setScale(.3);
       }
-      if(this.leftArmIsOn){
-        graphics.fillRect(10, 0, 15, 15);
+      else if(this.rightArmIsOn) {
+        this.setTexture('zombieright').setScale(.3);
+      }
+      else if(this.leftArmIsOn){
+        this.setTexture('zombieleft').setScale(.3);
+      }
+      else if(!this.leftArmIsOn && !this.rightArmIsOn){
+        this.setTexture('zombienoarms').setScale(.3);
       }
     }
     graphics.restore();

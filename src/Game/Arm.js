@@ -1,5 +1,8 @@
-class Arm {
-  constructor() {
+const Phaser = require('phaser');
+
+class Arm extends Phaser.GameObjects.Sprite {
+  constructor(scene, isLeftArm) {
+    super(scene, isLeftArm);
     this.x = 0;
     this.y = 0;
     this.forward = 0;
@@ -7,6 +10,15 @@ class Arm {
     this.moveSpeed = 400;
     this.isActive = false;
     this.isMoving = true;
+    this.isLeftArm = isLeftArm;
+
+    if(this.isLeftArm) {
+      this.setTexture('__DEFAULT').setScale(.3);
+    }
+
+    else if(!this.isLeftArm){
+      this.setTexture('__DEFAULT').setScale(.3);
+    }
 
     this.moveTime = 0;
   }
@@ -15,13 +27,24 @@ class Arm {
     this.x = x;
     this.y = y;
     this.forward = forward;
+    this.rotation = this.forward + Math.PI/2;
     this.isActive = true;
     this.moveTime = 400;
     this.moveSpeed = 400;
+    
+    if(this.isLeftArm) {
+      this.setTexture('leftarm').setScale(.3);
+    }
+
+    else if(!this.isLeftArm){
+      this.setTexture('rightarm').setScale(.3);
+    }
+
     //console.log(this.x);
   }
 
   deactivate() {
+    this.setTexture('__DEFAULT');
     this.isActive = false;
   }
 
@@ -51,7 +74,8 @@ class Arm {
       graphics.save();
       graphics.translate(this.x, this.y);
       graphics.rotate(this.forward);
-      graphics.fillRect(0, 0, 15, 35);
+      //graphics.fillRect(0, 0, 15, 35);
+      this.setPosition(this.x,this.y);
       graphics.restore();
     }
   }
