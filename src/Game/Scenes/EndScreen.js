@@ -7,7 +7,7 @@ class EndScreen extends Phaser.Scene {
 
     create() {
         this.overlay = document.querySelector('#end-screen-win');
-        this.overlay.classList.remove('hidden2');
+        this.overlay.classList.remove('hidden');
 
         this.keys = {
             space: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE),
@@ -16,10 +16,10 @@ class EndScreen extends Phaser.Scene {
 
     update() {
         if(this.keys.space.isDown) {
-            this.overlay.classList.add('hidden2');
+            this.overlay.classList.add('hidden');
             this.scene.start('MainScene');
         }
     }
 }
 
-module.exports = StartScreen;
+module.exports = EndScreen;

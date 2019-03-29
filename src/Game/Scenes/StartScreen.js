@@ -17,7 +17,6 @@ class StartScreen extends Phaser.Scene {
     update() {
         if(this.keys.space.isDown) {
             this.overlay.classList.add('hidden');
-            //transition to gameplay
             this.scene.start('MainScene');
         }
     }

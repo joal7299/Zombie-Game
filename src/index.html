@@ -18,8 +18,12 @@
         text-align:center;
         padding: 250px;
         background-color: black;
-        /* grid-row-end: 3;
-        grid-column-start: 2; */
+      }
+
+      #end-screen-win {
+        text-align:center;
+        padding: 250px;
+        background-color: black;
       }
 
       h1 {
@@ -35,10 +39,6 @@
       .hidden {
         display: none;
       }
-
-      .hidden2 {
-        display: none;
-      }
     </style>
   </head>
 
@@ -47,10 +47,14 @@
         <h1>Zombie Game</h1>
         <h2>Press space to begin</h2>
     </div>
-    <div id="end-screen-win" class="hidden2">
+
+    <!-- <div id="main-screen" class="hidden">
+    </div> -->
+
+    <div id="end-screen-win" class="hidden">
       <h1>Success</h1>
       <h2>Press space to play again</h2>
-  </div>
+    </div>
   </body>
 
   <script>

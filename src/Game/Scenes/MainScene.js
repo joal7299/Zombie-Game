@@ -99,6 +99,9 @@ create() {
     // this.add.image(300, 450, 'wall').setScale(.5, 10);
     // this.add.image(500, 550, 'wall').setScale(.5, 10);
 
+    // this.overlay = document.querySelector('#main-screen');
+    // this.overlay.classList.remove('hidden');
+
     var bounceTime = 100;
     var hitTime = 100;
 
@@ -111,17 +114,17 @@ create() {
         space: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE),
         a: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A),
         d: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D),
-        };
+    };
     
-        this.graphics = this.add.graphics({
+    this.graphics = this.add.graphics({
         fillStyle: { color: 0xeeeeee },
         lineStyle: { width: 3, color: 0xeeeeee }
-        });
+    });
 
-        this.walls = [];
-        for (let i = 0; i < 12; i ++) {
+    this.walls = [];
+    for (let i = 0; i < 12; i ++) {
             this.walls.push(new HitRect());
-        }
+    }
     
     //Outer walls
     this.walls[0].setSize(0,0,0,600);
@@ -138,6 +141,9 @@ create() {
     this.walls[9].setSize(100,800,400,400);
     this.walls[10].setSize(300,300,400,500);
     this.walls[11].setSize(500,500,500,600);
+
+    //End goal door
+    this.door = new HitRect(795,800,525,575);
     
     //Game vars
     this.p1 = this.add.existing(new Player(this, 50, 50));
@@ -200,20 +206,6 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
         this.p1.rightArmIsOn = false;
     }
 
-    // Spawn enemies 
-    // this.enemies[0].activate(100, 200);
-    // this.enemies[1].activate(400, 250);
-    // this.enemies[2].activate(600, 50);
-    // this.enemies[3].activate(400, 350);
-    // this.enemies[4].activate(50, 500);
-    // this.enemies[5].activate(400, 500);
-
-    
-    
-       
-    
-    //this.enemySpawnTime -= deltaTime;
-
     // Reattach arm when player collides with fired left arm
     if (!this.p1.leftArmIsOn && isCircleCollision(this.p1, this.leftArm) && this.leftArm.moveTime < 200) {
         this.leftArm.deactivate();
@@ -257,6 +249,14 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
         this.hitTime = 100;
     }
 
+    this.walls.forEach(w => {
+        if (this.leftArm.isActive && isBoxCollision(this.leftArm, w)) {
+            this.leftArm.stopMoving();
+        }
+        if (this.rightArm.isActive && isBoxCollision(this.rightArm, w)) {
+            this.rightArm.stopMoving();
+        }
+    });
 
     //this.p1.isColliding = isBoxCollision(this.p1, wall1);
 
@@ -273,7 +273,7 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
     //     this.p1.isColliding = false;
     //     this.bounceTime = 100;
     // }
-
+    
     this.walls.forEach(w => {
         if (isBoxCollision(this.p1, w)) {
             this.p1.isColliding = true;
@@ -289,6 +289,13 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
         this.p1.isColliding = false;
         this.bounceTime = 100;
     }
+
+    if (isBoxCollision(this.p1,this.door)) {
+        console.log('yay?');
+        //this.overlay.classList.add('hidden');
+        this.scene.start('EndScreen');
+        console.log('what?');
+    }
     
 
     // Draw everything
@@ -301,6 +308,7 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
     this.walls.forEach(w => {
         w.draw(this.graphics);
     });
+    this.door.draw(this.graphics);
     //this.graphics.fillRect(100,100,5,100);
     //map rectanlges
     //map outer walls
