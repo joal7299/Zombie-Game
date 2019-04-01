@@ -4,6 +4,7 @@ const SerialPortReader = require('./SerialPortReader');
 
 const StartScreen = require('./Scenes/StartScreen');
 const MainScene = require('./Scenes/MainScene');
+const EndScreen = require('./Scenes/EndScreen');
 
 
 const phaserConfig = {
@@ -17,7 +18,7 @@ const phaserConfig = {
         debug: false
     }
   },
-  scene: [StartScreen, MainScene],
+  scene: [StartScreen, MainScene, EndScreen],
 };
 
 
