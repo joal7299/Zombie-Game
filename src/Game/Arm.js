@@ -6,7 +6,7 @@ class Arm extends Phaser.GameObjects.Sprite {
     this.x = 0;
     this.y = 0;
     this.forward = 0;
-    this.radius = 25;
+    this.radius = 15;
     this.moveSpeed = 400;
     this.isActive = false;
     this.isMoving = true;
@@ -75,6 +75,12 @@ class Arm extends Phaser.GameObjects.Sprite {
       graphics.translate(this.x, this.y);
       graphics.rotate(this.forward);
       //graphics.fillRect(0, 0, 15, 35);
+      if(this.isLeftArm){
+        graphics.fillCircle(10,10,this.radius);
+      }
+      else{
+        graphics.fillCircle(-10,10,this.radius);
+      }
       this.setPosition(this.x,this.y);
       graphics.restore();
     }
