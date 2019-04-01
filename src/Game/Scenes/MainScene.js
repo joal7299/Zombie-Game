@@ -1,10 +1,20 @@
 const Phaser = require('phaser');
+const SerialPortReader = require('../SerialPortReader');
 
 //Import Actors
 const Player = require('../Player');
 const Arm = require('../Arm');
 const Enemy = require('../Enemy');
 const HitRect = require('../HitRect');
+
+
+SerialPortReader.addListener(onSerialMessage);
+
+
+function onSerialMessage(msg) {
+    // Put your serial reading code in here. msg will be a string
+    console.log(msg);
+  }
 
 function isCircleCollision(c1, c2) {
     // Get the distance between the two circles
@@ -14,6 +24,8 @@ function isCircleCollision(c1, c2) {
     // Returns true if the distance btw the circle's center points is less than the sum of the radii
     return (distSq < radiiSq);
 }
+
+
 
 function isBoxCollision(c, r) {
     if((c.x > r.xmin) && (c.x < r.xmax) && (c.y > r.ymin) && (c.y < r.ymax)) {

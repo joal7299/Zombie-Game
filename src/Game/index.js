@@ -1,5 +1,6 @@
 // Import outside libraries
 const Phaser = require('phaser');
+const SerialPortReader = require('./SerialPortReader');
 
 const StartScreen = require('./Scenes/StartScreen');
 const MainScene = require('./Scenes/MainScene');
@@ -26,6 +27,7 @@ let game;
 const GameManager = {
   init: () => {
     game = new Phaser.Game(phaserConfig);
+    SerialPortReader.openPort(p => /Arduino/.test(p.manufacturer), ':');
   },
 };
 
