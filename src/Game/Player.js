@@ -26,16 +26,8 @@ class Player extends Phaser.GameObjects.Sprite {
       this.leftArmIsOn = true;
       this.rightArmIsOn = true;
 
-      // Geometry used for rendering
-      // this.baseGeo = [
-      // new Phaser.Geom.Point(-17, 10),
-      // new Phaser.Geom.Point(-8, 20),
-      // new Phaser.Geom.Point(8, 20),
-      // new Phaser.Geom.Point(17, 10),
-      // new Phaser.Geom.Point(17, -20),
-      // new Phaser.Geom.Point(-17, -20),
-      // new Phaser.Geom.Point(-17, 10),
-      // ];
+      //health
+      this.health = 3;
   }
   
 
@@ -99,7 +91,7 @@ class Player extends Phaser.GameObjects.Sprite {
     graphics.rotate(this.forwardRot);
     //graphics.strokePoints(this.baseGeo);
     this.setPosition(this.x,this.y);
-    graphics.fillCircle(0,0,this.radius);
+    //graphics.fillCircle(0,0,this.radius);
 
 
     

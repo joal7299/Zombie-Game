@@ -93,6 +93,7 @@ preload() {
     this.load.image('zombieright', '../assets/zombieright.png');
     this.load.image('zombieleft', '../assets/zombieleft.png');
     this.load.image('zombienoarms', '../assets/zombienoarms.png');
+    this.load.image('heart', '../assets/heart.png');
 }
 
 
@@ -159,11 +160,9 @@ create() {
     
     //Game vars
     this.p1 = this.add.existing(new Player(this, 50, 50));
-    // console.log(this.p1.enableBody);
-    // this.p1.enableBody = true;
-    // console.log(this.p1.enableBody);
-    //this.p1.physicsBodyType = Phaser.Physics.ARCADE;
-    //this.p1.setCollideWorldBounds = true;
+    this.heart1 = this.add.sprite(705, 25, 'heart').setScale(0.1);
+    this.heart2 = this.add.sprite(740, 25, 'heart').setScale(0.1);
+    this.heart3 = this.add.sprite(775, 25, 'heart').setScale(0.1);
     
     //create arm objects
     this.leftArm = this.add.existing(new Arm(this, true));
@@ -183,14 +182,12 @@ create() {
     this.e6 = this.add.existing(new Enemy(this, 400, 500));
     
     //spawning enemies
-    // this.enemies[0].activate(100, 200);
-    // this.enemies[1].activate(400, 250);
-    // this.enemies[2].activate(600, 50);
-    // this.enemies[3].activate(400, 350);
-    // this.enemies[4].activate(50, 500);
-    // this.enemies[5].activate(400, 500);
-
-    
+    this.enemies[0].activate(100, 200, -30 * Math.PI / 180);
+    this.enemies[1].activate(400, 250, 180 * Math.PI / 180);
+    this.enemies[2].activate(600, 50, 180 * Math.PI / 180);
+    this.enemies[3].activate(400, 350, 0 * Math.PI / 180);
+    this.enemies[4].activate(50, 500, -90 * Math.PI / 180);
+    this.enemies[5].activate(400, 500, 180 * Math.PI / 180);
 }
 
 
@@ -255,10 +252,28 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
         if (e.isActive && isCircleCollision(e, this.p1)) {
             //e.deactivate();
             this.p1.alpha = 0.5;
+            if (!this.p1.isHit) {
+                this.p1.health -= 1;
+            }
             this.p1.isHit = true;
             this.hitTime = 100;
         }
     });
+
+    if (this.p1.health == 2) {
+        this.heart3.alpha = 0.2;
+    }
+
+    if (this.p1.health == 1) {
+        this.heart2.alpha = 0.2;
+        this.heart3.alpha = 0.2;
+    }
+
+    if (this.p1.health == 0) {
+        this.heart1.alpha = 0.2;
+        this.heart2.alpha = 0.2;
+        this.heart3.alpha = 0.2;
+    }
 
     if ((this.hitTime > 0) && (this.p1.isHit)) {
         this.hitTime -= deltaTime;
@@ -316,6 +331,10 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
         //this.overlay.classList.add('hidden');
         this.scene.start('EndScreen');
         console.log('what?');
+    }
+
+    if (this.p1.health <= 0){
+        this.scene.start('LoseScreen');
     }
     
 
