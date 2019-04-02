@@ -1,16 +1,29 @@
 class Enemy {
   constructor() {
     this.x = 0;
-    this.y = 0;
-    this.radius = 20;
-    this.isActive = false;
+      this.y = 0;
+      this.radius = 20; //for collision detection
+      this.forward = 0;
+      this.moveSpeed = 100;
+      this.isActive = false;
+  
+      this.activeTime = 0;
 
-    this.activeTime = 0;
+      // Geometry used for rendering
+      this.baseGeo = [
+          new Phaser.Geom.Point(-17, 10),
+          new Phaser.Geom.Point(0, 20),
+          new Phaser.Geom.Point(17, 10),
+          new Phaser.Geom.Point(17, -20),
+          new Phaser.Geom.Point(-17, -20),
+          new Phaser.Geom.Point(-17, 10),
+        ];
   }
 
-  activate(x, y) {
+  activate(x, y, forward) {
     this.x = x;
     this.y = y;
+    this.forward = forward;
     this.isActive = true;
   }
 
@@ -26,7 +39,9 @@ class Enemy {
     if (this.isActive) {
       graphics.save();
       graphics.translate(this.x, this.y);
-      graphics.strokeCircle(0, 0, this.radius);
+      graphics.rotate(this.forward-Math.PI/2);
+      graphics.strokePoints(this.baseGeo);
+      //graphics.fillCircle(0,0,this.radius);
       graphics.restore();
     }
   }
