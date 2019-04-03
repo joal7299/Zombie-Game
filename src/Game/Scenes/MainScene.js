@@ -7,14 +7,9 @@ const Arm = require('../Arm');
 const Enemy = require('../Enemy');
 const HitRect = require('../HitRect');
 
-
-SerialPortReader.addListener(onSerialMessage);
-
-
-function onSerialMessage(msg) {
-    // Put your serial reading code in here. msg will be a string
-    console.log(msg);
-  }
+var movement;
+var leftFire;
+var rightFire;
 
 function isCircleCollision(c1, c2) {
     // Get the distance between the two circles
@@ -83,6 +78,7 @@ var walls;
 class MainScene extends Phaser.Scene {
     constructor() {
         super('MainScene');
+        SerialPortReader.addListener(this.onSerialMessage.bind(this));
     }
 
 preload() {
@@ -94,6 +90,14 @@ preload() {
     this.load.image('zombieleft', '../assets/zombieleft.png');
     this.load.image('zombienoarms', '../assets/zombienoarms.png');
     this.load.image('heart', '../assets/heart.png');
+}
+
+onSerialMessage(msg) {
+    // Put your serial reading code in here. msg will be a string
+    console.log(msg);
+    movement = msg[0];
+    leftFire = msg[2];
+    rightFire = msg[4];
 }
 
 
@@ -193,7 +197,7 @@ create() {
 
 update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it is not used
     // Update Player
-    this.p1.update(deltaTime, this.keys);
+    this.p1.update(deltaTime, this.keys, movement);
 
     // Keep player on screen
     if (this.p1.x > this.game.config.width + 10) {
@@ -213,13 +217,13 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
     }
 
     //Fires left arm once when the a key is pressed
-    if (this.keys.a.isDown && this.p1.leftArmIsOn) {
+    if ((this.keys.a.isDown || leftFire == 'h') && this.p1.leftArmIsOn) {
         this.leftArm.activate(this.p1.x, this.p1.y, this.p1.forwardRot);
         this.p1.leftArmIsOn = false;
     }
 
     // Fires right arm once when the d key is pressed
-    if (this.keys.d.isDown && this.p1.rightArmIsOn) {
+    if ((this.keys.d.isDown || rightFire == 'h') && this.p1.rightArmIsOn) {
         this.rightArm.activate(this.p1.x, this.p1.y, this.p1.forwardRot);
         this.p1.rightArmIsOn = false;
     }

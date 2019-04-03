@@ -20,15 +20,13 @@ class Enemy {
         ];
   }
 
-  activate(x, y, forward) {
-    this.x = x;
-    this.y = y;
-    this.forward = forward;
-    this.isActive = true;
-  }
-
-      this.setTexture('enemy').setScale(.08);
-    }
+  // activate(x, y, forward) {
+  //   this.x = x;
+  //   this.y = y;
+  //   this.forward = forward;
+  //   this.isActive = true;
+  //   this.setTexture('enemy').setScale(.08);
+  // }
 
     activate(x, y) {
       this.x = x;
@@ -50,15 +48,16 @@ class Enemy {
       graphics.restore();
     }
 
-    draw(graphics) {
-      if (this.isActive) {
-        graphics.save();
-        graphics.translate(this.x, this.y);
-        graphics.strokeCircle(0, 0, this.radius);
-        this.setPosition(this.x, this.y);
-        graphics.restore();
-      }
-    }
+    // draw(graphics) {
+    //   if (this.isActive) {
+    //     graphics.save();
+    //     graphics.translate(this.x, this.y);
+    //     graphics.strokeCircle(0, 0, this.radius);
+    //     this.setPosition(this.x, this.y);
+    //     graphics.restore();
+    //   }
+    // }
   }
+}
 
   module.exports = Enemy;

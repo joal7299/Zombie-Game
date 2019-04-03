@@ -29,7 +29,7 @@ let game;
 const GameManager = {
   init: () => {
     game = new Phaser.Game(phaserConfig);
-    SerialPortReader.openPort(p => /Arduino/.test(p.manufacturer), ':');
+    SerialPortReader.openPort(p => /Arduino/.test(p.manufacturer), '\n');
   },
 };
 
