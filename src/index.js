@@ -6,13 +6,13 @@ const url = require('url');
 let mainWindow;
 
 const windowConfig = {
-  width: 800,
-  height: 600
+  width: 400,
+  height: 750
 };
 
 function createWindow() {
   // Create a browser window
-  mainWindow = new BrowserWindow({ width: 800, height: 600});
+  mainWindow = new BrowserWindow({ width: 400, height: 750});
 
   // load the index.html file
   mainWindow.loadURL(url.format({

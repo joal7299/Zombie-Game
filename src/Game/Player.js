@@ -14,7 +14,7 @@ class Player extends Phaser.GameObjects.Sprite {
 
       //movement
       this.moveSpeed = 100;
-      this.forwardRot = -Math.PI/2;
+      this.forwardRot = -Math.PI;
       this.rotSpeed = 1;
       this.isGoingForward = false;
       this.isGoingBack = false;

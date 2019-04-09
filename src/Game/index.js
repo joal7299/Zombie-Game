@@ -10,8 +10,8 @@ const LoseScreen = require('./Scenes/LoseScreen');
 
 const phaserConfig = {
   type: Phaser.AUTO,
-  width: 800,
-  height: 600,
+  width: 400,
+  height: 750,
   physics: {
     default: 'arcade',
     arcade: {

@@ -184,29 +184,31 @@ create() {
     }
     
     //Outer walls
-    this.walls[0].setSize(0,0,0,600);
-    this.walls[1].setSize(0,800,0,0);
-    this.walls[2].setSize(-0,800,600,600);
-    this.walls[3].setSize(800,800,0,600);
+    this.walls[0].setSize(-1,-1,-1,751);
+    this.walls[1].setSize(-1,401,50,50);
+    this.walls[2].setSize(-1,401,751,751);
+    this.walls[3].setSize(401,401,-1,751);
 
     //Layout walls
-    this.walls[4].setSize(0,100,100,100);
-    this.walls[5].setSize(0,400,300,300);
-    this.walls[6].setSize(400,400,0,200);
-    this.walls[7].setSize(400,600,300,300);
-    this.walls[8].setSize(600,600,100,300);
-    this.walls[9].setSize(100,800,400,400);
-    this.walls[10].setSize(300,300,400,500);
-    this.walls[11].setSize(500,500,500,600);
+    this.walls[4].setSize(60,400,690,750);
+    this.walls[5].setSize(0,150,550,600);
+    this.walls[6].setSize(250,400,550,600);
+    this.walls[7].setSize(80,320,250,470);
+    this.walls[8].setSize(70,330,130,180);
+    // this.walls[9].setSize(100,800,400,400);
+    // this.walls[10].setSize(300,300,400,500);
+    // this.walls[11].setSize(500,500,500,600);
+
+    
 
     //End goal door
-    this.door = new HitRect(795,800,525,575);
+    this.door = new HitRect(180,220,51,56);
     
     //Game vars
-    this.p1 = this.add.existing(new Player(this, 50, 50));
-    this.heart1 = this.add.sprite(705, 25, 'heart').setScale(0.1);
-    this.heart2 = this.add.sprite(740, 25, 'heart').setScale(0.1);
-    this.heart3 = this.add.sprite(775, 25, 'heart').setScale(0.1);
+    this.p1 = this.add.existing(new Player(this, 30, 720));
+    this.heart1 = this.add.sprite(305, 25, 'heart').setScale(0.1);
+    this.heart2 = this.add.sprite(340, 25, 'heart').setScale(0.1);
+    this.heart3 = this.add.sprite(375, 25, 'heart').setScale(0.1);
     
     //create arm objects
     this.leftArm = this.add.existing(new Arm(this, true));
@@ -218,20 +220,20 @@ create() {
         }
     //this.enemySpawnTime = 2000;
 
-    this.e1 = this.add.existing(new Enemy(this, 100, 200));
-    this.e2 = this.add.existing(new Enemy(this, 400, 250));
-    this.e3 = this.add.existing(new Enemy(this, 600, 50));
-    this.e4 = this.add.existing(new Enemy(this, 400, 350));
-    this.e5 = this.add.existing(new Enemy(this, 50, 500));
-    this.e6 = this.add.existing(new Enemy(this, 400, 500));
+    this.e1 = this.add.existing(new Enemy(this, 200, 100));
+    this.e2 = this.add.existing(new Enemy(this, 50, 250));
+    this.e3 = this.add.existing(new Enemy(this, 350, 250));
+    this.e4 = this.add.existing(new Enemy(this, 300, 650));
+    // this.e5 = this.add.existing(new Enemy(this, 50, 500));
+    // this.e6 = this.add.existing(new Enemy(this, 400, 500));
     
     //spawning enemies
-    this.enemies[0].activate(100, 200, -30 * Math.PI / 180);
-    this.enemies[1].activate(400, 250, 180 * Math.PI / 180);
-    this.enemies[2].activate(600, 50, 180 * Math.PI / 180);
-    this.enemies[3].activate(400, 350, 0 * Math.PI / 180);
-    this.enemies[4].activate(50, 500, -90 * Math.PI / 180);
-    this.enemies[5].activate(400, 500, 180 * Math.PI / 180);
+    this.enemies[0].activate(200, 90, -30 * Math.PI / 180);
+    this.enemies[1].activate(40, 350, 180 * Math.PI / 180);
+    this.enemies[2].activate(360, 350, 180 * Math.PI / 180);
+    this.enemies[3].activate(300, 650, 0 * Math.PI / 180);
+    // this.enemies[4].activate(50, 500, -90 * Math.PI / 180);
+    // this.enemies[5].activate(400, 500, 180 * Math.PI / 180);
 }
 
 
