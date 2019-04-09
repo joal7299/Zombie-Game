@@ -30,16 +30,19 @@ class Enemy {
       // ];
   }
 
-  activate(x, y, forward) {
-    this.x = x;
-    this.y = y;
-    this.forward = forward;
-    this.isActive = true;
-  }
+  // activate(x, y, forward) {
+  //   this.x = x;
+  //   this.y = y;
+  //   this.forward = forward;
+  //   this.isActive = true;
+  //   this.setTexture('enemy').setScale(.08);
+  // }
 
-  deactivate() {
-    this.isActive = false;
-  }
+    activate(x, y) {
+      this.x = x;
+      this.y = y;
+      this.isActive = true;
+    }
 
   chase(deltaTime, pX,pY) {
     this.forward = Math.atan2((pY-this.y), (pX-this.x));
@@ -79,7 +82,17 @@ class Enemy {
       //graphics.fillCircle(0,0,this.radius);
       graphics.restore();
     }
+
+    // draw(graphics) {
+    //   if (this.isActive) {
+    //     graphics.save();
+    //     graphics.translate(this.x, this.y);
+    //     graphics.strokeCircle(0, 0, this.radius);
+    //     this.setPosition(this.x, this.y);
+    //     graphics.restore();
+    //   }
+    // }
   }
 }
 
-module.exports = Enemy;
+  module.exports = Enemy;

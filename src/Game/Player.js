@@ -13,9 +13,9 @@ class Player extends Phaser.GameObjects.Sprite {
       this.radius = 25; // radius used for collision detection
 
       //movement
-      this.moveSpeed = 200;
+      this.moveSpeed = 100;
       this.forwardRot = -Math.PI/2;
-      this.rotSpeed = 2.5;
+      this.rotSpeed = 1;
       this.isGoingForward = false;
       this.isGoingBack = false;
       this.isColliding = false;
@@ -40,13 +40,13 @@ class Player extends Phaser.GameObjects.Sprite {
     this.y = newY;
   }
 
-  update(deltaTime, keys) {
+  update(deltaTime, keys, movement) {
 
     // Player Movement
-    if (keys.left.isDown) {
+    if (keys.left.isDown || movement == 'L') {
       this.forwardRot -= this.rotSpeed * deltaTime / 1000
     }
-    if (keys.right.isDown) {
+    if (keys.right.isDown || movement == 'R') {
       this.forwardRot += this.rotSpeed * deltaTime / 1000
     }
 
@@ -66,7 +66,7 @@ class Player extends Phaser.GameObjects.Sprite {
       this.y += this.moveSpeed * forwardY * deltaTime / 1000;
     }
 
-    if (keys.up.isDown && !this.isColliding) {
+    if ((keys.up.isDown || movement == 'F') && !this.isColliding) {
       this.x += this.moveSpeed * forwardX * deltaTime / 1000;
       this.y += this.moveSpeed * forwardY * deltaTime / 1000;
       this.isGoingForward = true;
@@ -74,7 +74,7 @@ class Player extends Phaser.GameObjects.Sprite {
     else if(!keys.up.isDown) {
       this.isGoingForward = false;
     }
-    if (keys.down.isDown && !this.isColliding) {
+    if ((keys.down.isDown || movement == 'U') && !this.isColliding) {
       this.x -= this.moveSpeed * forwardX * deltaTime / 1000;
       this.y -= this.moveSpeed * forwardY * deltaTime / 1000;
       this.isGoingBack = true;
