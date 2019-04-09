@@ -4,20 +4,30 @@ class Enemy {
       this.y = 0;
       this.radius = 20; //for collision detection
       this.forward = 0;
+      this.angle = 0;
+      this.visionDist = 300;
       this.moveSpeed = 100;
       this.isActive = false;
+      this.isChasing = false;
   
       this.activeTime = 0;
 
       // Geometry used for rendering
       this.baseGeo = [
-          new Phaser.Geom.Point(-17, 10),
-          new Phaser.Geom.Point(0, 20),
-          new Phaser.Geom.Point(17, 10),
-          new Phaser.Geom.Point(17, -20),
-          new Phaser.Geom.Point(-17, -20),
-          new Phaser.Geom.Point(-17, 10),
-        ];
+        new Phaser.Geom.Point(-17, 10),
+        new Phaser.Geom.Point(0, 20),
+        new Phaser.Geom.Point(17, 10),
+        new Phaser.Geom.Point(17, -20),
+        new Phaser.Geom.Point(-17, -20),
+        new Phaser.Geom.Point(-17, 10),
+      ];
+      
+      // this.baseGeo = [
+      //   new Phaser.Geom.Point(0, 0),
+      //   new Phaser.Geom.Point(80, 300),
+      //   new Phaser.Geom.Point(-80, 300),
+      //   new Phaser.Geom.Point(0,0),
+      // ];
   }
 
   activate(x, y, forward) {
@@ -31,8 +41,33 @@ class Enemy {
     this.isActive = false;
   }
 
-  update(deltaTime) {
+  chase(deltaTime, pX,pY) {
+    this.forward = Math.atan2((pY-this.y), (pX-this.x));
+    const forwardX = Math.cos(this.forward);
+    const forwardY = Math.sin(this.forward);
+    this.x += this.moveSpeed * forwardX * deltaTime / 1000;
+    this.y += this.moveSpeed * forwardY * deltaTime / 1000;
+  }
 
+  update(deltaTime, pX, pY) {
+    this.angle = Math.atan2((pY-this.y), (pX-this.x));
+    let dist = Math.sqrt((this.x-pX)*(this.x-pX) + (this.y-pY)*(this.y-pY));
+    if (dist <= this.visionDist) {
+      if (this.angle <= this.forward + (25 * Math.PI / 180) && this.angle >= this.forward - (25 * Math.PI / 180)) {
+        this.isChasing = true;
+        //console.log(this.isChasing);
+      }
+    }
+    else {
+      this.isChasing = false;
+    }
+    // if (this.isChasing) {
+    //   this.forward = Math.atan2((pY-this.y), (pX-this.x));
+    //   const forwardX = Math.cos(this.forward);
+    //   const forwardY = Math.sin(this.forward);
+    //   this.x += this.moveSpeed * forwardX * deltaTime / 1000;
+    //   this.y += this.moveSpeed * forwardY * deltaTime / 1000;
+    // }
   }
 
   draw(graphics) {

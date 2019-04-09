@@ -7,13 +7,13 @@ class HitRect {
     this.xmax = xmax;
     this.ymax = ymax;
     
-    this.baseGeo = [
-        new Phaser.Geom.Point(this.xmin, this.ymin),
-        new Phaser.Geom.Point(this.xmax, this.ymin),
-        new Phaser.Geom.Point(this.xmax, this.ymax),
-        new Phaser.Geom.Point(this.xmin, this.ymax),
-        new Phaser.Geom.Point(this.xmin, this.ymin),
-    ];
+    // this.baseGeo = [
+    //     new Phaser.Geom.Point(this.xmin, this.ymin),
+    //     new Phaser.Geom.Point(this.xmax, this.ymin),
+    //     new Phaser.Geom.Point(this.xmax, this.ymax),
+    //     new Phaser.Geom.Point(this.xmin, this.ymax),
+    //     new Phaser.Geom.Point(this.xmin, this.ymin),
+    // ];
   }
 
     setSize(xmin, xmax, ymin, ymax) {
