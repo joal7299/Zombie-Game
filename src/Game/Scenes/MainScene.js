@@ -130,6 +130,13 @@ preload() {
     this.load.image('zombieleft', '../assets/zombieleft.png');
     this.load.image('zombienoarms', '../assets/zombienoarms.png');
     this.load.image('heart', '../assets/heart.png');
+
+    //this.load.audio('whatYouWantToCallTheSound', ['../assets/explode.wav']);
+    //this.sound.play('whatYouWantToCallTheSound');
+    //sound markers
+    //this.sound.play('whatYouWantToCallTheSound', {name: 'burst', start: 0, duration: 0.1});
+    //this will start at 0 and play for 0.1 of a second
+    //this.sound.play('whatYouWantToCallTheSound', { loop: true });
 }
 
 onSerialMessage(msg) {
