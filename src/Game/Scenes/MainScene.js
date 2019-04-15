@@ -186,7 +186,7 @@ create() {
     });
 
     this.walls = [];
-    for (let i = 0; i < 12; i ++) {
+    for (let i = 0; i < 20; i ++) {
             this.walls.push(new HitRect());
     }
     
@@ -205,6 +205,19 @@ create() {
     // this.walls[9].setSize(100,800,400,400);
     // this.walls[10].setSize(300,300,400,500);
     // this.walls[11].setSize(500,500,500,600);
+
+    //angle test
+    // this.walls[9].setSize(0,5,545,550);
+    // this.walls[10].setSize(5,10,545,550);
+    // this.walls[11].setSize(10,15,545,550);
+    // this.walls[12].setSize(15,20,545,550);
+    // this.walls[13].setSize(0,5,540,545);
+    // this.walls[14].setSize(5,10,540,545);
+    // this.walls[15].setSize(10,15,540,545);
+    // this.walls[16].setSize(0,5,535,540);
+    // this.walls[17].setSize(5,10,535,540);
+    // this.walls[18].setSize(0,5,530,535);
+
 
     
 
