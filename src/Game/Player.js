@@ -13,7 +13,7 @@ class Player extends Phaser.GameObjects.Sprite {
       this.radius = 25; // radius used for collision detection
 
       //movement
-      this.moveSpeed = 100;
+      this.moveSpeed = 200;
       this.forwardRot = -Math.PI/2;
       this.rotSpeed = 1;
       this.isGoingForward = false;

@@ -30,6 +30,8 @@ const GameManager = {
   init: () => {
     game = new Phaser.Game(phaserConfig);
     SerialPortReader.openPort(p => /Arduino/.test(p.manufacturer), '\n');
+
+    game.canvas.classList.add('shake-enabled');
   },
 };
 

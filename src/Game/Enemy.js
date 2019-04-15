@@ -30,19 +30,23 @@ class Enemy {
       // ];
   }
 
-  // activate(x, y, forward) {
+  activate(x, y, forward) {
+    this.x = x;
+    this.y = y;
+    this.forward = forward;
+    this.isActive = true;
+    //this.setTexture('enemy').setScale(.08);
+  }
+
+  // activate(x, y) {
   //   this.x = x;
   //   this.y = y;
-  //   this.forward = forward;
   //   this.isActive = true;
-  //   this.setTexture('enemy').setScale(.08);
   // }
 
-    activate(x, y) {
-      this.x = x;
-      this.y = y;
-      this.isActive = true;
-    }
+  deactivate() {
+    this.isActive = false;
+  }
 
   chase(deltaTime, pX,pY) {
     this.forward = Math.atan2((pY-this.y), (pX-this.x));

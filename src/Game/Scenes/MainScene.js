@@ -7,6 +7,8 @@ const Arm = require('../Arm');
 const Enemy = require('../Enemy');
 const HitRect = require('../HitRect');
 
+const wallCollision = require('../Utils/WallCollision');
+
 var movement;
 var leftFire;
 var rightFire;
@@ -71,10 +73,24 @@ function isBoxCollision(c, r) {
 function isBoxBetween(p, e, r) {
     if (r.xmin == r.xmax) {    //check which side of the wall is short
         if ((e.x < r.xmin && r.xmin < p.x) || (p.x < r.xmin && r.xmin < e.x)) {
+            //console.log("x val is between");
             let x = Math.abs(e.x - r.xmin);
-            let y = x * Math.abs(Math.tan(Math.PI/2 - (e.angle * Math.PI / 180)));
-            //console.log(y);
+            let y = x * Math.abs(Math.tan(e.angle * Math.PI / 180));
+            if(e.x <= p.x) {
+                x = e.x + x;
+            }
+            else if(p.x <= e.x) {
+                x = e.x - x;
+            }
+            if (e.y <= p.y) {
+                y = e.y + y;
+            }
+            else if (e.y > p.y) {
+                y = e.y - y;
+            }
             if ((r.ymin < y) && (y < r.ymax)){
+                // console.log(x);
+                // console.log(y);
                 //console.log('a');
                 return true;
             }
@@ -90,10 +106,27 @@ function isBoxBetween(p, e, r) {
 
     if (r.ymin == r.ymax) {    //check which side of the wall is short
         if ((e.y < r.ymin && r.ymin < p.y) || (p.y < r.ymin && r.ymin < e.y)) {
+            //console.log("y val is between");
             let y = Math.abs(e.y - r.ymin);
+            //console.log(y);
             let x = y / Math.abs(Math.tan(e.angle * Math.PI / 180));
-            //console.log(x);
+            //console.log(e.angle);
+            if(e.x <= p.x) {
+                x = e.x + x;
+            }
+            else if(p.x <= e.x) {
+                x = e.x - x;
+            }
+            if (e.y <= p.y) {
+                y = e.y + y;
+            }
+            else if (e.y > p.y) {
+                y = e.y - y;
+            }
             if ((r.xmin < x) && (x < r.xmax)){
+                //console.log("x val is between");
+                //console.log(x);
+                // console.log(y);
                 //console.log('c');
                 return true;
             }
@@ -134,7 +167,7 @@ preload() {
 
 onSerialMessage(msg) {
     // Put your serial reading code in here. msg will be a string
-    console.log(msg);
+    //console.log(msg);
     movement = msg[0];
     leftFire = msg[2];
     rightFire = msg[4];
@@ -218,20 +251,54 @@ create() {
         }
     //this.enemySpawnTime = 2000;
 
-    this.e1 = this.add.existing(new Enemy(this, 100, 200));
-    this.e2 = this.add.existing(new Enemy(this, 400, 250));
-    this.e3 = this.add.existing(new Enemy(this, 600, 50));
-    this.e4 = this.add.existing(new Enemy(this, 400, 350));
+    //this.e1 = this.add.existing(new Enemy(this, 100, 200));
+    //this.e2 = this.add.existing(new Enemy(this, 400, 250));
+    //this.e3 = this.add.existing(new Enemy(this, 600, 50));
+    //this.e4 = this.add.existing(new Enemy(this, 400, 350));
     this.e5 = this.add.existing(new Enemy(this, 50, 500));
-    this.e6 = this.add.existing(new Enemy(this, 400, 500));
+    //this.e6 = this.add.existing(new Enemy(this, 400, 500));
     
     //spawning enemies
-    this.enemies[0].activate(100, 200, -30 * Math.PI / 180);
-    this.enemies[1].activate(400, 250, 180 * Math.PI / 180);
-    this.enemies[2].activate(600, 50, 180 * Math.PI / 180);
-    this.enemies[3].activate(400, 350, 0 * Math.PI / 180);
+    //this.enemies[0].activate(100, 200, -30 * Math.PI / 180);
+    //this.enemies[1].activate(400, 250, 180 * Math.PI / 180);
+    //this.enemies[2].activate(600, 50, 180 * Math.PI / 180);
+    //this.enemies[3].activate(400, 350, 0 * Math.PI / 180);
     this.enemies[4].activate(50, 500, -90 * Math.PI / 180);
-    this.enemies[5].activate(400, 500, 180 * Math.PI / 180);
+   // this.enemies[5].activate(400, 500, 180 * Math.PI / 180);
+
+
+   //Screen Shake
+   this.isShaking = false;
+   this.shakeTime = 0;
+   this.shakeIntesity = 0;
+   this.shakeXScale = 0;
+   this.shakeYScale = 0;
+   this.shakeSpeed = 0;
+}
+
+startScreenShake(intensity, duration, speed) {
+    this.isShaking = true;
+    this.shakeIntesity = intensity;
+    this.shakeTime = duration;
+    this.shakeSpeed = speed;
+    this.shakeXScale = Math.random() > 0.5 ? 1 : -1;
+    this.shakeYScale = Math.random() > 0.5 ? 1 : -1;
+}
+
+updateScreenShake(deltaTime) {
+    if (this.isShaking) {
+        this.shakeTime -= deltaTime;
+
+        const shakeAmount = this.shakeTime / this.shakeSpeed;
+        this.game.canvas.style.left = "" + (Math.cos(shakeAmount) * this.shakeXScale * this.shakeIntesity) + "px";
+        this.game.canvas.style.top = "" + (Math.sin(shakeAmount) * this.shakeYScale * this.shakeIntesity) + "px";
+
+        if(this.shakeTime < 0) {
+            this.isShaking = false;
+            this.game.canvas.style.left = '0px';
+            this.game.canvas.style.top = '0px';
+        }
+    }
 }
 
 
@@ -260,6 +327,7 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
     if ((this.keys.a.isDown || leftFire == 'h') && this.p1.leftArmIsOn) {
         this.leftArm.activate(this.p1.x, this.p1.y, this.p1.forwardRot);
         this.p1.leftArmIsOn = false;
+        this.startScreenShake(10,100,10);
     }
 
     // Fires right arm once when the d key is pressed
@@ -289,16 +357,17 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
     // console.log('forward');
     // console.log(this.enemies[0].forward);
 
-    var isBlocked = false;
     var shouldMove = true;
 
     this.enemies.forEach(e => {
         e.update(deltaTime, this.p1.x, this.p1.y);
         if (e.isChasing) {
-            this.walls.forEach(w => {
-                this.isBlocked = isBoxBetween(this.p1,e,w);
+            this.walls.forEach((w, i) => {
+                let isBlocked = isBoxBetween(this.p1,e,w);
                 //console.log(isBlocked);
-                if (this.isBlocked) {
+                //console.log(counter);
+                if (isBlocked) {
+                    console.log(i);
                     shouldMove = false;
                     //console.log(shouldMove);
                 }
@@ -458,6 +527,8 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
     // if(this.keys.space.isDown) {
     //     this.scene.start('EndScreen');
     // }
+
+    this.updateScreenShake(deltaTime);
 }
 }
 
