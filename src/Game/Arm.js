@@ -29,6 +29,7 @@ class Arm extends Phaser.GameObjects.Sprite {
     this.forward = forward;
     this.rotation = this.forward + Math.PI/2;
     this.isActive = true;
+    this.isMoving = true;
     this.moveTime = 400;
     this.moveSpeed = 400;
     
@@ -46,6 +47,7 @@ class Arm extends Phaser.GameObjects.Sprite {
   deactivate() {
     this.setTexture('__DEFAULT');
     this.isActive = false;
+    this.wasMoving = true;
   }
 
   stopMoving() {

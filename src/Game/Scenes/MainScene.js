@@ -183,8 +183,8 @@ create() {
     var bounceTime = 100;
     var hitTime = 100;
 
-    var wallIsCollidingLeft = true;
-    var wallIsCollidingRight = true;
+    var wallIsCollidingLeft = false;
+    var wallIsCollidingRight = false;
 
     var leftFire = false;
     var rightFire = false;
@@ -523,68 +523,27 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
         this.hitTime = 100;
     }
 
-    this.walls.forEach(w => {
-        if (this.leftArm.isActive && isBoxCollision(this.leftArm, w)) {
-            this.leftArm.stopMoving();
-            if(this.wallIsCollidingLeft == false){
-                this.sound.play('splat', {volume: 0.5});
-                this.wallIsCollidingLeft = true;
-            } 
-        }
-        // else{
-        //     this.wallIsCollidingLeft = false;
-        // }
-        if (this.rightArm.isActive && isBoxCollision(this.rightArm, w)) {
-            this.rightArm.stopMoving();
-            if(this.wallIsCollidingRight == false){
-                this.sound.play('splat', {volume: 0.5});
-                this.wallIsCollidingRight = true;
-            } 
-        }
-        // else{
-        //     this.wallIsCollidingRight = false;
-        // }
-    });
-
-    //this.p1.isColliding = isBoxCollision(this.p1, wall1);
-
-    // if (isBoxCollision(this.p1, wall1)) {
-    //     this.p1.isColliding = true;
-    //     this.bounceTime = 100;
-    // }
-
-    // if ((this.bounceTime > 0) && (this.p1.isColliding)) {
-    //     this.bounceTime -= deltaTime;
-    // }
-
-    // if (this.bounceTime <= 0) {
-    //     this.p1.isColliding = false;
-    //     this.bounceTime = 100;
-    // }
-
-    // let angle = getAngle(this.walls[4][0],this.walls[4][1],this.p1);
-    // angle = angle * 180 / Math.PI;
-    // let collide = wallCollision(this.walls[4][0],this.walls[4][1],this.p1);
-    // //console.log(angle + " : " + collide);
-    // if(collide) {
-    //     this.p1.isColliding = true;
-    //     this.bounceTime = 100;
-    // }
-
     // this.walls.forEach(w => {
-    //     this.pointNums.forEach(n => {
-    //         let i;
-    //         for(i = 1; i < n; i++) {
-    //             if(wallCollision(w[i-1]),w[i],this.p1) {
-    //                 this.p1.isColliding = true;
-    //                 this.bounceTime = 100;
-    //             }
-    //         }
-    //         if(wallCollision(w[n],w[0],this.p1) && !this.p1.isColliding) {
-    //             this.p1.isColliding = true;
-    //             this.bounceTime = 100;
-    //         }
-    //     });
+    //     if (this.leftArm.isActive && isBoxCollision(this.leftArm, w)) {
+    //         this.leftArm.stopMoving();
+    //         if(this.wallIsCollidingLeft == false){
+    //             this.sound.play('splat', {volume: 0.5});
+    //             this.wallIsCollidingLeft = true;
+    //         } 
+    //     }
+    //     // else{
+    //     //     this.wallIsCollidingLeft = false;
+    //     // }
+    //     if (this.rightArm.isActive && isBoxCollision(this.rightArm, w)) {
+    //         this.rightArm.stopMoving();
+    //         if(this.wallIsCollidingRight == false){
+    //             this.sound.play('splat', {volume: 0.5});
+    //             this.wallIsCollidingRight = true;
+    //         } 
+    //     }
+    //     // else{
+    //     //     this.wallIsCollidingRight = false;
+    //     // }
     // });
 
     let i;
@@ -597,6 +556,14 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
                 this.p1.isColliding = true;
                 this.bounceTime = 100;
             }
+            if (this.leftArm.isMoving && wallCollision(this.walls[i][j-1],this.walls[i][j], this.leftArm)) {
+                this.leftArm.stopMoving();
+                this.sound.play('splat', {volume: 0.5});
+            }
+            if (this.rightArm.isMoving && wallCollision(this.walls[i][j-1],this.walls[i][j], this.rightArm)) {
+                this.rightArm.stopMoving();
+                this.sound.play('splat', {volume: 0.5});
+            }
         }
         //console.log('last: ' + this.walls[i][this.pointNums[i] - 1] + ', ' + this.walls[i][0]);
         //console.log('last: ' + this.walls[i][this.pointNums[i] - 1].x + ', ' + this.walls[i][this.pointNums[i] - 1].y);
@@ -604,6 +571,20 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
         if(wallCollision(this.walls[i][this.pointNums[i] - 1],this.walls[i][0],this.p1) && !this.p1.isColliding) {
             this.p1.isColliding = true;
             this.bounceTime = 100;
+        }
+        if (this.leftArm.isActive && wallCollision(this.walls[i][this.pointNums[i] - 1],this.walls[i][0], this.leftArm)) {
+            this.leftArm.stopMoving();
+            if(this.wallIsCollidingLeft == false){
+                this.sound.play('splat', {volume: 0.5});
+                this.wallIsCollidingLeft = true;
+            } 
+        }
+        if (this.rightArm.isActive && wallCollision(this.walls[i][this.pointNums[i] - 1],this.walls[i][0], this.rightArm)) {
+            this.rightArm.stopMoving();
+            if(this.wallIsCollidingRight == false){
+                this.sound.play('splat', {volume: 0.5});
+                this.wallIsCollidingRight = true;
+            } 
         }
         //console.log(this.p1.isColliding);
     }
