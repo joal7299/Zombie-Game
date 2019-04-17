@@ -7,6 +7,9 @@ const Arm = require('../Arm');
 const Enemy = require('../Enemy');
 const HitRect = require('../HitRect');
 
+const getAngle = require('../Utils/GetAngle');
+const wallCollision = require('../Utils/WallCollision');
+
 var movement;
 var leftFire;
 var rightFire;
@@ -185,26 +188,115 @@ create() {
         lineStyle: { width: 3, color: 0xeeeeee }
     });
 
-    this.walls = [];
-    for (let i = 0; i < 12; i ++) {
-            this.walls.push(new HitRect());
-    }
+    //this.walls = [];
+    // for (let i = 0; i < 12; i ++) {
+    //         this.walls.push(new HitRect());
+    // }
     
     //Outer walls
-    this.walls[0].setSize(-1,-1,-1,751);
-    this.walls[1].setSize(-1,401,50,50);
-    this.walls[2].setSize(-1,401,751,751);
-    this.walls[3].setSize(401,401,-1,751);
+    // this.walls[0].setSize(-1,-1,-1,751);
+    // this.walls[1].setSize(-1,401,50,50);
+    // this.walls[2].setSize(-1,401,751,751);
+    // this.walls[3].setSize(401,401,-1,751);
 
     //Layout walls
-    this.walls[4].setSize(60,400,690,750);
-    this.walls[5].setSize(0,150,550,600);
-    this.walls[6].setSize(250,400,550,600);
-    this.walls[7].setSize(80,320,250,470);
-    this.walls[8].setSize(70,330,130,180);
+    // this.walls[4].setSize(60,400,690,750);
+    // this.walls[5].setSize(0,150,550,600);
+    // this.walls[6].setSize(250,400,550,600);
+    // this.walls[7].setSize(80,320,250,470);
+    // this.walls[8].setSize(70,330,130,180);
     // this.walls[9].setSize(100,800,400,400);
     // this.walls[10].setSize(300,300,400,500);
     // this.walls[11].setSize(500,500,500,600);
+
+    this.walls = [
+        [{x: -1, y: -1},{x: -1, y: 751}],
+        [{x: -1, y: 50},{x: 401, y: 50}],
+        [{x: -1, y: 751},{x: 401, y: 751}],
+        [{x: 401, y: -1},{x: 401, y: 751}],
+        [{x: 80, y: 700},{x: 400, y: 700}, {x: 400, y: 750}, {x: 80, y: 750}],
+        [{x: 0, y: 550},{x: 150, y: 550}, {x: 150, y: 600}, {x: 0, y: 600}],
+        [{x: 250, y: 550},{x: 400, y: 550}, {x: 400, y: 600}, {x: 250, y: 600}],
+        [{x: 80, y: 250},{x: 320, y: 250}, {x: 320, y: 470}, {x: 80, y: 470}],
+        [{x: 70, y: 130},{x: 330, y: 130}, {x: 330, y: 180}, {x: 70, y: 180}]
+    ];
+
+    this.numWalls = 9;
+    this.pointNums = [
+        2,
+        2,
+        2,
+        2,
+        4,
+        4,
+        4,
+        4,
+        4
+    ];
+
+    this.strokeA = [
+        new Phaser.Geom.Point(this.walls[0][0].x,this.walls[0][0].y),
+        new Phaser.Geom.Point(this.walls[0][1].x,this.walls[0][1].y)
+    ];
+    this.strokeB = [
+        new Phaser.Geom.Point(this.walls[1][0].x,this.walls[1][0].y),
+        new Phaser.Geom.Point(this.walls[1][1].x,this.walls[1][1].y)
+    ];
+    this.strokeC = [
+        new Phaser.Geom.Point(this.walls[2][0].x,this.walls[2][0].y),
+        new Phaser.Geom.Point(this.walls[2][1].x,this.walls[2][1].y)
+    ];
+    this.strokeD = [
+        new Phaser.Geom.Point(this.walls[3][0].x,this.walls[3][0].y),
+        new Phaser.Geom.Point(this.walls[3][1].x,this.walls[3][1].y)
+    ];
+    this.strokeE = [
+        new Phaser.Geom.Point(this.walls[4][0].x,this.walls[4][0].y),
+        new Phaser.Geom.Point(this.walls[4][1].x,this.walls[4][1].y),
+        new Phaser.Geom.Point(this.walls[4][2].x,this.walls[4][2].y),
+        new Phaser.Geom.Point(this.walls[4][3].x,this.walls[4][3].y),
+        new Phaser.Geom.Point(this.walls[4][0].x,this.walls[4][0].y)
+    ];
+    this.strokeF = [
+        new Phaser.Geom.Point(this.walls[5][0].x,this.walls[5][0].y),
+        new Phaser.Geom.Point(this.walls[5][1].x,this.walls[5][1].y),
+        new Phaser.Geom.Point(this.walls[5][2].x,this.walls[5][2].y),
+        new Phaser.Geom.Point(this.walls[5][3].x,this.walls[5][3].y),
+        new Phaser.Geom.Point(this.walls[5][0].x,this.walls[5][0].y)
+    ];
+    this.strokeG = [
+        new Phaser.Geom.Point(this.walls[6][0].x,this.walls[6][0].y),
+        new Phaser.Geom.Point(this.walls[6][1].x,this.walls[6][1].y),
+        new Phaser.Geom.Point(this.walls[6][2].x,this.walls[6][2].y),
+        new Phaser.Geom.Point(this.walls[6][3].x,this.walls[6][3].y),
+        new Phaser.Geom.Point(this.walls[6][0].x,this.walls[6][0].y)
+    ];
+    this.strokeH = [
+        new Phaser.Geom.Point(this.walls[7][0].x,this.walls[7][0].y),
+        new Phaser.Geom.Point(this.walls[7][1].x,this.walls[7][1].y),
+        new Phaser.Geom.Point(this.walls[7][2].x,this.walls[7][2].y),
+        new Phaser.Geom.Point(this.walls[7][3].x,this.walls[7][3].y),
+        new Phaser.Geom.Point(this.walls[7][0].x,this.walls[7][0].y)
+    ];
+    this.strokeI = [
+        new Phaser.Geom.Point(this.walls[8][0].x,this.walls[8][0].y),
+        new Phaser.Geom.Point(this.walls[8][1].x,this.walls[8][1].y),
+        new Phaser.Geom.Point(this.walls[8][2].x,this.walls[8][2].y),
+        new Phaser.Geom.Point(this.walls[8][3].x,this.walls[8][3].y),
+        new Phaser.Geom.Point(this.walls[8][0].x,this.walls[8][0].y)
+    ];
+
+    this.wallStrokes = [
+        this.strokeA,
+        this.strokeB,
+        this.strokeC,
+        this.strokeD,
+        this.strokeE,
+        this.strokeF,
+        this.strokeG,
+        this.strokeH,
+        this.strokeI
+    ];
 
     
 
@@ -212,7 +304,7 @@ create() {
     this.door = new HitRect(180,220,51,56);
     
     //Game vars
-    this.p1 = this.add.existing(new Player(this, 30, 720));
+    this.p1 = this.add.existing(new Player(this, 40, 710));
     this.heart1 = this.add.sprite(305, 25, 'heart').setScale(0.1);
     this.heart2 = this.add.sprite(340, 25, 'heart').setScale(0.1);
     this.heart3 = this.add.sprite(375, 25, 'heart').setScale(0.1);
@@ -387,13 +479,59 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
     //     this.p1.isColliding = false;
     //     this.bounceTime = 100;
     // }
-    
-    this.walls.forEach(w => {
-        if (isBoxCollision(this.p1, w)) {
+
+    // let angle = getAngle(this.walls[4][0],this.walls[4][1],this.p1);
+    // angle = angle * 180 / Math.PI;
+    // let collide = wallCollision(this.walls[4][0],this.walls[4][1],this.p1);
+    // //console.log(angle + " : " + collide);
+    // if(collide) {
+    //     this.p1.isColliding = true;
+    //     this.bounceTime = 100;
+    // }
+
+    // this.walls.forEach(w => {
+    //     this.pointNums.forEach(n => {
+    //         let i;
+    //         for(i = 1; i < n; i++) {
+    //             if(wallCollision(w[i-1]),w[i],this.p1) {
+    //                 this.p1.isColliding = true;
+    //                 this.bounceTime = 100;
+    //             }
+    //         }
+    //         if(wallCollision(w[n],w[0],this.p1) && !this.p1.isColliding) {
+    //             this.p1.isColliding = true;
+    //             this.bounceTime = 100;
+    //         }
+    //     });
+    // });
+
+    let i;
+    for(i = 0; i < this.numWalls; i++) {
+        let j;
+        for(j = 1; j < this.pointNums[i]; j++) {
+            //console.log(this.pointNums[i]);
+            //console.log(i + ', ' + j + ', ' + this.walls[i][j].x + ', ' + this.walls[i][j].y);
+            if(wallCollision(this.walls[i][j-1],this.walls[i][j],this.p1)) {
+                this.p1.isColliding = true;
+                this.bounceTime = 100;
+            }
+        }
+        //console.log('last: ' + this.walls[i][this.pointNums[i] - 1] + ', ' + this.walls[i][0]);
+        //console.log('last: ' + this.walls[i][this.pointNums[i] - 1].x + ', ' + this.walls[i][this.pointNums[i] - 1].y);
+        //console.log(this.pointNums[i]);
+        if(wallCollision(this.walls[i][this.pointNums[i] - 1],this.walls[i][0],this.p1) && !this.p1.isColliding) {
             this.p1.isColliding = true;
             this.bounceTime = 100;
         }
-    });
+        //console.log(this.p1.isColliding);
+    }
+
+    // this.walls.forEach(w => {
+    //     if (isBoxCollision(this.p1, w)) {
+    //         this.p1.isColliding = true;
+    //         this.bounceTime = 100;
+    //     }
+    // });
 
     if ((this.bounceTime > 0) && (this.p1.isColliding)) {
         this.bounceTime -= deltaTime;
@@ -424,49 +562,16 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
     this.enemies.forEach(e => e.draw(this.graphics));
     //wall1.draw(this.graphics);
     this.walls.forEach(w => {
-        w.draw(this.graphics);
+        //w.draw(this.graphics);
     });
     this.door.draw(this.graphics);
-    //this.graphics.fillRect(100,100,5,100);
-    //map rectanlges
-    //map outer walls
-    // this.graphics.fillRect(-1, 0, 1, 600);
-    // this.graphics.fillRect(0, 0, 800, 1);
-    // this.graphics.fillRect(0, 600, 800, 1);
-    // this.graphics.fillRect(800, 0, 1, 800);
-
-    //inner walls
-    // this.graphics.fillRect(100, 0, 5, 30);
-    // this.graphics.fillRect(100, 100, 5, 200);
-    // this.graphics.fillRect(0, 300, 300, 5);
-    // this.graphics.fillRect(400, 0, 5, 300);
-    // this.graphics.fillRect(365, 300, 40, 5);
-    // this.graphics.fillRect(400, 200, 100, 5);
-    // this.graphics.fillRect(500, 100, 100, 5);
-    // this.graphics.fillRect(600, 200, 80, 5);
-    // this.graphics.fillRect(740, 200, 80, 5);
-    // this.graphics.fillRect(600, 100, 5, 300);
-    // this.graphics.fillRect(0, 400, 740, 5);
-    // this.graphics.fillRect(400, 460, 5, 140);
-
-    // Draw everything
-    // this.graphics.clear();
-    // this.p1.draw(this.graphics);
-    // this.leftArm.draw(this.graphics);
-    // this.rightArm.draw(this.graphics);
-    // this.enemies.forEach(e => e.draw(this.graphics));
-    // //map rectanlges
-    // //map outer walls
-    // this.graphics.fillRect(0, 0, 1, 600);
-    // this.graphics.fillRect(0, 0, 799, 1);
-    // this.graphics.fillRect(0, 599, 800, 1);
-    // this.graphics.fillRect(799, 0, 1, 800);
-
+    //this.graphics.lineStyle(0xee0000, 1);
+    //this.graphics.strokePoints(this.strokeA);
+    this.wallStrokes.forEach(s => {
+        this.graphics.strokePoints(s);
+    })
+    //this.graphics.lineStyle(0xeeeeee, 1);
     
-
-    // if(this.keys.space.isDown) {
-    //     this.scene.start('EndScreen');
-    // }
 }
 }
 
