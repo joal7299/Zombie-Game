@@ -9,67 +9,16 @@ const HitRect = require('../HitRect');
 
 const getAngle = require('../Utils/GetAngle');
 const wallCollision = require('../Utils/WallCollision');
+const isCircleCollision = require('../Utils/IsCircleCollision');
+const isBoxCollision = require('../Utils/IsBoxCollision');
+
 
 var movement;
 var leftFire;
 var rightFire;
 
-function isCircleCollision(c1, c2) {
-    // Get the distance between the two circles
-    const distSq = (c1.x - c2.x) * (c1.x - c2.x) + (c1.y - c2.y) * (c1.y - c2.y);
-    const radiiSq = (c1.radius * c1.radius) + (c2.radius * c2.radius);
-  
-    // Returns true if the distance btw the circle's center points is less than the sum of the radii
-    return (distSq < radiiSq);
-}
 
 
-
-function isBoxCollision(c, r) {
-    if((c.x > r.xmin) && (c.x < r.xmax) && (c.y > r.ymin) && (c.y < r.ymax)) {
-        return true;
-    }
-    
-    if((c.x > r.xmin) && (c.x < r.xmax) && (c.y > r.ymin - c.radius) && (c.y < r.ymax + c.radius)) {
-        return true;
-    }
-
-    if((c.x > r.xmin - c.radius) && (c.x < r.xmax + c.radius) && (c.y > r.ymin) && (c.y < r.ymax)) {
-        return true;
-    }
-    
-    if((c.x < r.xmin) && (c.y < r.ymin)) {
-        const distSq = (c.x - r.xmin) * (c.x - r.xmin) + (c.y - r.ymin) * (c.y - r.ymin);
-        const radiiSq = (c.radius * c.radius);
-    
-        return (distSq < radiiSq);
-    }
-
-    if((c.x > r.xmax) && (c.y < r.ymin)) {
-        const distSq = (c.x - r.xmax) * (c.x - r.xmax) + (c.y - r.ymin) * (c.y - r.ymin);
-        const radiiSq = (c.radius * c.radius);
-    
-        return (distSq < radiiSq);
-    }
-
-    if((c.x < r.xmin) && (c.y > r.ymax)) {
-        const distSq = (c.x - r.xmin) * (c.x - r.xmin) + (c.y - r.ymax) * (c.y - r.ymax);
-        const radiiSq = (c.radius * c.radius);
-    
-        return (distSq < radiiSq);
-    }
-
-    if((c.x > r.xmax) && (c.y > r.ymax)) {
-        const distSq = (c.x - r.xmax) * (c.x - r.xmax) + (c.y - r.ymax) * (c.y - r.ymax);
-        const radiiSq = (c.radius * c.radius);
-    
-        return (distSq < radiiSq);
-    }
-
-    else {
-        return false;
-    }
-}
 
 function isBoxBetween(p, e, r) {
     if (r.xmin == r.xmax) {    //check which side of the wall is short
