@@ -17,7 +17,9 @@ class Player extends Phaser.GameObjects.Sprite {
       this.forwardRot = -Math.PI;
       this.rotSpeed = 1;
       this.isGoingForward = false;
+      this.wasGoingForward = false;
       this.isGoingBack = false;
+      this.wasGoingBack = false;
       this.isColliding = false;
       this.isHit = false;
       //this.bounceTime = 200;
@@ -69,6 +71,7 @@ class Player extends Phaser.GameObjects.Sprite {
     if ((keys.up.isDown || movement == 'F') && !this.isColliding) {
       this.x += this.moveSpeed * forwardX * deltaTime / 1000;
       this.y += this.moveSpeed * forwardY * deltaTime / 1000;
+      this.wasGoingForward = this.isGoingForward;
       this.isGoingForward = true;
     }
     else if(!keys.up.isDown) {
@@ -77,6 +80,7 @@ class Player extends Phaser.GameObjects.Sprite {
     if ((keys.down.isDown || movement == 'U') && !this.isColliding) {
       this.x -= this.moveSpeed * forwardX * deltaTime / 1000;
       this.y -= this.moveSpeed * forwardY * deltaTime / 1000;
+      this.wasGoingBack = this.isGoingBack;
       this.isGoingBack = true;
     }
     else if(!keys.down.isDown) {
