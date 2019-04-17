@@ -47,6 +47,7 @@ class Arm extends Phaser.GameObjects.Sprite {
   deactivate() {
     this.setTexture('__DEFAULT');
     this.isActive = false;
+    this.wasMoving = true;
   }
 
   stopMoving() {
