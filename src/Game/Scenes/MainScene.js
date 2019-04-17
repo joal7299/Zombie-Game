@@ -122,14 +122,25 @@ class MainScene extends Phaser.Scene {
     }
 
 preload() {
-    this.load.image('zombie', '../assets/zombie.png');
-    this.load.image('wall', '../assets/wall.png');
-    this.load.image('leftarm', '../assets/leftarm.png');
-    this.load.image('rightarm', '../assets/rightarm.png');
-    this.load.image('zombieright', '../assets/zombieright.png');
-    this.load.image('zombieleft', '../assets/zombieleft.png');
-    this.load.image('zombienoarms', '../assets/zombienoarms.png');
-    this.load.image('heart', '../assets/heart.png');
+    this.load.image('zombie', ['../assets/zombie.png']);
+    this.load.image('wall', ['../assets/wall.png']);
+    this.load.image('leftarm', ['../assets/leftarm.png']);
+    this.load.image('rightarm', ['../assets/rightarm.png']);
+    this.load.image('zombieright', ['../assets/zombieright.png']);
+    this.load.image('zombieleft', ['../assets/zombieleft.png']);
+    this.load.image('zombienoarms', ['../assets/zombienoarms.png']);
+    this.load.image('heart', ['../assets/heart.png']);
+    this.load.audio('splat', ['../assets/ArmSplat.wav']);
+    this.load.audio('armFire', ['../assets/Arm Firing.wav']);
+    this.load.audio('damage', ['../assets/zombieDamage.wav']);
+    // this.load.audio('step1', '../assets/zombieStep1');
+    // this.load.audio('step2', '../assets/zombieStep2');
+    this.load.audio('step', ['../assets/zombieStep.wav']);
+    this.load.audio('enemyHit', ['../assets/enemyHit.wav']);
+    this.load.audio('background', ['../assets/zombieBackground.mp3']);
+    this.load.audio('walking', ['../assets/walking.wav']);
+    this.load.audio('walkingBack', ['../assets/walkingBack.wav']);
+    this.load.audio('armShoot', ['../assets/armShoot.wav']);
 
     //this.load.audio('whatYouWantToCallTheSound', ['../assets/explode.wav']);
     //this.sound.play('whatYouWantToCallTheSound');
@@ -168,6 +179,19 @@ create() {
 
     var bounceTime = 100;
     var hitTime = 100;
+
+    var wallIsCollidingLeft = true;
+    var wallIsCollidingRight = true;
+
+    var leftFire = false;
+    var rightFire = false;
+
+    var walking = false;
+    var wasGoingForward = false; 
+    var wasGoingBack = false;
+
+    var soundExistsF = false;
+    var soundExistsB = false;
 
     //Phaser Elements
     this.keys = {
@@ -254,12 +278,35 @@ create() {
     this.enemies[3].activate(300, 650, 0 * Math.PI / 180);
     // this.enemies[4].activate(50, 500, -90 * Math.PI / 180);
     // this.enemies[5].activate(400, 500, 180 * Math.PI / 180);
+
+    this.sound.play('background', {volume: 0.5, loop: true});
 }
 
 
 update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it is not used
     // Update Player
     this.p1.update(deltaTime, this.keys, movement);
+
+    this.wasGoingForward = this.p1.isGoingForward;
+    //walking sounds
+    //forward
+    if(this.p1.isGoingForward == true && this.p1.wasGoingForward == false){
+        this.sound.play('walking', {loop: true});
+        this.soundExistsF = true;
+    }
+    if(this.p1.isGoingForward == false && this.p1.wasGoingForward == true && this.soundExistsF == true){
+        this.sound.sounds.find(s => s.key == 'walking').destroy();
+        this.soundExistsF = false;
+    }
+    //back
+    if(this.p1.isGoingBack == true && this.p1.wasGoingBack == false){
+        this.sound.play('walkingBack', {loop: true});
+        this.soundExistsB = true;
+    }
+    if(this.p1.isGoingBack == false && this.p1.wasGoingBack == true && this.soundExistsB == true){
+        this.sound.sounds.find(t => t.key == 'walkingBack').destroy();
+        this.soundExistsB = false;
+    }
 
     // Keep player on screen
     if (this.p1.x > this.game.config.width + 10) {
@@ -282,24 +329,38 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
     if ((this.keys.a.isDown || leftFire == 'h') && this.p1.leftArmIsOn) {
         this.leftArm.activate(this.p1.x, this.p1.y, this.p1.forwardRot);
         this.p1.leftArmIsOn = false;
+        
+        this.leftFire = true;
+        if(this.leftFire == true){
+            this.sound.play('armShoot');
+            this.leftFire = false;
+        }
     }
 
     // Fires right arm once when the d key is pressed
     if ((this.keys.d.isDown || rightFire == 'h') && this.p1.rightArmIsOn) {
         this.rightArm.activate(this.p1.x, this.p1.y, this.p1.forwardRot);
         this.p1.rightArmIsOn = false;
+
+        this.rightFire = true;
+        if(this.rightFire == true){
+            this.sound.play('armShoot');
+            this.rightFire = false;
+        }
     }
 
     // Reattach arm when player collides with fired left arm
     if (!this.p1.leftArmIsOn && isCircleCollision(this.p1, this.leftArm) && this.leftArm.moveTime < 200) {
         this.leftArm.deactivate();
         this.p1.leftArmIsOn = true;
+        this.wallIsCollidingLeft = false;
     }
 
     // Reattach arm when player collides with fired right arm
     if (!this.p1.rightArmIsOn && isCircleCollision(this.p1, this.rightArm) && this.rightArm.moveTime < 200) {
         this.rightArm.deactivate();
         this.p1.rightArmIsOn = true;
+        this.wallIsCollidingRight = false;
     }
 
     // Update arms
@@ -313,6 +374,8 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
 
     var isBlocked = false;
     var shouldMove = true;
+
+    var isDamaged =false;
 
     this.enemies.forEach(e => {
         e.update(deltaTime, this.p1.x, this.p1.y);
@@ -335,21 +398,26 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
         if (e.isActive && this.leftArm.isActive && isCircleCollision(e, this.leftArm)) {
             e.deactivate();
             this.leftArm.stopMoving();
+            this.sound.play('enemyHit');
         }
         if (e.isActive && this.rightArm.isActive && isCircleCollision(e, this.rightArm)) {
             e.deactivate();
             this.rightArm.stopMoving();
+            this.sound.play('enemyHit');
         }
         if (e.isActive && isCircleCollision(e, this.p1)) {
             //e.deactivate();
             this.p1.alpha = 0.5;
+
             if (!this.p1.isHit) {
                 this.p1.health -= 1;
+                this.sound.play('damage', {volume: 0.7});
             }
             this.p1.isHit = true;
             this.hitTime = 100;
         }
     });
+
 
     if (this.p1.health == 2) {
         this.heart3.alpha = 0.2;
@@ -379,10 +447,24 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
     this.walls.forEach(w => {
         if (this.leftArm.isActive && isBoxCollision(this.leftArm, w)) {
             this.leftArm.stopMoving();
+            if(this.wallIsCollidingLeft == false){
+                this.sound.play('splat', {volume: 0.5});
+                this.wallIsCollidingLeft = true;
+            } 
         }
+        // else{
+        //     this.wallIsCollidingLeft = false;
+        // }
         if (this.rightArm.isActive && isBoxCollision(this.rightArm, w)) {
             this.rightArm.stopMoving();
+            if(this.wallIsCollidingRight == false){
+                this.sound.play('splat', {volume: 0.5});
+                this.wallIsCollidingRight = true;
+            } 
         }
+        // else{
+        //     this.wallIsCollidingRight = false;
+        // }
     });
 
     //this.p1.isColliding = isBoxCollision(this.p1, wall1);
@@ -420,6 +502,8 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
     if (isBoxCollision(this.p1,this.door)) {
         //console.log('yay?');
         //this.overlay.classList.add('hidden');
+        this.sound.sounds.find(s => s.key == 'walking').destroy();
+        this.sound.sounds.find(s => s.key == 'background').destroy();
         this.scene.start('EndScreen');
         //console.log('what?');
     }
