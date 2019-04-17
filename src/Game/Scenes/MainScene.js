@@ -180,8 +180,8 @@ create() {
     var bounceTime = 100;
     var hitTime = 100;
 
-    var wallIsCollidingLeft = true;
-    var wallIsCollidingRight = true;
+    var wallIsCollidingLeft = false;
+    var wallIsCollidingRight = false;
 
     var leftFire = false;
     var rightFire = false;
@@ -192,6 +192,10 @@ create() {
 
     var soundExistsF = false;
     var soundExistsB = false;
+
+    var firstTimeL = true;
+    var firstTimeR = true;
+
 
     //Phaser Elements
     this.keys = {
@@ -280,6 +284,15 @@ create() {
     // this.enemies[5].activate(400, 500, 180 * Math.PI / 180);
 
     this.sound.play('background', {volume: 0.5, loop: true});
+
+
+    this.sound.play('walking', {loop: true});
+    this.walkSound = this.sound.sounds.find(s => s.key == 'walking');
+    this.walkSound.stop();
+
+    this.sound.play('walkingBack', {loop: true});
+    this.walkSoundBack = this.sound.sounds.find(s => s.key == 'walkingBack');
+    this.walkSoundBack.stop();
 }
 
 
@@ -291,21 +304,17 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
     //walking sounds
     //forward
     if(this.p1.isGoingForward == true && this.p1.wasGoingForward == false){
-        this.sound.play('walking', {loop: true});
-        this.soundExistsF = true;
+        this.walkSound.play();
     }
-    if(this.p1.isGoingForward == false && this.p1.wasGoingForward == true && this.soundExistsF == true){
-        this.sound.sounds.find(s => s.key == 'walking').destroy();
-        this.soundExistsF = false;
+    if(this.p1.isGoingForward == false && this.p1.wasGoingForward == true){
+        this.walkSound.stop();
     }
     //back
     if(this.p1.isGoingBack == true && this.p1.wasGoingBack == false){
-        this.sound.play('walkingBack', {loop: true});
-        this.soundExistsB = true;
+        this.walkSoundBack.play();
     }
-    if(this.p1.isGoingBack == false && this.p1.wasGoingBack == true && this.soundExistsB == true){
-        this.sound.sounds.find(t => t.key == 'walkingBack').destroy();
-        this.soundExistsB = false;
+    if(this.p1.isGoingBack == false && this.p1.wasGoingBack == true){
+        this.walkSoundBack.stop();
     }
 
     // Keep player on screen
@@ -445,26 +454,15 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
     }
 
     this.walls.forEach(w => {
-        if (this.leftArm.isActive && isBoxCollision(this.leftArm, w)) {
+        if (this.leftArm.isMoving && isBoxCollision(this.leftArm, w)) {
             this.leftArm.stopMoving();
-            if(this.wallIsCollidingLeft == false){
-                this.sound.play('splat', {volume: 0.5});
-                this.wallIsCollidingLeft = true;
-            } 
+            this.sound.play('splat', {volume: 0.5});
         }
-        // else{
-        //     this.wallIsCollidingLeft = false;
-        // }
-        if (this.rightArm.isActive && isBoxCollision(this.rightArm, w)) {
+
+        if (this.rightArm.isMoving && isBoxCollision(this.rightArm, w)) {
             this.rightArm.stopMoving();
-            if(this.wallIsCollidingRight == false){
-                this.sound.play('splat', {volume: 0.5});
-                this.wallIsCollidingRight = true;
-            } 
+            this.sound.play('splat', {volume: 0.5});
         }
-        // else{
-        //     this.wallIsCollidingRight = false;
-        // }
     });
 
     //this.p1.isColliding = isBoxCollision(this.p1, wall1);
@@ -502,7 +500,7 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
     if (isBoxCollision(this.p1,this.door)) {
         //console.log('yay?');
         //this.overlay.classList.add('hidden');
-        this.sound.sounds.find(s => s.key == 'walking').destroy();
+        this.walkSound.stop();
         this.sound.sounds.find(s => s.key == 'background').destroy();
         this.scene.start('EndScreen');
         //console.log('what?');

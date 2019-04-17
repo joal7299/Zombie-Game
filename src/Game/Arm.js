@@ -9,7 +9,7 @@ class Arm extends Phaser.GameObjects.Sprite {
     this.radius = 15;
     this.moveSpeed = 400;
     this.isActive = false;
-    this.isMoving = true;
+    this.isMoving = false;
     this.isLeftArm = isLeftArm;
 
     if(this.isLeftArm) {
@@ -29,6 +29,7 @@ class Arm extends Phaser.GameObjects.Sprite {
     this.forward = forward;
     this.rotation = this.forward + Math.PI/2;
     this.isActive = true;
+    this.isMoving = true;
     this.moveTime = 400;
     this.moveSpeed = 400;
     
