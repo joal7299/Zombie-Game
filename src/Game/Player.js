@@ -73,7 +73,7 @@ class Player extends Phaser.GameObjects.Sprite {
       this.y += this.moveSpeed * forwardY * deltaTime / 1000;
       this.wasGoingForward = this.isGoingForward;
       this.isGoingForward = true;
-      console.log("up");
+      //console.log("up");
     }
     else if(!keys.up.isDown) {
       this.isGoingForward = false;
@@ -83,7 +83,7 @@ class Player extends Phaser.GameObjects.Sprite {
       this.y -= this.moveSpeed * forwardY * deltaTime / 1000;
       this.wasGoingBack = this.isGoingBack;
       this.isGoingBack = true;
-      console.log("up");
+      //console.log("up");
     }
     else if(!keys.down.isDown) {
       this.isGoingBack = false;

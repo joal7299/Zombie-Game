@@ -1,7 +1,14 @@
-class Enemy {
-  constructor() {
-    this.x = 0;
-      this.y = 0;
+const Phaser = require('phaser'); 
+
+class Enemy extends Phaser.GameObjects.Sprite{
+  constructor(scene, x, y) {
+    super(scene, x, y);
+
+      this.setTexture('enemy').setScale(.1);
+      this.setPosition(x, y);
+
+      this.x = x;
+      this.y = y;
       this.radius = 20; //for collision detection
       this.forward = 0;
       this.angle = 0;
@@ -22,6 +29,8 @@ class Enemy {
         new Phaser.Geom.Point(-17, -20),
         new Phaser.Geom.Point(-17, 10),
       ];
+
+      
       
       // this.baseGeo = [
       //   new Phaser.Geom.Point(0, 0),
@@ -34,8 +43,17 @@ class Enemy {
   activate(x, y, forward) {
     this.x = x;
     this.y = y;
+    this.setTexture('enemy').setScale(.1);
+    this.setPosition(this.x, this.y);
     this.forward = forward;
     this.isActive = true;
+
+    // this.baseGeo = [
+    //   new Phaser.Geom.Point(0, 0),
+    //   new Phaser.Geom.Point(this.visionDist* Math.tan(this.viewAngle), this.visionDist),
+    //   new Phaser.Geom.Point(-this.visionDist* Math.tan(this.viewAngle), this.visionDist),
+    //   new Phaser.Geom.Point(0,0),
+    // ];
   }
 
     // activate(x, y) {
@@ -83,6 +101,7 @@ class Enemy {
       graphics.translate(this.x, this.y);
       graphics.rotate(this.forward-Math.PI/2);
       graphics.strokePoints(this.baseGeo);
+      this.setPosition(this.x, this.y);
       //graphics.fillCircle(0,0,this.radius);
       graphics.restore();
     }

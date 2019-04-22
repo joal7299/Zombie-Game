@@ -41,6 +41,7 @@ preload() {
     this.load.image('zombienoarms', ['../assets/zombienoarms.png']);
     this.load.image('heart', ['../assets/heart.png']);
     this.load.image('level2', ['../assets/level_2.png']);
+    this.load.image('enemy', ['../assets/enemy.png']);
 
 
     this.load.audio('splat', ['../assets/ArmSplat.wav']);
@@ -241,24 +242,21 @@ create() {
 
     this.enemies = [];
         for (let i = 0; i < 20; i ++) {
-            this.enemies.push(new Enemy(this));
+            this.enemies.push(new Enemy(this, 100, 100));
         }
     //this.enemySpawnTime = 2000;
 
-    this.e1 = this.add.existing(new Enemy(this, 200, 100));
-    this.e2 = this.add.existing(new Enemy(this, 50, 250));
-    this.e3 = this.add.existing(new Enemy(this, 350, 250));
+    this.e1 = this.add.existing(new Enemy(this, 200, 90));
+    this.e2 = this.add.existing(new Enemy(this, 50, 350));
+    this.e3 = this.add.existing(new Enemy(this, 360, 350));
     this.e4 = this.add.existing(new Enemy(this, 300, 650));
-    // this.e5 = this.add.existing(new Enemy(this, 50, 500));
-    // this.e6 = this.add.existing(new Enemy(this, 400, 500));
     
     //spawning enemies
     this.enemies[0].activate(200, 90, 90 * Math.PI / 180);
-    this.enemies[1].activate(40, 350, 90 * Math.PI / 180);
+    this.enemies[1].activate(50, 350, 90 * Math.PI / 180);
     this.enemies[2].activate(360, 350, 90 * Math.PI / 180);
     this.enemies[3].activate(300, 650, 180 * Math.PI / 180);
-    // this.enemies[4].activate(50, 500, -90 * Math.PI / 180);
-    // this.enemies[5].activate(400, 500, 180 * Math.PI / 180);
+
 
     this.enemies.forEach(e => {
         e.visionDist = 150;
@@ -513,9 +511,9 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
     if (isBoxCollision(this.p1,this.door)) {
         //console.log('yay?');
         //this.overlay.classList.add('hidden');
-        this.walkSound.stop();
-        this.walkSoundBack.stop();
-        this.sound.sounds.find(s => s.key == 'background').destroy();
+        this.walkSound.destroy();
+        this.walkSoundBack.destroy();
+        //this.sound.sounds.find(s => s.key == 'background').destroy();
         this.scene.start('Level2');
         //console.log('what?');
     }
@@ -529,22 +527,28 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
 
         // this.walkSound = this.sound.sounds.find(s => s.key == 'walkingBack');
         // this.walkSoundBack.stop();
-        this.walkSound.stop();
+        this.walkSound.destroy();
         this.walkSoundBack.destroy();
-        this.sound.sounds.find(s => s.key == 'background').destroy();
+        //this.sound.sounds.find(s => s.key == 'background').destroy();
 
         this.scene.start('Level2');
     }
     if(this.keys.two.isDown){
-        this.sound.sounds.find(s => s.key == 'background').destroy();
+        this.walkSound.destroy();
+        this.walkSoundBack.destroy();
+        //this.sound.sounds.find(s => s.key == 'background').destroy();
         this.scene.start('Level3');
     }
     if(this.keys.three.isDown){
-        this.sound.sounds.find(s => s.key == 'background').destroy();
+        this.walkSound.destroy();
+        this.walkSoundBack.destroy();
+        //this.sound.sounds.find(s => s.key == 'background').destroy();
         this.scene.start('Level4');
     }
     if(this.keys.four.isDown){
-        this.sound.sounds.find(s => s.key == 'background').destroy();
+        this.walkSound.destroy();
+        this.walkSoundBack.destroy();
+        //this.sound.sounds.find(s => s.key == 'background').destroy();
         this.scene.start('Level5');
     }
 
@@ -570,7 +574,7 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
     this.leftArm.draw(this.graphics);
     this.rightArm.draw(this.graphics);
     this.enemies.forEach(e => e.draw(this.graphics));
-    //wall1.draw(this.graphics);
+    //wall1.draw(this.graphics);    
     //this.walls.forEach(w => {
         //w.draw(this.graphics);
     //});

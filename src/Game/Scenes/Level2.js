@@ -42,6 +42,7 @@ preload() {
     this.load.audio('splat', ['../assets/ArmSplat.wav']);
     this.load.audio('armFire', ['../assets/Arm Firing.wav']);
     this.load.audio('damage', ['../assets/zombieDamage.wav']);
+    this.load.image('enemy', ['../assets/enemy.png']);
     // this.load.audio('step1', '../assets/zombieStep1');
     // this.load.audio('step2', '../assets/zombieStep2');
     this.load.audio('step', ['../assets/zombieStep.wav']);
@@ -234,8 +235,8 @@ create() {
     // this.e6 = this.add.existing(new Enemy(this, 400, 500));
     
     //spawning enemies
-    this.enemies[0].activate(60, 160, 135 * Math.PI / 180);
-    this.enemies[1].activate(340, 160, 45 * Math.PI / 180);
+    this.enemies[0].activate(60, 160, 105 * Math.PI / 180);
+    this.enemies[1].activate(340, 160, 75 * Math.PI / 180);
     // this.enemies[2].activate(360, 350, 180 * Math.PI / 180);
     // this.enemies[3].activate(300, 650, 0 * Math.PI / 180);
     // this.enemies[4].activate(50, 500, -90 * Math.PI / 180);
@@ -246,7 +247,7 @@ create() {
         e.viewAngle = 20;
     })
 
-    this.sound.play('background', {volume: 0.5, loop: true});
+    //this.sound.play('background', {volume: 0.5, loop: true});
 
 
     this.sound.play('walking', {loop: true});
@@ -477,9 +478,9 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
     if (isBoxCollision(this.p1,this.door)) {
         //console.log('yay?');
         //this.overlay.classList.add('hidden');
-        this.walkSound.stop();
-        this.walkSoundBack.stop();
-        this.sound.sounds.find(s => s.key == 'background').destroy();
+        this.walkSound.destroy();
+        this.walkSoundBack.destroy();
+        //this.sound.sounds.find(s => s.key == 'background').destroy();
         this.scene.start('Level3');
         //console.log('what?');
     }
@@ -495,20 +496,26 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
         // this.walkSoundBack.stop();
         this.walkSound.destroy();
         this.walkSoundBack.destroy();
-        this.sound.sounds.find(s => s.key == 'background').destroy();
+        //this.sound.sounds.find(s => s.key == 'background').destroy();
 
         this.scene.start('Level2');
     }
     if(this.keys.two.isDown){
-        this.sound.sounds.find(s => s.key == 'background').destroy();
+        this.walkSound.destroy();
+        this.walkSoundBack.destroy();
+        //this.sound.sounds.find(s => s.key == 'background').destroy();
         this.scene.start('Level3');
     }
     if(this.keys.three.isDown){
-        this.sound.sounds.find(s => s.key == 'background').destroy();
+        this.walkSound.destroy();
+        this.walkSoundBack.destroy();
+        //this.sound.sounds.find(s => s.key == 'background').destroy();
         this.scene.start('Level4');
     }
     if(this.keys.four.isDown){
-        this.sound.sounds.find(s => s.key == 'background').destroy();
+        this.walkSound.destroy();
+        this.walkSoundBack.destroy();
+        //this.sound.sounds.find(s => s.key == 'background').destroy();
         this.scene.start('Level5');
     }
 

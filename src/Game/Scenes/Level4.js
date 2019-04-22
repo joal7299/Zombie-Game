@@ -42,6 +42,7 @@ preload() {
     this.load.audio('splat', ['../assets/ArmSplat.wav']);
     this.load.audio('armFire', ['../assets/Arm Firing.wav']);
     this.load.audio('damage', ['../assets/zombieDamage.wav']);
+    this.load.image('enemy', ['../assets/enemy.png']);
     // this.load.audio('step1', '../assets/zombieStep1');
     // this.load.audio('step2', '../assets/zombieStep2');
     this.load.audio('step', ['../assets/zombieStep.wav']);
@@ -293,10 +294,10 @@ create() {
 
     this.enemies.forEach(e => {
         e.visionDist = 150;
-        e.viewAngle = 20;
+        e.viewAngle = 15;
     })
 
-    this.sound.play('background', {volume: 0.5, loop: true});
+    //this.sound.play('background', {volume: 0.5, loop: true});
 
 
     this.sound.play('walking', {loop: true});
@@ -547,9 +548,9 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
     if (isBoxCollision(this.p1,this.door)) {
         //console.log('yay?');
         //this.overlay.classList.add('hidden');
-        this.walkSound.stop();
-        this.walkSoundBack.stop();
-        this.sound.sounds.find(s => s.key == 'background').destroy();
+        this.walkSound.destroy();
+        this.walkSoundBack.destroy();
+        //this.sound.sounds.find(s => s.key == 'background').destroy();
         this.scene.start('Level5');
         //console.log('what?');
     }
@@ -565,20 +566,26 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
         // this.walkSoundBack.stop();
         this.walkSound.destroy();
         this.walkSoundBack.destroy();
-        this.sound.sounds.find(s => s.key == 'background').destroy();
+        //this.sound.sounds.find(s => s.key == 'background').destroy();
 
         this.scene.start('Level2');
     }
     if(this.keys.two.isDown){
-        this.sound.sounds.find(s => s.key == 'background').destroy();
+        this.walkSound.destroy();
+        this.walkSoundBack.destroy();
+        //this.sound.sounds.find(s => s.key == 'background').destroy();
         this.scene.start('Level3');
     }
     if(this.keys.three.isDown){
-        this.sound.sounds.find(s => s.key == 'background').destroy();
+        this.walkSound.destroy();
+        this.walkSoundBack.destroy();
+        //this.sound.sounds.find(s => s.key == 'background').destroy();
         this.scene.start('Level4');
     }
     if(this.keys.four.isDown){
-        this.sound.sounds.find(s => s.key == 'background').destroy();
+        this.walkSound.destroy();
+        this.walkSoundBack.destroy();
+        //this.sound.sounds.find(s => s.key == 'background').destroy();
         this.scene.start('Level5');
     }
 
