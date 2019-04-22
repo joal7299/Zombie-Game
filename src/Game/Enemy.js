@@ -9,6 +9,7 @@ class Enemy {
       this.moveSpeed = 100;
       this.isActive = false;
       this.isChasing = false;
+      this.viewAngle = 25;
   
       this.activeTime = 0;
 
@@ -24,8 +25,8 @@ class Enemy {
       
       // this.baseGeo = [
       //   new Phaser.Geom.Point(0, 0),
-      //   new Phaser.Geom.Point(80, 300),
-      //   new Phaser.Geom.Point(-80, 300),
+      //   new Phaser.Geom.Point(this.visionDist * Math.tan(this.viewAngle), this.visionDist),
+      //   new Phaser.Geom.Point(-this.visionDist * Math.tan(this.viewAngle), this.visionDist),
       //   new Phaser.Geom.Point(0,0),
       // ];
   }
@@ -59,7 +60,7 @@ class Enemy {
     this.angle = Math.atan2((pY-this.y), (pX-this.x));
     let dist = Math.sqrt((this.x-pX)*(this.x-pX) + (this.y-pY)*(this.y-pY));
     if (dist <= this.visionDist) {
-      if (this.angle <= this.forward + (25 * Math.PI / 180) && this.angle >= this.forward - (25 * Math.PI / 180)) {
+      if (this.angle <= this.forward + (this.viewAngle * Math.PI / 180) && this.angle >= this.forward - (this.viewAngle * Math.PI / 180)) {
         this.isChasing = true;
         //console.log(this.isChasing);
       }
