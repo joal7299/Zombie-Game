@@ -17,49 +17,6 @@ var movement;
 var leftFire;
 var rightFire;
 
-
-
-
-function isBoxBetween(p, e, r) {
-    if (r.xmin == r.xmax) {    //check which side of the wall is short
-        if ((e.x < r.xmin && r.xmin < p.x) || (p.x < r.xmin && r.xmin < e.x)) {
-            let x = Math.abs(e.x - r.xmin);
-            let y = x * Math.abs(Math.tan(Math.PI/2 - (e.angle * Math.PI / 180)));
-            //console.log(y);
-            if ((r.ymin < y) && (y < r.ymax)){
-                //console.log('a');
-                return true;
-            }
-            else{
-                //console.log('b');
-                return false;
-            }
-        }
-        else {
-            return false;
-        }
-    }
-
-    if (r.ymin == r.ymax) {    //check which side of the wall is short
-        if ((e.y < r.ymin && r.ymin < p.y) || (p.y < r.ymin && r.ymin < e.y)) {
-            let y = Math.abs(e.y - r.ymin);
-            let x = y / Math.abs(Math.tan(e.angle * Math.PI / 180));
-            //console.log(x);
-            if ((r.xmin < x) && (x < r.xmax)){
-                //console.log('c');
-                return true;
-            }
-            else{
-                //console.log('d');
-                return false;
-            }
-        }
-        else {
-            return false;
-        }
-    }
-}
-
 var walls;
 //const wall1 = new HitRect(-1,0,0,600);
 // this.graphics.fillRect(-1, 0, 1, 600);
@@ -158,6 +115,10 @@ create() {
         space: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE),
         a: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A),
         d: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D),
+        one: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ONE),
+        two: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TWO),
+        three: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.THREE),
+        four: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FOUR)
     };
     
     this.graphics = this.add.graphics({
@@ -189,16 +150,22 @@ create() {
     this.walls = [
         [{x: -1, y: -1},{x: -1, y: 751}],
         [{x: -1, y: 50},{x: 401, y: 50}],
+
         [{x: -1, y: 751},{x: 401, y: 751}],
         [{x: 401, y: -1},{x: 401, y: 751}],
-        [{x: 80, y: 700},{x: 400, y: 700}, {x: 400, y: 750}, {x: 80, y: 750}],
-        [{x: 0, y: 550},{x: 150, y: 550}, {x: 150, y: 600}, {x: 0, y: 600}],
-        [{x: 250, y: 550},{x: 400, y: 550}, {x: 400, y: 600}, {x: 250, y: 600}],
-        [{x: 80, y: 250},{x: 320, y: 250}, {x: 320, y: 470}, {x: 80, y: 470}],
-        [{x: 70, y: 130},{x: 330, y: 130}, {x: 330, y: 180}, {x: 70, y: 180}]
+
+        [{x: 0, y: 600},{x: 150, y: 650}, {x: 150, y: 750}, {x: 0, y: 750}],
+
+        [{x: 400, y: 600},{x: 250, y: 650}, {x: 250, y: 750}, {x: 400, y: 750}],
+
+        [{x: 0, y: 50},{x: 275, y: 50}, {x: 100, y: 200}, {x: 100, y: 250}, {x: 150, y: 300}, {x: 150, y: 350}, {x: 0, y: 400}],
+
+        [{x: 400, y: 50},{x: 200, y: 225}, {x: 200, y: 250}, {x: 250, y: 300}, {x: 250, y: 350}, {x: 400, y: 400}],
+
+        [{x: 75, y: 500},{x: 200, y: 450}, {x: 325, y: 500}, {x: 200, y: 550}]
     ];
 
-    this.numWalls = 9;
+    this.numWalls = this.walls.length;
     this.pointNums = [
         2,
         2,
@@ -206,8 +173,8 @@ create() {
         2,
         4,
         4,
-        4,
-        4,
+        7,
+        6,
         4
     ];
 
@@ -241,18 +208,31 @@ create() {
         new Phaser.Geom.Point(this.walls[5][3].x,this.walls[5][3].y),
         new Phaser.Geom.Point(this.walls[5][0].x,this.walls[5][0].y)
     ];
+    this.strokeF = [
+        new Phaser.Geom.Point(this.walls[5][0].x,this.walls[5][0].y),
+        new Phaser.Geom.Point(this.walls[5][1].x,this.walls[5][1].y),
+        new Phaser.Geom.Point(this.walls[5][2].x,this.walls[5][2].y),
+        new Phaser.Geom.Point(this.walls[5][3].x,this.walls[5][3].y),
+        new Phaser.Geom.Point(this.walls[5][0].x,this.walls[5][0].y)
+    ];
     this.strokeG = [
         new Phaser.Geom.Point(this.walls[6][0].x,this.walls[6][0].y),
         new Phaser.Geom.Point(this.walls[6][1].x,this.walls[6][1].y),
         new Phaser.Geom.Point(this.walls[6][2].x,this.walls[6][2].y),
         new Phaser.Geom.Point(this.walls[6][3].x,this.walls[6][3].y),
+        new Phaser.Geom.Point(this.walls[6][4].x,this.walls[6][4].y),
+        new Phaser.Geom.Point(this.walls[6][5].x,this.walls[6][5].y),
+        new Phaser.Geom.Point(this.walls[6][6].x,this.walls[6][6].y),
         new Phaser.Geom.Point(this.walls[6][0].x,this.walls[6][0].y)
     ];
+    console.log(this.walls[7]);
     this.strokeH = [
         new Phaser.Geom.Point(this.walls[7][0].x,this.walls[7][0].y),
         new Phaser.Geom.Point(this.walls[7][1].x,this.walls[7][1].y),
         new Phaser.Geom.Point(this.walls[7][2].x,this.walls[7][2].y),
         new Phaser.Geom.Point(this.walls[7][3].x,this.walls[7][3].y),
+        new Phaser.Geom.Point(this.walls[7][4].x,this.walls[7][4].y),
+        new Phaser.Geom.Point(this.walls[7][5].x,this.walls[7][5].y),
         new Phaser.Geom.Point(this.walls[7][0].x,this.walls[7][0].y)
     ];
     this.strokeI = [
@@ -278,10 +258,10 @@ create() {
     
 
     //End goal door
-    this.door = new HitRect(180,220,51,56);
+    this.door = new HitRect(300,350,51,56);
     
     //Game vars
-    this.p1 = this.add.existing(new Player(this, 40, 710));
+    this.p1 = this.add.existing(new Player(this, 200, 710));
     this.heart1 = this.add.sprite(305, 25, 'heart').setScale(0.1);
     this.heart2 = this.add.sprite(340, 25, 'heart').setScale(0.1);
     this.heart3 = this.add.sprite(375, 25, 'heart').setScale(0.1);
@@ -304,12 +284,17 @@ create() {
     // this.e6 = this.add.existing(new Enemy(this, 400, 500));
     
     //spawning enemies
-    this.enemies[0].activate(200, 90, -30 * Math.PI / 180);
-    this.enemies[1].activate(40, 350, 180 * Math.PI / 180);
-    this.enemies[2].activate(360, 350, 180 * Math.PI / 180);
-    this.enemies[3].activate(300, 650, 0 * Math.PI / 180);
+    this.enemies[0].activate(75, 575, 30 * Math.PI / 180);
+    this.enemies[1].activate(325, 575, 150 * Math.PI / 180);
+    this.enemies[2].activate(200, 350, 90 * Math.PI / 180);
+    this.enemies[3].activate(220, 150, 135 * Math.PI / 180);
     // this.enemies[4].activate(50, 500, -90 * Math.PI / 180);
     // this.enemies[5].activate(400, 500, 180 * Math.PI / 180);
+
+    this.enemies.forEach(e => {
+        e.visionDist = 150;
+        e.viewAngle = 20;
+    })
 
     this.sound.play('background', {volume: 0.5, loop: true});
 
@@ -417,19 +402,19 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
     this.enemies.forEach(e => {
         e.update(deltaTime, this.p1.x, this.p1.y);
         if (e.isChasing) {
-            this.walls.forEach(w => {
-                this.isBlocked = isBoxBetween(this.p1,e,w);
-                //console.log(isBlocked);
-                if (this.isBlocked) {
-                    shouldMove = false;
-                    //console.log(shouldMove);
-                }
-                //console.log(shouldMove);
-            });
+            // this.walls.forEach(w => {
+            //     this.isBlocked = isBoxBetween(this.p1,e,w);
+            //     //console.log(isBlocked);
+            //     if (this.isBlocked) {
+            //         shouldMove = false;
+            //         //console.log(shouldMove);
+            //     }
+            //     //console.log(shouldMove);
+            // });
             //console.log(shouldMove);
-            if (shouldMove) {
+            // if (shouldMove) {
                 e.chase(deltaTime, this.p1.x, this.p1.y);
-            }
+            // }
             //isBlocked = false;
         }
         if (e.isActive && this.leftArm.isActive && isCircleCollision(e, this.leftArm)) {
@@ -509,10 +494,13 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
         let j;
         for(j = 1; j < this.pointNums[i]; j++) {
             //console.log(this.pointNums[i]);
-            //console.log(i + ', ' + j + ', ' + this.walls[i][j].x + ', ' + this.walls[i][j].y);
+            //console.log(i + ', ' + j + ', ' + this.walls[i][j-1] + ', ' + this.walls[i][j]);
             if(wallCollision(this.walls[i][j-1],this.walls[i][j],this.p1)) {
                 this.p1.isColliding = true;
                 this.bounceTime = 100;
+            }
+            else {
+                this.p1.isColliding = false;
             }
             if (this.leftArm.isMoving && wallCollision(this.walls[i][j-1],this.walls[i][j], this.leftArm)) {
                 this.leftArm.stopMoving();
@@ -541,12 +529,12 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
         //console.log(this.p1.isColliding);
     }
 
-    // this.walls.forEach(w => {
-    //     if (isBoxCollision(this.p1, w)) {
-    //         this.p1.isColliding = true;
-    //         this.bounceTime = 100;
-    //     }
-    // });
+    this.walls.forEach(w => {
+        if (isBoxCollision(this.p1, w)) {
+            this.p1.isColliding = true;
+            this.bounceTime = 100;
+        }
+    });
 
     if ((this.bounceTime > 0) && (this.p1.isColliding)) {
         this.bounceTime -= deltaTime;
@@ -560,10 +548,41 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
         //console.log('yay?');
         //this.overlay.classList.add('hidden');
         this.walkSound.stop();
+        this.walkSoundBack.stop();
         this.sound.sounds.find(s => s.key == 'background').destroy();
         this.scene.start('Level5');
         //console.log('what?');
     }
+
+    //quick select
+    if(this.keys.one.isDown){
+        // this.sound.sounds.find(s => s.key == 'background').destroy();
+
+        // this.walkSound = this.sound.sounds.find(s => s.key == 'walking');
+        // this.walkSound.stop();
+
+        // this.walkSound = this.sound.sounds.find(s => s.key == 'walkingBack');
+        // this.walkSoundBack.stop();
+        this.walkSound.destroy();
+        this.walkSoundBack.destroy();
+        this.sound.sounds.find(s => s.key == 'background').destroy();
+
+        this.scene.start('Level2');
+    }
+    if(this.keys.two.isDown){
+        this.sound.sounds.find(s => s.key == 'background').destroy();
+        this.scene.start('Level3');
+    }
+    if(this.keys.three.isDown){
+        this.sound.sounds.find(s => s.key == 'background').destroy();
+        this.scene.start('Level4');
+    }
+    if(this.keys.four.isDown){
+        this.sound.sounds.find(s => s.key == 'background').destroy();
+        this.scene.start('Level5');
+    }
+
+
 
     // if (isBoxCollision(this.p1,this.door)) {
     //     //console.log('yay?');

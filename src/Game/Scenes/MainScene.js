@@ -265,12 +265,17 @@ create() {
     // this.e6 = this.add.existing(new Enemy(this, 400, 500));
     
     //spawning enemies
-    this.enemies[0].activate(200, 90, -30 * Math.PI / 180);
-    this.enemies[1].activate(40, 350, 180 * Math.PI / 180);
-    this.enemies[2].activate(360, 350, 180 * Math.PI / 180);
-    this.enemies[3].activate(300, 650, 0 * Math.PI / 180);
+    this.enemies[0].activate(200, 90, 90 * Math.PI / 180);
+    this.enemies[1].activate(40, 350, 90 * Math.PI / 180);
+    this.enemies[2].activate(360, 350, 90 * Math.PI / 180);
+    this.enemies[3].activate(300, 650, 180 * Math.PI / 180);
     // this.enemies[4].activate(50, 500, -90 * Math.PI / 180);
     // this.enemies[5].activate(400, 500, 180 * Math.PI / 180);
+
+    this.enemies.forEach(e => {
+        e.visionDist = 150;
+        e.viewAngle = 20;
+    })
 
     this.sound.play('background', {volume: 0.5, loop: true});
 
@@ -378,19 +383,19 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
     this.enemies.forEach(e => {
         e.update(deltaTime, this.p1.x, this.p1.y);
         if (e.isChasing) {
-            this.walls.forEach(w => {
-                this.isBlocked = isBoxBetween(this.p1,e,w);
-                //console.log(isBlocked);
-                if (this.isBlocked) {
-                    shouldMove = false;
-                    //console.log(shouldMove);
-                }
-                //console.log(shouldMove);
-            });
-            //console.log(shouldMove);
-            if (shouldMove) {
+            // this.walls.forEach(w => {
+            //     this.isBlocked = isBoxBetween(this.p1,e,w);
+            //     //console.log(isBlocked);
+            //     if (this.isBlocked) {
+            //         shouldMove = false;
+            //         //console.log(shouldMove);
+            //     }
+            //     //console.log(shouldMove);
+            // });
+            // //console.log(shouldMove);
+            // if (shouldMove) {
                 e.chase(deltaTime, this.p1.x, this.p1.y);
-            }
+            // }
             //isBlocked = false;
         }
         if (e.isActive && this.leftArm.isActive && isCircleCollision(e, this.leftArm)) {
@@ -537,7 +542,7 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
         // this.walkSound = this.sound.sounds.find(s => s.key == 'walkingBack');
         // this.walkSoundBack.stop();
         this.walkSound.stop();
-        this.walkSoundBack.stop();
+        this.walkSoundBack.destroy();
         this.sound.sounds.find(s => s.key == 'background').destroy();
 
         this.scene.start('Level2');
