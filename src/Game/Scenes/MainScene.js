@@ -17,49 +17,6 @@ var movement;
 var leftFire;
 var rightFire;
 
-
-
-
-function isBoxBetween(p, e, r) {
-    if (r.xmin == r.xmax) {    //check which side of the wall is short
-        if ((e.x < r.xmin && r.xmin < p.x) || (p.x < r.xmin && r.xmin < e.x)) {
-            let x = Math.abs(e.x - r.xmin);
-            let y = x * Math.abs(Math.tan(Math.PI/2 - (e.angle * Math.PI / 180)));
-            //console.log(y);
-            if ((r.ymin < y) && (y < r.ymax)){
-                //console.log('a');
-                return true;
-            }
-            else{
-                //console.log('b');
-                return false;
-            }
-        }
-        else {
-            return false;
-        }
-    }
-
-    if (r.ymin == r.ymax) {    //check which side of the wall is short
-        if ((e.y < r.ymin && r.ymin < p.y) || (p.y < r.ymin && r.ymin < e.y)) {
-            let y = Math.abs(e.y - r.ymin);
-            let x = y / Math.abs(Math.tan(e.angle * Math.PI / 180));
-            //console.log(x);
-            if ((r.xmin < x) && (x < r.xmax)){
-                //console.log('c');
-                return true;
-            }
-            else{
-                //console.log('d');
-                return false;
-            }
-        }
-        else {
-            return false;
-        }
-    }
-}
-
 var walls;
 //const wall1 = new HitRect(-1,0,0,600);
 // this.graphics.fillRect(-1, 0, 1, 600);
@@ -194,7 +151,7 @@ create() {
         [{x: 70, y: 130},{x: 330, y: 130}, {x: 330, y: 180}, {x: 70, y: 180}]
     ];
 
-    this.numWalls = 9;
+    this.numWalls = this.walls.length;
     this.pointNums = [
         2,
         2,
@@ -500,7 +457,7 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
         let j;
         for(j = 1; j < this.pointNums[i]; j++) {
             //console.log(this.pointNums[i]);
-            //console.log(i + ', ' + j + ', ' + this.walls[i][j].x + ', ' + this.walls[i][j].y);
+            //console.log(i + ', ' + j + ', ' + this.walls[i][j-1] + ', ' + this.walls[i][j]);
             if(wallCollision(this.walls[i][j-1],this.walls[i][j],this.p1)) {
                 this.p1.isColliding = true;
                 this.bounceTime = 100;
@@ -538,12 +495,12 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
         //console.log(this.p1.isColliding);
     }
 
-    // this.walls.forEach(w => {
-    //     if (isBoxCollision(this.p1, w)) {
-    //         this.p1.isColliding = true;
-    //         this.bounceTime = 100;
-    //     }
-    // });
+    this.walls.forEach(w => {
+        if (isBoxCollision(this.p1, w)) {
+            this.p1.isColliding = true;
+            this.bounceTime = 100;
+        }
+    });
 
     if ((this.bounceTime > 0) && (this.p1.isColliding)) {
         this.bounceTime -= deltaTime;
