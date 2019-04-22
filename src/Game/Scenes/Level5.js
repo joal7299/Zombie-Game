@@ -67,9 +67,9 @@ var walls;
 // this.graphics.fillRect(0, 600, 800, 1);
 // this.graphics.fillRect(800, 0, 1, 800);
 
-class MainScene extends Phaser.Scene {
+class Level5 extends Phaser.Scene {
     constructor() {
-        super('MainScene');
+        super('Level5');
         SerialPortReader.addListener(this.onSerialMessage.bind(this));
     }
 
@@ -158,10 +158,6 @@ create() {
         space: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE),
         a: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A),
         d: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D),
-        one: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ONE),
-        two: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TWO),
-        three: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.THREE),
-        four: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FOUR)
     };
     
     this.graphics = this.add.graphics({
@@ -560,54 +556,23 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
         this.p1.isColliding = false;
         this.bounceTime = 100;
     }
-    if (isBoxCollision(this.p1,this.door)) {
-        //console.log('yay?');
-        //this.overlay.classList.add('hidden');
-        this.walkSound.stop();
-        this.walkSoundBack.stop();
-        this.sound.sounds.find(s => s.key == 'background').destroy();
-        this.scene.start('Level2');
-        //console.log('what?');
-    }
-
-    //quick select
-    if(this.keys.one.isDown){
-        // this.sound.sounds.find(s => s.key == 'background').destroy();
-
-        // this.walkSound = this.sound.sounds.find(s => s.key == 'walking');
-        // this.walkSound.stop();
-
-        // this.walkSound = this.sound.sounds.find(s => s.key == 'walkingBack');
-        // this.walkSoundBack.stop();
-        this.walkSound.stop();
-        this.walkSoundBack.stop();
-        this.sound.sounds.find(s => s.key == 'background').destroy();
-
-        this.scene.start('Level2');
-    }
-    if(this.keys.two.isDown){
-        this.sound.sounds.find(s => s.key == 'background').destroy();
-        this.scene.start('Level3');
-    }
-    if(this.keys.three.isDown){
-        this.sound.sounds.find(s => s.key == 'background').destroy();
-        this.scene.start('Level4');
-    }
-    if(this.keys.four.isDown){
-        this.sound.sounds.find(s => s.key == 'background').destroy();
-        this.scene.start('Level5');
-    }
-
-
-
     // if (isBoxCollision(this.p1,this.door)) {
     //     //console.log('yay?');
     //     //this.overlay.classList.add('hidden');
     //     this.walkSound.stop();
     //     this.sound.sounds.find(s => s.key == 'background').destroy();
-    //     this.scene.start('EndScreen');
+    //     this.scene.start('Level2');
     //     //console.log('what?');
     // }
+
+    if (isBoxCollision(this.p1,this.door)) {
+        //console.log('yay?');
+        //this.overlay.classList.add('hidden');
+        this.walkSound.stop();
+        this.sound.sounds.find(s => s.key == 'background').destroy();
+        this.scene.start('EndScreen');
+        //console.log('what?');
+    }
 
     if (this.p1.health <= 0){
         this.scene.start('LoseScreen');
@@ -635,4 +600,4 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
 }
 }
 
-module.exports = MainScene;
+module.exports = Level5;

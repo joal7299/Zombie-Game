@@ -67,9 +67,9 @@ var walls;
 // this.graphics.fillRect(0, 600, 800, 1);
 // this.graphics.fillRect(800, 0, 1, 800);
 
-class MainScene extends Phaser.Scene {
+class Level2 extends Phaser.Scene {
     constructor() {
-        super('MainScene');
+        super('Level2');
         SerialPortReader.addListener(this.onSerialMessage.bind(this));
     }
 
@@ -158,10 +158,6 @@ create() {
         space: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE),
         a: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A),
         d: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D),
-        one: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ONE),
-        two: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TWO),
-        three: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.THREE),
-        four: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FOUR)
     };
     
     this.graphics = this.add.graphics({
@@ -193,16 +189,19 @@ create() {
     this.walls = [
         [{x: -1, y: -1},{x: -1, y: 751}],
         [{x: -1, y: 50},{x: 401, y: 50}],
+
         [{x: -1, y: 751},{x: 401, y: 751}],
         [{x: 401, y: -1},{x: 401, y: 751}],
-        [{x: 80, y: 700},{x: 400, y: 700}, {x: 400, y: 750}, {x: 80, y: 750}],
-        [{x: 0, y: 550},{x: 150, y: 550}, {x: 150, y: 600}, {x: 0, y: 600}],
-        [{x: 250, y: 550},{x: 400, y: 550}, {x: 400, y: 600}, {x: 250, y: 600}],
-        [{x: 80, y: 250},{x: 320, y: 250}, {x: 320, y: 470}, {x: 80, y: 470}],
-        [{x: 70, y: 130},{x: 330, y: 130}, {x: 330, y: 180}, {x: 70, y: 180}]
+
+        [{x: 0, y: 400},{x: 100, y: 500}, {x: 100, y: 750}, {x: 0, y: 750}],
+
+        [{x: 400, y: 400},{x: 400, y: 750}, {x: 300, y: 750}, {x: 300, y: 500}],
+
+        [{x: 200, y: 175},{x: 300, y: 275}, {x: 300, y: 350}, {x: 200, y: 450}, {x: 100, y: 350}, {x: 100, y: 275}]
+
     ];
 
-    this.numWalls = 9;
+    this.numWalls = 7;
     this.pointNums = [
         2,
         2,
@@ -210,9 +209,7 @@ create() {
         2,
         4,
         4,
-        4,
-        4,
-        4
+        6,
     ];
 
     this.strokeA = [
@@ -250,22 +247,11 @@ create() {
         new Phaser.Geom.Point(this.walls[6][1].x,this.walls[6][1].y),
         new Phaser.Geom.Point(this.walls[6][2].x,this.walls[6][2].y),
         new Phaser.Geom.Point(this.walls[6][3].x,this.walls[6][3].y),
+        new Phaser.Geom.Point(this.walls[6][4].x,this.walls[6][4].y),
+        new Phaser.Geom.Point(this.walls[6][5].x,this.walls[6][5].y),
         new Phaser.Geom.Point(this.walls[6][0].x,this.walls[6][0].y)
     ];
-    this.strokeH = [
-        new Phaser.Geom.Point(this.walls[7][0].x,this.walls[7][0].y),
-        new Phaser.Geom.Point(this.walls[7][1].x,this.walls[7][1].y),
-        new Phaser.Geom.Point(this.walls[7][2].x,this.walls[7][2].y),
-        new Phaser.Geom.Point(this.walls[7][3].x,this.walls[7][3].y),
-        new Phaser.Geom.Point(this.walls[7][0].x,this.walls[7][0].y)
-    ];
-    this.strokeI = [
-        new Phaser.Geom.Point(this.walls[8][0].x,this.walls[8][0].y),
-        new Phaser.Geom.Point(this.walls[8][1].x,this.walls[8][1].y),
-        new Phaser.Geom.Point(this.walls[8][2].x,this.walls[8][2].y),
-        new Phaser.Geom.Point(this.walls[8][3].x,this.walls[8][3].y),
-        new Phaser.Geom.Point(this.walls[8][0].x,this.walls[8][0].y)
-    ];
+    
 
     this.wallStrokes = [
         this.strokeA,
@@ -275,8 +261,6 @@ create() {
         this.strokeE,
         this.strokeF,
         this.strokeG,
-        this.strokeH,
-        this.strokeI
     ];
 
     
@@ -285,7 +269,7 @@ create() {
     this.door = new HitRect(180,220,51,56);
     
     //Game vars
-    this.p1 = this.add.existing(new Player(this, 40, 710));
+    this.p1 = this.add.existing(new Player(this, 200, 650));
     this.heart1 = this.add.sprite(305, 25, 'heart').setScale(0.1);
     this.heart2 = this.add.sprite(340, 25, 'heart').setScale(0.1);
     this.heart3 = this.add.sprite(375, 25, 'heart').setScale(0.1);
@@ -300,18 +284,18 @@ create() {
         }
     //this.enemySpawnTime = 2000;
 
-    this.e1 = this.add.existing(new Enemy(this, 200, 100));
-    this.e2 = this.add.existing(new Enemy(this, 50, 250));
-    this.e3 = this.add.existing(new Enemy(this, 350, 250));
-    this.e4 = this.add.existing(new Enemy(this, 300, 650));
+    this.e1 = this.add.existing(new Enemy(this, 100, 160));
+    this.e2 = this.add.existing(new Enemy(this, 300, 160));
+    // this.e3 = this.add.existing(new Enemy(this, 350, 250));
+    // this.e4 = this.add.existing(new Enemy(this, 300, 650));
     // this.e5 = this.add.existing(new Enemy(this, 50, 500));
     // this.e6 = this.add.existing(new Enemy(this, 400, 500));
     
     //spawning enemies
-    this.enemies[0].activate(200, 90, -30 * Math.PI / 180);
-    this.enemies[1].activate(40, 350, 180 * Math.PI / 180);
-    this.enemies[2].activate(360, 350, 180 * Math.PI / 180);
-    this.enemies[3].activate(300, 650, 0 * Math.PI / 180);
+    this.enemies[0].activate(100, 160, 135 * Math.PI / 180);
+    this.enemies[1].activate(300, 160, 45 * Math.PI / 180);
+    // this.enemies[2].activate(360, 350, 180 * Math.PI / 180);
+    // this.enemies[3].activate(300, 650, 0 * Math.PI / 180);
     // this.enemies[4].activate(50, 500, -90 * Math.PI / 180);
     // this.enemies[5].activate(400, 500, 180 * Math.PI / 180);
 
@@ -560,54 +544,16 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
         this.p1.isColliding = false;
         this.bounceTime = 100;
     }
+
     if (isBoxCollision(this.p1,this.door)) {
         //console.log('yay?');
         //this.overlay.classList.add('hidden');
         this.walkSound.stop();
         this.walkSoundBack.stop();
         this.sound.sounds.find(s => s.key == 'background').destroy();
-        this.scene.start('Level2');
+        this.scene.start('Level3');
         //console.log('what?');
     }
-
-    //quick select
-    if(this.keys.one.isDown){
-        // this.sound.sounds.find(s => s.key == 'background').destroy();
-
-        // this.walkSound = this.sound.sounds.find(s => s.key == 'walking');
-        // this.walkSound.stop();
-
-        // this.walkSound = this.sound.sounds.find(s => s.key == 'walkingBack');
-        // this.walkSoundBack.stop();
-        this.walkSound.stop();
-        this.walkSoundBack.stop();
-        this.sound.sounds.find(s => s.key == 'background').destroy();
-
-        this.scene.start('Level2');
-    }
-    if(this.keys.two.isDown){
-        this.sound.sounds.find(s => s.key == 'background').destroy();
-        this.scene.start('Level3');
-    }
-    if(this.keys.three.isDown){
-        this.sound.sounds.find(s => s.key == 'background').destroy();
-        this.scene.start('Level4');
-    }
-    if(this.keys.four.isDown){
-        this.sound.sounds.find(s => s.key == 'background').destroy();
-        this.scene.start('Level5');
-    }
-
-
-
-    // if (isBoxCollision(this.p1,this.door)) {
-    //     //console.log('yay?');
-    //     //this.overlay.classList.add('hidden');
-    //     this.walkSound.stop();
-    //     this.sound.sounds.find(s => s.key == 'background').destroy();
-    //     this.scene.start('EndScreen');
-    //     //console.log('what?');
-    // }
 
     if (this.p1.health <= 0){
         this.scene.start('LoseScreen');
@@ -635,4 +581,4 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
 }
 }
 
-module.exports = MainScene;
+module.exports = Level2;
