@@ -18,6 +18,7 @@ var leftFire;
 var rightFire;
 
 var walls;
+var background;
 //const wall1 = new HitRect(-1,0,0,600);
 // this.graphics.fillRect(-1, 0, 1, 600);
 // this.graphics.fillRect(0, 0, 800, 1);
@@ -39,6 +40,9 @@ preload() {
     this.load.image('zombieleft', ['../assets/zombieleft.png']);
     this.load.image('zombienoarms', ['../assets/zombienoarms.png']);
     this.load.image('heart', ['../assets/heart.png']);
+    this.load.image('level2', ['../assets/level_2.png']);
+
+
     this.load.audio('splat', ['../assets/ArmSplat.wav']);
     this.load.audio('armFire', ['../assets/Arm Firing.wav']);
     this.load.audio('damage', ['../assets/zombieDamage.wav']);
@@ -70,21 +74,7 @@ onSerialMessage(msg) {
 
 
 create() {
-    //creating walls as a static group
-    //walls = this.physics.add.staticGroup();
-
-    //width then height
-    // this.add.image(50, 100, 'wall').setScale(10, .5);
-    // this.add.image(200, 300, 'wall').setScale(40, .5);
-    // this.add.image(400, 100, 'wall').setScale(.5, 20);
-    // this.add.image(500, 300, 'wall').setScale(20, .5);
-    // this.add.image(600, 200, 'wall').setScale(.5, 20);
-    // this.add.image(450, 400, 'wall').setScale(70, .5);
-    // this.add.image(300, 450, 'wall').setScale(.5, 10);
-    // this.add.image(500, 550, 'wall').setScale(.5, 10);
-
-    // this.overlay = document.querySelector('#main-screen');
-    // this.overlay.classList.remove('hidden');
+    this.background = this.add.sprite(200, 375, 'level2');  
 
     var bounceTime = 100;
     var hitTime = 100;
@@ -234,9 +224,7 @@ create() {
         this.strokeG,
         this.strokeH,
         this.strokeI
-    ];
-
-    
+    ];  
 
     //End goal door
     this.door = new HitRect(180,220,51,56);
@@ -583,15 +571,15 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
     this.rightArm.draw(this.graphics);
     this.enemies.forEach(e => e.draw(this.graphics));
     //wall1.draw(this.graphics);
-    this.walls.forEach(w => {
+    //this.walls.forEach(w => {
         //w.draw(this.graphics);
-    });
+    //});
     this.door.draw(this.graphics);
     //this.graphics.lineStyle(0xee0000, 1);
     //this.graphics.strokePoints(this.strokeA);
-    this.wallStrokes.forEach(s => {
-        this.graphics.strokePoints(s);
-    })
+    // this.wallStrokes.forEach(s => {
+    //     this.graphics.strokePoints(s);
+    // })
     //this.graphics.lineStyle(0xeeeeee, 1);
     
 }
