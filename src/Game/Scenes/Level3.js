@@ -509,13 +509,6 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
         //console.log(this.p1.isColliding);
     }
 
-    this.walls.forEach(w => {
-        if (isBoxCollision(this.p1, w)) {
-            this.p1.isColliding = true;
-            this.bounceTime = 100;
-        }
-    });
-
     if ((this.bounceTime > 0) && (this.p1.isColliding)) {
         this.bounceTime -= deltaTime;
     }

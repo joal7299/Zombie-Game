@@ -13,7 +13,10 @@ function wallCollision(point1, point2, circle) {
 
 
     if(angleA == angleB) {
-        return true;
+        if((distA * Math.sin(angleA)) < circle.radius) {
+            //console.log('c');
+            return true;
+        }
     }
     if(angleA > angleB) {
         if(angleA > Math.PI/2) {
