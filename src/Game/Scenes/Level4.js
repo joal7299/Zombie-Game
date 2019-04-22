@@ -499,9 +499,9 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
                 this.p1.isColliding = true;
                 this.bounceTime = 100;
             }
-            else {
-                this.p1.isColliding = false;
-            }
+            // else {
+            //     this.p1.isColliding = false;
+            // }
             if (this.leftArm.isMoving && wallCollision(this.walls[i][j-1],this.walls[i][j], this.leftArm)) {
                 this.leftArm.stopMoving();
                 this.sound.play('splat', {volume: 0.5});

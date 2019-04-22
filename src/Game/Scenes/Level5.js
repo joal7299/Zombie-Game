@@ -150,13 +150,17 @@ create() {
     this.walls = [
         [{x: -1, y: -1},{x: -1, y: 751}],
         [{x: -1, y: 50},{x: 401, y: 50}],
+
         [{x: -1, y: 751},{x: 401, y: 751}],
         [{x: 401, y: -1},{x: 401, y: 751}],
-        [{x: 80, y: 700},{x: 400, y: 700}, {x: 400, y: 750}, {x: 80, y: 750}],
-        [{x: 0, y: 550},{x: 150, y: 550}, {x: 150, y: 600}, {x: 0, y: 600}],
-        [{x: 250, y: 550},{x: 400, y: 550}, {x: 400, y: 600}, {x: 250, y: 600}],
-        [{x: 80, y: 250},{x: 320, y: 250}, {x: 320, y: 470}, {x: 80, y: 470}],
-        [{x: 70, y: 130},{x: 330, y: 130}, {x: 330, y: 180}, {x: 70, y: 180}]
+
+        [{x: 100, y: 125},{x: 300, y: 125}, {x: 200, y: 225}],
+
+        [{x: 0, y: 150},{x: 150, y: 300}, {x: 100, y: 750}, {x: 0, y: 750}],
+
+        [{x: 400, y: 150},{x: 250, y: 300}, {x: 300, y: 750}, {x: 400, y: 750}]
+
+        
     ];
 
     this.numWalls = this.walls.length;
@@ -165,11 +169,9 @@ create() {
         2,
         2,
         2,
+        3,
         4,
         4,
-        4,
-        4,
-        4
     ];
 
     this.strokeA = [
@@ -192,7 +194,6 @@ create() {
         new Phaser.Geom.Point(this.walls[4][0].x,this.walls[4][0].y),
         new Phaser.Geom.Point(this.walls[4][1].x,this.walls[4][1].y),
         new Phaser.Geom.Point(this.walls[4][2].x,this.walls[4][2].y),
-        new Phaser.Geom.Point(this.walls[4][3].x,this.walls[4][3].y),
         new Phaser.Geom.Point(this.walls[4][0].x,this.walls[4][0].y)
     ];
     this.strokeF = [
@@ -209,20 +210,7 @@ create() {
         new Phaser.Geom.Point(this.walls[6][3].x,this.walls[6][3].y),
         new Phaser.Geom.Point(this.walls[6][0].x,this.walls[6][0].y)
     ];
-    this.strokeH = [
-        new Phaser.Geom.Point(this.walls[7][0].x,this.walls[7][0].y),
-        new Phaser.Geom.Point(this.walls[7][1].x,this.walls[7][1].y),
-        new Phaser.Geom.Point(this.walls[7][2].x,this.walls[7][2].y),
-        new Phaser.Geom.Point(this.walls[7][3].x,this.walls[7][3].y),
-        new Phaser.Geom.Point(this.walls[7][0].x,this.walls[7][0].y)
-    ];
-    this.strokeI = [
-        new Phaser.Geom.Point(this.walls[8][0].x,this.walls[8][0].y),
-        new Phaser.Geom.Point(this.walls[8][1].x,this.walls[8][1].y),
-        new Phaser.Geom.Point(this.walls[8][2].x,this.walls[8][2].y),
-        new Phaser.Geom.Point(this.walls[8][3].x,this.walls[8][3].y),
-        new Phaser.Geom.Point(this.walls[8][0].x,this.walls[8][0].y)
-    ];
+
 
     this.wallStrokes = [
         this.strokeA,
@@ -231,9 +219,7 @@ create() {
         this.strokeD,
         this.strokeE,
         this.strokeF,
-        this.strokeG,
-        this.strokeH,
-        this.strokeI
+        this.strokeG
     ];
 
     
@@ -242,7 +228,7 @@ create() {
     this.door = new HitRect(180,220,51,56);
     
     //Game vars
-    this.p1 = this.add.existing(new Player(this, 40, 710));
+    this.p1 = this.add.existing(new Player(this, 200, 600));
     this.heart1 = this.add.sprite(305, 25, 'heart').setScale(0.1);
     this.heart2 = this.add.sprite(340, 25, 'heart').setScale(0.1);
     this.heart3 = this.add.sprite(375, 25, 'heart').setScale(0.1);
@@ -265,10 +251,10 @@ create() {
     // this.e6 = this.add.existing(new Enemy(this, 400, 500));
     
     //spawning enemies
-    this.enemies[0].activate(200, 90, -30 * Math.PI / 180);
-    this.enemies[1].activate(40, 350, 180 * Math.PI / 180);
-    this.enemies[2].activate(360, 350, 180 * Math.PI / 180);
-    this.enemies[3].activate(300, 650, 0 * Math.PI / 180);
+    this.enemies[0].activate(200, 710, 270 * Math.PI / 180);
+    this.enemies[1].activate(200, 300, 90 * Math.PI / 180);
+    this.enemies[2].activate(50, 125, 45 * Math.PI / 180);
+    this.enemies[3].activate(350, 125, 135 * Math.PI / 180);
     // this.enemies[4].activate(50, 500, -90 * Math.PI / 180);
     // this.enemies[5].activate(400, 500, 180 * Math.PI / 180);
 
@@ -475,9 +461,9 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
                 this.p1.isColliding = true;
                 this.bounceTime = 100;
             }
-            else {
-                this.p1.isColliding = false;
-            }
+            // else {
+            //     this.p1.isColliding = false;
+            // }
             if (this.leftArm.isMoving && wallCollision(this.walls[i][j-1],this.walls[i][j], this.leftArm)) {
                 this.leftArm.stopMoving();
                 this.sound.play('splat', {volume: 0.5});
