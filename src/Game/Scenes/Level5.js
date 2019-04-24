@@ -39,10 +39,12 @@ preload() {
     this.load.image('zombieleft', ['../assets/zombieleft.png']);
     this.load.image('zombienoarms', ['../assets/zombienoarms.png']);
     this.load.image('heart', ['../assets/heart.png']);
+    this.load.image('enemy', ['../assets/enemy.png']);
+    this.load.image('level5', ['../assets/level_5.png']);
+
     this.load.audio('splat', ['../assets/ArmSplat.wav']);
     this.load.audio('armFire', ['../assets/Arm Firing.wav']);
     this.load.audio('damage', ['../assets/zombieDamage.wav']);
-    this.load.image('enemy', ['../assets/enemy.png']);
     // this.load.audio('step1', '../assets/zombieStep1');
     // this.load.audio('step2', '../assets/zombieStep2');
     this.load.audio('step', ['../assets/zombieStep.wav']);
@@ -71,21 +73,7 @@ onSerialMessage(msg) {
 
 
 create() {
-    //creating walls as a static group
-    //walls = this.physics.add.staticGroup();
-
-    //width then height
-    // this.add.image(50, 100, 'wall').setScale(10, .5);
-    // this.add.image(200, 300, 'wall').setScale(40, .5);
-    // this.add.image(400, 100, 'wall').setScale(.5, 20);
-    // this.add.image(500, 300, 'wall').setScale(20, .5);
-    // this.add.image(600, 200, 'wall').setScale(.5, 20);
-    // this.add.image(450, 400, 'wall').setScale(70, .5);
-    // this.add.image(300, 450, 'wall').setScale(.5, 10);
-    // this.add.image(500, 550, 'wall').setScale(.5, 10);
-
-    // this.overlay = document.querySelector('#main-screen');
-    // this.overlay.classList.remove('hidden');
+    this.background = this.add.sprite(200, 375, 'level5');
 
     var bounceTime = 100;
     var hitTime = 100;
@@ -238,21 +226,19 @@ create() {
     this.leftArm = this.add.existing(new Arm(this, true));
     this.rightArm = this.add.existing(new Arm(this, false));
 
-    this.enemies = [];
-        for (let i = 0; i < 20; i ++) {
-            this.enemies.push(new Enemy(this));
-        }
+    this.enemies = [
+        this.e1 = this.add.existing(new Enemy(this, 200, 100)),
+        this.e2 = this.add.existing(new Enemy(this, 50, 250)),
+        this.e3 = this.add.existing(new Enemy(this, 350, 250)),
+        this.e4 = this.add.existing(new Enemy(this, 300, 650))
+    ];
     //this.enemySpawnTime = 2000;
 
-    this.e1 = this.add.existing(new Enemy(this, 200, 100));
-    this.e2 = this.add.existing(new Enemy(this, 50, 250));
-    this.e3 = this.add.existing(new Enemy(this, 350, 250));
-    this.e4 = this.add.existing(new Enemy(this, 300, 650));
     // this.e5 = this.add.existing(new Enemy(this, 50, 500));
     // this.e6 = this.add.existing(new Enemy(this, 400, 500));
     
     //spawning enemies
-    this.enemies[0].activate(199, 700, 270 * Math.PI / 180);
+    this.enemies[0].activate(200, 700, 270 * Math.PI / 180);
     this.enemies[1].activate(200, 300, 90 * Math.PI / 180);
     this.enemies[2].activate(50, 125, 45 * Math.PI / 180);
     this.enemies[3].activate(350, 125, 135 * Math.PI / 180);
@@ -579,15 +565,15 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
     this.rightArm.draw(this.graphics);
     this.enemies.forEach(e => e.draw(this.graphics));
     //wall1.draw(this.graphics);
-    this.walls.forEach(w => {
-        //w.draw(this.graphics);
-    });
+    // this.walls.forEach(w => {
+    //     //w.draw(this.graphics);
+    // });
     this.door.draw(this.graphics);
     //this.graphics.lineStyle(0xee0000, 1);
     //this.graphics.strokePoints(this.strokeA);
-    this.wallStrokes.forEach(s => {
-        this.graphics.strokePoints(s);
-    })
+    // this.wallStrokes.forEach(s => {
+    //     this.graphics.strokePoints(s);
+    // });
     //this.graphics.lineStyle(0xeeeeee, 1);
     
 }

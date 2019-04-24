@@ -97,7 +97,7 @@ class Player extends Phaser.GameObjects.Sprite {
     graphics.rotate(this.forwardRot);
     //graphics.strokePoints(this.baseGeo);
     this.setPosition(this.x,this.y);
-    graphics.fillCircle(0,0,this.radius);
+    //graphics.fillCircle(0,0,this.radius);
 
 
     

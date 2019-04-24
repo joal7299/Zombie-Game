@@ -13,6 +13,7 @@ const windowConfig = {
 function createWindow() {
   // Create a browser window
   mainWindow = new BrowserWindow({ width: 400, height: 750});
+  mainWindow.setMenu(null);
 
   // load the index.html file
   mainWindow.loadURL(url.format({

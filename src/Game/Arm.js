@@ -78,12 +78,11 @@ class Arm extends Phaser.GameObjects.Sprite {
       graphics.rotate(this.forward);
       //graphics.fillRect(0, 0, 15, 35);
       if(this.isLeftArm){
-        //graphics.fillCircle(10,10,this.radius);
+        graphics.fillCircle(0,0,this.radius);
       }
       else{
-        //graphics.fillCircle(-10,10,this.radius);
+        graphics.fillCircle(0,0,this.radius);
       }
-      this.setPosition(this.x,this.y);
       graphics.restore();
     }
   }

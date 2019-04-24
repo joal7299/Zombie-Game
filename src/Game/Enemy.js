@@ -4,49 +4,56 @@ class Enemy extends Phaser.GameObjects.Sprite{
   constructor(scene, x, y) {
     super(scene, x, y);
 
-      this.setTexture('enemy').setScale(.1);
+      this.setTexture('enemy').setScale(.3);
       this.setPosition(x, y);
 
-      this.x = x;
-      this.y = y;
+      this.currentX = x;
+      this.currentY = y;
+      this.x = y;
+      this.y = x;
       this.radius = 20; //for collision detection
       this.forward = 0;
       this.angle = 0;
-      this.visionDist = 300;
+      this.visionDist = 200;
       this.moveSpeed = 100;
       this.isActive = false;
       this.isChasing = false;
       this.viewAngle = 25;
+      this.isColliding = false;
+      this.collision = false;
   
       this.activeTime = 0;
 
       // Geometry used for rendering
-      this.baseGeo = [
-        new Phaser.Geom.Point(-17, 10),
-        new Phaser.Geom.Point(0, 20),
-        new Phaser.Geom.Point(17, 10),
-        new Phaser.Geom.Point(17, -20),
-        new Phaser.Geom.Point(-17, -20),
-        new Phaser.Geom.Point(-17, 10),
-      ];
-
-      
-      
       // this.baseGeo = [
-      //   new Phaser.Geom.Point(0, 0),
-      //   new Phaser.Geom.Point(this.visionDist* Math.tan(this.viewAngle), this.visionDist),
-      //   new Phaser.Geom.Point(-this.visionDist* Math.tan(this.viewAngle), this.visionDist),
-      //   new Phaser.Geom.Point(0,0),
+      //   new Phaser.Geom.Point(-17, 10),
+      //   new Phaser.Geom.Point(0, 20),
+      //   new Phaser.Geom.Point(17, 10),
+      //   new Phaser.Geom.Point(17, -20),
+      //   new Phaser.Geom.Point(-17, -20),
+      //   new Phaser.Geom.Point(-17, 10),
       // ];
   }
 
-  activate(x, y, forward) {
-    this.x = x;
-    this.y = y;
-    this.setTexture('enemy').setScale(.1);
+  activate(x, y, forward, visionDist, viewAngle) {
+    this.currentX = x;
+    this.currentY = y;
+    this.setTexture('enemy').setScale(.3);
     this.setPosition(this.x, this.y);
     this.forward = forward;
     this.isActive = true;
+    this.visionDist = visionDist;
+    this.viewAngle = viewAngle;
+    this.isColliding = false;
+
+    //console.log(Math.ceil(this.visionDist* Math.tan(this.viewAngle)) + ', ' + this.visionDist);
+
+    this.baseGeo = [
+      new Phaser.Geom.Point(0, 0),
+      new Phaser.Geom.Point(Math.ceil(this.visionDist* Math.tan(this.viewAngle * Math.PI / 180)), this.visionDist),
+      new Phaser.Geom.Point(Math.ceil(-this.visionDist* Math.tan(this.viewAngle * Math.PI / 180)), this.visionDist),
+      new Phaser.Geom.Point(0,0),
+    ];
 
     // this.baseGeo = [
     //   new Phaser.Geom.Point(0, 0),
@@ -64,19 +71,33 @@ class Enemy extends Phaser.GameObjects.Sprite{
 
   deactivate() {
     this.isActive = false;
+    this.setTexture('__DEFAULT');
   }
 
   chase(deltaTime, pX,pY) {
-    this.forward = Math.atan2((pY-this.y), (pX-this.x));
+    this.forward = Math.atan2((pY-this.currentY), (pX-this.currentX));
     const forwardX = Math.cos(this.forward);
     const forwardY = Math.sin(this.forward);
-    this.x += this.moveSpeed * forwardX * deltaTime / 1000;
-    this.y += this.moveSpeed * forwardY * deltaTime / 1000;
+    // this.x += this.moveSpeed * forwardX * deltaTime / 1000;
+    // this.y += this.moveSpeed * forwardY * deltaTime / 1000;
+    //console.log(this.isColliding);
+    if(!this.isColliding) {
+      this.x += this.moveSpeed * forwardX * deltaTime / 1000;
+      this.y += this.moveSpeed * forwardY * deltaTime / 1000;
+      this.currentX = this.x;
+      this.currentY = this.y;
+    }
+    else {
+      this.x -= this.moveSpeed * forwardX * deltaTime / 1000;
+      this.y -= this.moveSpeed * forwardY * deltaTime / 1000;
+      this.currentX = this.x;
+      this.currentY = this.y;
+    }
   }
 
   update(deltaTime, pX, pY) {
-    this.angle = Math.atan2((pY-this.y), (pX-this.x));
-    let dist = Math.sqrt((this.x-pX)*(this.x-pX) + (this.y-pY)*(this.y-pY));
+    this.angle = Math.abs(Math.atan2((pY-this.currentY), (pX-this.currentX)));
+    let dist = Math.sqrt((this.currentX-pX)*(this.currentX-pX) + (this.currentY-pY)*(this.currentY-pY));
     if (dist <= this.visionDist) {
       if (this.angle <= this.forward + (this.viewAngle * Math.PI / 180) && this.angle >= this.forward - (this.viewAngle * Math.PI / 180)) {
         this.isChasing = true;
@@ -86,35 +107,19 @@ class Enemy extends Phaser.GameObjects.Sprite{
     else {
       this.isChasing = false;
     }
-    // if (this.isChasing) {
-    //   this.forward = Math.atan2((pY-this.y), (pX-this.x));
-    //   const forwardX = Math.cos(this.forward);
-    //   const forwardY = Math.sin(this.forward);
-    //   this.x += this.moveSpeed * forwardX * deltaTime / 1000;
-    //   this.y += this.moveSpeed * forwardY * deltaTime / 1000;
-    // }
   }
 
   draw(graphics) {
     if (this.isActive) {
       graphics.save();
-      graphics.translate(this.x, this.y);
+      graphics.translate(this.currentX, this.currentY);
       graphics.rotate(this.forward-Math.PI/2);
       graphics.strokePoints(this.baseGeo);
-      this.setPosition(this.x, this.y);
+      this.setPosition(this.currentX, this.currentY);
+      this.setRotation(this.forward);
       //graphics.fillCircle(0,0,this.radius);
       graphics.restore();
     }
-
-    // draw(graphics) {
-    //   if (this.isActive) {
-    //     graphics.save();
-    //     graphics.translate(this.x, this.y);
-    //     graphics.strokeCircle(0, 0, this.radius);
-    //     this.setPosition(this.x, this.y);
-    //     graphics.restore();
-    //   }
-    // }
   }
 }
 

@@ -75,7 +75,7 @@ onSerialMessage(msg) {
 
 
 create() {
-    this.background = this.add.sprite(200, 375, 'level2');  
+    this.background = this.add.sprite(200, 375, 'level2');
 
     var bounceTime = 100;
     var hitTime = 100;
@@ -240,28 +240,19 @@ create() {
     this.leftArm = this.add.existing(new Arm(this, true));
     this.rightArm = this.add.existing(new Arm(this, false));
 
-    this.enemies = [];
-        for (let i = 0; i < 20; i ++) {
-            this.enemies.push(new Enemy(this, 100, 100));
-        }
+    this.enemies = [
+        this.e1 = this.add.existing(new Enemy(this, 200, 90)),
+        this.e2 = this.add.existing(new Enemy(this, 50, 350)),
+        this.e3 = this.add.existing(new Enemy(this, 360, 350)),
+        this.e4 = this.add.existing(new Enemy(this, 300, 650))
+    ];
     //this.enemySpawnTime = 2000;
-
-    this.e1 = this.add.existing(new Enemy(this, 200, 90));
-    this.e2 = this.add.existing(new Enemy(this, 50, 350));
-    this.e3 = this.add.existing(new Enemy(this, 360, 350));
-    this.e4 = this.add.existing(new Enemy(this, 300, 650));
     
     //spawning enemies
-    this.enemies[0].activate(200, 90, 90 * Math.PI / 180);
-    this.enemies[1].activate(50, 350, 90 * Math.PI / 180);
-    this.enemies[2].activate(360, 350, 90 * Math.PI / 180);
-    this.enemies[3].activate(300, 650, 180 * Math.PI / 180);
-
-
-    this.enemies.forEach(e => {
-        e.visionDist = 150;
-        e.viewAngle = 20;
-    })
+    this.enemies[0].activate(200, 90, 90 * Math.PI / 180, 100, 76);
+    this.enemies[1].activate(50, 350, 90 * Math.PI / 180, 200, 18);
+    this.enemies[2].activate(360, 350, 90 * Math.PI / 180, 200, 18);
+    this.enemies[3].activate(300, 650, 180 * Math.PI / 180, 200, 20);
 
     this.sound.play('background', {volume: 0.5, loop: true});
 
@@ -275,6 +266,30 @@ create() {
     this.walkSoundBack.stop();
 }
 
+startScreenShake(intensity, duration, speed) {
+    this.isShaking = true;
+    this.shakeIntesity = intensity;
+    this.shakeTime = duration;
+    this.shakeSpeed = speed;
+    this.shakeXScale = Math.random() > 0.5 ? 1 : -1;
+    this.shakeYScale = Math.random() > 0.5 ? 1 : -1;
+}
+
+updateScreenShake(deltaTime) {
+    if (this.isShaking) {
+        this.shakeTime -= deltaTime;
+
+        const shakeAmount = this.shakeTime / this.shakeSpeed;
+        this.game.canvas.style.left = window.innerWidth / 2 - 200 + (Math.cos(shakeAmount) * this.shakeXScale * this.shakeIntesity) + "px";
+        this.game.canvas.style.top = window.innerHeight / 2 - 375 + (Math.sin(shakeAmount) * this.shakeYScale * this.shakeIntesity) + "px";
+
+        if(this.shakeTime < 0) {
+            this.isShaking = false;
+            this.game.canvas.style.left = window.innerWidth / 2 - 200 + 'px';
+            this.game.canvas.style.top = window.innerHeight / 2 - 375 + 'px';
+        }
+    }
+}
 
 update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it is not used
     // Update Player
@@ -366,6 +381,8 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
 
     var isDamaged =false;
 
+    let collision = false;
+
     this.enemies.forEach(e => {
         e.update(deltaTime, this.p1.x, this.p1.y);
         if (e.isChasing) {
@@ -397,14 +414,41 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
         if (e.isActive && isCircleCollision(e, this.p1)) {
             //e.deactivate();
             this.p1.alpha = 0.5;
+            this.startScreenShake(6,100,4);
 
             if (!this.p1.isHit) {
                 this.p1.health -= 1;
                 this.sound.play('damage', {volume: 0.7});
+                this.startScreenShake(6,100,4);
             }
             this.p1.isHit = true;
             this.hitTime = 100;
         }
+
+        for(let i = 0; i < this.numWalls; i++) {
+            for(let j = 1; j < this.pointNums[i]; j++) {
+                if(wallCollision(this.walls[i][j-1],this.walls[i][j],e)) {
+                    //console.log('a');
+                    e.collision = true;
+                }
+                // else if(!wallCollision(this.walls[i][j-1],this.walls[i][j],e) ) {
+                //     e.isColliding = false;
+                // }
+            }
+            if(wallCollision(this.walls[i][this.pointNums[i] - 1],this.walls[i][0],e) && !e.isColliding) {
+                e.collision = true;
+                //console.log('b');
+            }
+            else if(!wallCollision(this.walls[i][this.pointNums[i] - 1],this.walls[i][0],e) && !e.collision) {
+                e.collision = false;
+                //console.log('c');
+            }
+        }
+        //console.log(e.collision);
+        if(e.collision) {
+            e.isColliding = true;
+        }
+        //console.log(e.isColliding);
     });
 
 
@@ -433,33 +477,8 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
         this.hitTime = 100;
     }
 
-    // this.walls.forEach(w => {
-    //     if (this.leftArm.isActive && isBoxCollision(this.leftArm, w)) {
-    //         this.leftArm.stopMoving();
-    //         if(this.wallIsCollidingLeft == false){
-    //             this.sound.play('splat', {volume: 0.5});
-    //             this.wallIsCollidingLeft = true;
-    //         } 
-    //     }
-    //     // else{
-    //     //     this.wallIsCollidingLeft = false;
-    //     // }
-    //     if (this.rightArm.isActive && isBoxCollision(this.rightArm, w)) {
-    //         this.rightArm.stopMoving();
-    //         if(this.wallIsCollidingRight == false){
-    //             this.sound.play('splat', {volume: 0.5});
-    //             this.wallIsCollidingRight = true;
-    //         } 
-    //     }
-    //     // else{
-    //     //     this.wallIsCollidingRight = false;
-    //     // }
-    // });
-
-    let i;
-    for(i = 0; i < this.numWalls; i++) {
-        let j;
-        for(j = 1; j < this.pointNums[i]; j++) {
+    for(let i = 0; i < this.numWalls; i++) {
+        for(let j = 1; j < this.pointNums[i]; j++) {
             //console.log(this.pointNums[i]);
             //console.log(i + ', ' + j + ', ' + this.walls[i][j-1] + ', ' + this.walls[i][j]);
             if(wallCollision(this.walls[i][j-1],this.walls[i][j],this.p1)) {
@@ -490,15 +509,7 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
             this.rightArm.stopMoving();
             this.sound.play('splat', {volume: 0.5});
         }
-        //console.log(this.p1.isColliding);
     }
-
-    this.walls.forEach(w => {
-        if (isBoxCollision(this.p1, w)) {
-            this.p1.isColliding = true;
-            this.bounceTime = 100;
-        }
-    });
 
     if ((this.bounceTime > 0) && (this.p1.isColliding)) {
         this.bounceTime -= deltaTime;
@@ -586,6 +597,7 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
     // })
     //this.graphics.lineStyle(0xeeeeee, 1);
     
+    this.updateScreenShake(deltaTime);
 }
 }
 
