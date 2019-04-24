@@ -40,7 +40,11 @@ preload() {
     this.load.image('zombienoarms', ['../assets/zombienoarms.png']);
     this.load.image('heart', ['../assets/heart.png']);
     this.load.image('enemy', ['../assets/enemy.png']);
+<<<<<<< HEAD:src/Game/Scenes/Level1.js
     this.load.image('level1', ['../assets/level_1.png']);
+=======
+    this.load.image('door', ['../assets/Door.png']);
+>>>>>>> master:src/Game/Scenes/MainScene.js
 
     this.load.audio('splat', ['../assets/ArmSplat.wav']);
     this.load.audio('armFire', ['../assets/Arm Firing.wav']);
@@ -213,6 +217,7 @@ create() {
 
     //End goal door
     this.door = new HitRect(180,220,51,56);
+    this.add.sprite(200, 25, 'door').setScale(1.47);
     
     //Game vars
     this.p1 = this.add.existing(new Player(this, 40, 710));
@@ -536,11 +541,19 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
     this.leftArm.draw(this.graphics);
     this.rightArm.draw(this.graphics);
     this.enemies.forEach(e => e.draw(this.graphics));
+<<<<<<< HEAD:src/Game/Scenes/Level1.js
     //wall1.draw(this.graphics);
     // this.walls.forEach(w => {
     //     //w.draw(this.graphics);
     // });
     this.door.draw(this.graphics);
+=======
+    //wall1.draw(this.graphics);    
+    //this.walls.forEach(w => {
+        //w.draw(this.graphics);
+    //});
+    //this.door.draw(this.graphics);
+>>>>>>> master:src/Game/Scenes/MainScene.js
     //this.graphics.lineStyle(0xee0000, 1);
     //this.graphics.strokePoints(this.strokeA);
     // this.wallStrokes.forEach(s => {

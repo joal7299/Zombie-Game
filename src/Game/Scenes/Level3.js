@@ -48,7 +48,12 @@ preload() {
     this.load.image('heart', ['../assets/heart.png']);
     this.load.image('level3', ['../assets/level_2.png']);
     this.load.image('enemy', ['../assets/enemy.png']);
+<<<<<<< HEAD
 
+=======
+    this.load.image('level3', ['../assets/level_3.png']);
+    this.load.image('door', ['../assets/Door.png']);
+>>>>>>> master
 
     this.load.audio('splat', ['../assets/ArmSplat.wav']);
     this.load.audio('armFire', ['../assets/Arm Firing.wav']);
@@ -240,7 +245,12 @@ create() {
     ];  
 
     //End goal door
+<<<<<<< HEAD
     this.door = new HitRect(180,220,51,56);
+=======
+    this.door = new HitRect(50,100,51,56);
+    this.add.sprite(75, 25, 'door').setScale(1.47);
+>>>>>>> master
     
     //Game vars
     this.p1 = this.add.existing(new Player(this, 40, 710));
@@ -299,6 +309,10 @@ updateScreenShake(deltaTime) {
         }
     }
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 
 update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it is not used
     // Update Player
@@ -588,17 +602,27 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
     this.leftArm.draw(this.graphics);
     this.rightArm.draw(this.graphics);
     this.enemies.forEach(e => e.draw(this.graphics));
+<<<<<<< HEAD
     //wall1.draw(this.graphics);    
     //this.walls.forEach(w => {
         //w.draw(this.graphics);
     //});
     this.door.draw(this.graphics);
+=======
+    //wall1.draw(this.graphics);
+    // this.walls.forEach(w => {
+    //     //w.draw(this.graphics);
+    // });
+    //this.door.draw(this.graphics);
+>>>>>>> master
     //this.graphics.lineStyle(0xee0000, 1);
     //this.graphics.strokePoints(this.strokeA);
     // this.wallStrokes.forEach(s => {
     //     this.graphics.strokePoints(s);
     // })
     //this.graphics.lineStyle(0xeeeeee, 1);
+
+    this.updateScreenShake(deltaTime);
     
     this.updateScreenShake(deltaTime);
 }

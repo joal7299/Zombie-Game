@@ -13,7 +13,7 @@ class Player extends Phaser.GameObjects.Sprite {
       this.radius = 25; // radius used for collision detection
 
       //movement
-      this.moveSpeed = 100;
+      this.moveSpeed = 75;
       this.forwardRot = -Math.PI;
       this.rotSpeed = 1;
       this.isGoingForward = false;
@@ -108,13 +108,13 @@ class Player extends Phaser.GameObjects.Sprite {
 
     //collision
     if (this.isColliding && this.isGoingForward) {
-      this.x -= this.moveSpeed * forwardX * deltaTime / 1000;
-      this.y -= this.moveSpeed * forwardY * deltaTime / 1000;
+      this.x -= this.moveSpeed * forwardX * deltaTime / 500;
+      this.y -= this.moveSpeed * forwardY * deltaTime / 500;
     }
 
     if (this.isColliding && this.isGoingBack) {
-      this.x += this.moveSpeed * forwardX * deltaTime / 1000;
-      this.y += this.moveSpeed * forwardY * deltaTime / 1000;
+      this.x += this.moveSpeed * forwardX * deltaTime / 500;
+      this.y += this.moveSpeed * forwardY * deltaTime / 500;
     }
   }
 

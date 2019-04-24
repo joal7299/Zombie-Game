@@ -40,7 +40,12 @@ preload() {
     this.load.image('zombienoarms', ['../assets/zombienoarms.png']);
     this.load.image('heart', ['../assets/heart.png']);
     this.load.image('enemy', ['../assets/enemy.png']);
+<<<<<<< HEAD
     this.load.image('level2', ['../assets/level_3.png']);
+=======
+    this.load.image('level1', ['../assets/level_1.png']);
+    this.load.image('door', ['../assets/Door.png']);
+>>>>>>> master
 
     this.load.audio('splat', ['../assets/ArmSplat.wav']);
     this.load.audio('armFire', ['../assets/Arm Firing.wav']);
@@ -239,7 +244,12 @@ create() {
     
 
     //End goal door
+<<<<<<< HEAD
     this.door = new HitRect(50,100,51,56);
+=======
+    this.door = new HitRect(180,220,51,56);
+    this.add.sprite(200, 25, 'door').setScale(1.47);
+>>>>>>> master
     
     //Game vars
     this.p1 = this.add.existing(new Player(this, 40, 710));
@@ -287,6 +297,31 @@ create() {
     this.sound.play('walkingBack', {loop: true});
     this.walkSoundBack = this.sound.sounds.find(s => s.key == 'walkingBack');
     this.walkSoundBack.stop();
+}
+
+startScreenShake(intensity, duration, speed) {
+    this.isShaking = true;
+    this.shakeIntesity = intensity;
+    this.shakeTime = duration;
+    this.shakeSpeed = speed;
+    this.shakeXScale = Math.random() > 0.5 ? 1 : -1;
+    this.shakeYScale = Math.random() > 0.5 ? 1 : -1;
+}
+
+updateScreenShake(deltaTime) {
+    if (this.isShaking) {
+        this.shakeTime -= deltaTime;
+
+        const shakeAmount = this.shakeTime / this.shakeSpeed;
+        this.game.canvas.style.left = window.innerWidth / 2 - 200 + (Math.cos(shakeAmount) * this.shakeXScale * this.shakeIntesity) + "px";
+        this.game.canvas.style.top = window.innerHeight / 2 - 375 + (Math.sin(shakeAmount) * this.shakeYScale * this.shakeIntesity) + "px";
+
+        if(this.shakeTime < 0) {
+            this.isShaking = false;
+            this.game.canvas.style.left = window.innerWidth / 2 - 200 + 'px';
+            this.game.canvas.style.top = window.innerHeight / 2 - 375 + 'px';
+        }
+    }
 }
 
 
@@ -411,10 +446,12 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
         if (e.isActive && isCircleCollision(e, this.p1)) {
             //e.deactivate();
             this.p1.alpha = 0.5;
+            this.startScreenShake(6,100,4);
 
             if (!this.p1.isHit) {
                 this.p1.health -= 1;
                 this.sound.play('damage', {volume: 0.7});
+                this.startScreenShake(6,100,4);
             }
             this.p1.isHit = true;
             this.hitTime = 100;
@@ -582,13 +619,15 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
     // this.walls.forEach(w => {
     //     //w.draw(this.graphics);
     // });
-    this.door.draw(this.graphics);
+    //this.door.draw(this.graphics);
     //this.graphics.lineStyle(0xee0000, 1);
     //this.graphics.strokePoints(this.strokeA);
     // this.wallStrokes.forEach(s => {
     //     this.graphics.strokePoints(s);
     // });
     //this.graphics.lineStyle(0xeeeeee, 1);
+
+    this.updateScreenShake(deltaTime);
     
 }
 }
