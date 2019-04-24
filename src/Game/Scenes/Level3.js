@@ -241,8 +241,8 @@ create() {
     ];  
 
     //End goal door
-    this.door = new HitRect(50,100,51,56);
-    this.add.sprite(75, 25, 'door').setScale(1.47);
+    this.door = new HitRect(180,220,51,56);
+    this.add.sprite(200, 25, 'door').setScale(1.47);
     
     //Game vars
     this.p1 = this.add.existing(new Player(this, 40, 710));
