@@ -60,7 +60,7 @@ class Player extends Phaser.GameObjects.Sprite {
     }
 
     //turn left
-    if (movement == 'L') {
+    if (movement == 'L' && !this.isColliding) {
       this.forwardRot -= this.rotSpeed * deltaTime / 1000
       this.x += this.moveSpeed * forwardX * deltaTime / 1000;
       this.y += this.moveSpeed * forwardY * deltaTime / 1000;
@@ -71,7 +71,7 @@ class Player extends Phaser.GameObjects.Sprite {
       this.isGoingForward = false;
     }
     //turn right
-    if (movement == 'R') {
+    if (movement == 'R' && !this.isColliding) {
       this.forwardRot += this.rotSpeed * deltaTime / 1000
       this.x += this.moveSpeed * forwardX * deltaTime / 1000;
       this.y += this.moveSpeed * forwardY * deltaTime / 1000;
