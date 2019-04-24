@@ -44,30 +44,45 @@ class Player extends Phaser.GameObjects.Sprite {
 
   update(deltaTime, keys, movement) {
 
-    // Player Movement
-    if (keys.left.isDown || movement == 'L') {
-      this.forwardRot -= this.rotSpeed * deltaTime / 1000
-    }
-    if (keys.right.isDown || movement == 'R') {
-      this.forwardRot += this.rotSpeed * deltaTime / 1000
-    }
-
-    this.rotation = this.forwardRot + Math.PI/2;
-    
+    this.rotation = this.forwardRot+Math.PI/2;
     // Calculate forward vector
     const forwardX = -Math.sin(this.forwardRot);
     const forwardY = Math.cos(this.forwardRot);
     
-    if (this.isColliding && this.isGoingForward) {
-      this.x -= this.moveSpeed * forwardX * deltaTime / 1000;
-      this.y -= this.moveSpeed * forwardY * deltaTime / 1000;
+    // Player Movement
+    //rotate left
+    if (keys.left.isDown || movement == 'S') {
+      this.forwardRot -= this.rotSpeed * deltaTime / 1000
+    }
+    //rotate right
+    if (keys.right.isDown || movement == 'P') {
+      this.forwardRot += this.rotSpeed * deltaTime / 1000
     }
 
-    if (this.isColliding && this.isGoingBack) {
+    //turn left
+    if (movement == 'L' && !this.isColliding) {
+      this.forwardRot -= this.rotSpeed * deltaTime / 1000
       this.x += this.moveSpeed * forwardX * deltaTime / 1000;
       this.y += this.moveSpeed * forwardY * deltaTime / 1000;
+      this.wasGoingForward = this.isGoingForward;
+      this.isGoingForward = true;
+    }
+    else if(!keys.up.isDown) {
+      this.isGoingForward = false;
+    }
+    //turn right
+    if (movement == 'R' && !this.isColliding) {
+      this.forwardRot += this.rotSpeed * deltaTime / 1000
+      this.x += this.moveSpeed * forwardX * deltaTime / 1000;
+      this.y += this.moveSpeed * forwardY * deltaTime / 1000;
+      this.wasGoingForward = this.isGoingForward;
+      this.isGoingForward = true;
+    }
+    else if(!keys.up.isDown) {
+      this.isGoingForward = false;
     }
 
+    //forward
     if ((keys.up.isDown || movement == 'F') && !this.isColliding) {
       this.x += this.moveSpeed * forwardX * deltaTime / 1000;
       this.y += this.moveSpeed * forwardY * deltaTime / 1000;
@@ -78,7 +93,9 @@ class Player extends Phaser.GameObjects.Sprite {
     else if(!keys.up.isDown) {
       this.isGoingForward = false;
     }
-    if ((keys.down.isDown || movement == 'U') && !this.isColliding) {
+
+    //backwards
+    if ((keys.down.isDown || movement == 'B') && !this.isColliding) {
       this.x -= this.moveSpeed * forwardX * deltaTime / 1000;
       this.y -= this.moveSpeed * forwardY * deltaTime / 1000;
       this.wasGoingBack = this.isGoingBack;
@@ -87,6 +104,17 @@ class Player extends Phaser.GameObjects.Sprite {
     }
     else if(!keys.down.isDown) {
       this.isGoingBack = false;
+    }
+
+    //collision
+    if (this.isColliding && this.isGoingForward) {
+      this.x -= this.moveSpeed * forwardX * deltaTime / 1000;
+      this.y -= this.moveSpeed * forwardY * deltaTime / 1000;
+    }
+
+    if (this.isColliding && this.isGoingBack) {
+      this.x += this.moveSpeed * forwardX * deltaTime / 1000;
+      this.y += this.moveSpeed * forwardY * deltaTime / 1000;
     }
   }
 

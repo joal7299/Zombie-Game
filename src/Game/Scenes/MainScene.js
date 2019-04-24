@@ -14,6 +14,12 @@ const isBoxCollision = require('../Utils/IsBoxCollision');
 
 
 var movement;
+
+// var forward;
+// var turnRight;
+// var turnLeft;
+// var rotateRight;
+// var rotateLeft;
 var leftFire;
 var rightFire;
 
@@ -66,8 +72,13 @@ preload() {
 
 onSerialMessage(msg) {
     // Put your serial reading code in here. msg will be a string
-    console.log(msg);
+    //console.log(msg);
+
     movement = msg[0];
+    // turnRight = msg[2];
+    // turnLeft = msg[4];
+    // rotateRight = msg[6];
+    // rotateLeft = msg[8];
     leftFire = msg[2];
     rightFire = msg[4];
 }
