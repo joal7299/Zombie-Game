@@ -40,12 +40,8 @@ preload() {
     this.load.image('zombienoarms', ['../assets/zombienoarms.png']);
     this.load.image('heart', ['../assets/heart.png']);
     this.load.image('enemy', ['../assets/enemy.png']);
-<<<<<<< HEAD
     this.load.image('level2', ['../assets/level_3.png']);
-=======
-    this.load.image('level1', ['../assets/level_1.png']);
     this.load.image('door', ['../assets/Door.png']);
->>>>>>> master
 
     this.load.audio('splat', ['../assets/ArmSplat.wav']);
     this.load.audio('armFire', ['../assets/Arm Firing.wav']);
@@ -244,12 +240,8 @@ create() {
     
 
     //End goal door
-<<<<<<< HEAD
-    this.door = new HitRect(50,100,51,56);
-=======
     this.door = new HitRect(180,220,51,56);
     this.add.sprite(200, 25, 'door').setScale(1.47);
->>>>>>> master
     
     //Game vars
     this.p1 = this.add.existing(new Player(this, 40, 710));
