@@ -40,7 +40,7 @@ preload() {
     this.load.image('zombienoarms', ['../assets/zombienoarms.png']);
     this.load.image('heart', ['../assets/heart.png']);
     this.load.image('enemy', ['../assets/enemy.png']);
-    this.load.image('level1', ['../assets/level_1.png']);
+    this.load.image('level2', ['../assets/level_3.png']);
 
     this.load.audio('splat', ['../assets/ArmSplat.wav']);
     this.load.audio('armFire', ['../assets/Arm Firing.wav']);
@@ -73,7 +73,7 @@ onSerialMessage(msg) {
 
 
 create() {
-    this.background = this.add.sprite(200, 375, 'level1');
+    this.background = this.add.sprite(200, 375, 'level2');
 
     //creating walls as a static group
     //walls = this.physics.add.staticGroup();
@@ -123,13 +123,35 @@ create() {
         one: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ONE),
         two: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TWO),
         three: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.THREE),
-        four: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FOUR)
+        four: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FOUR),
+        five: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FIVE)
     };
     
     this.graphics = this.add.graphics({
         fillStyle: { color: 0xeeeeee },
         lineStyle: { width: 3, color: 0xeeeeee }
     });
+
+    //this.walls = [];
+    // for (let i = 0; i < 12; i ++) {
+    //         this.walls.push(new HitRect());
+    // }
+    
+    //Outer walls
+    // this.walls[0].setSize(-1,-1,-1,751);
+    // this.walls[1].setSize(-1,401,50,50);
+    // this.walls[2].setSize(-1,401,751,751);
+    // this.walls[3].setSize(401,401,-1,751);
+
+    //Layout walls
+    // this.walls[4].setSize(60,400,690,750);
+    // this.walls[5].setSize(0,150,550,600);
+    // this.walls[6].setSize(250,400,550,600);
+    // this.walls[7].setSize(80,320,250,470);
+    // this.walls[8].setSize(70,330,130,180);
+    // this.walls[9].setSize(100,800,400,400);
+    // this.walls[10].setSize(300,300,400,500);
+    // this.walls[11].setSize(500,500,500,600);
 
     this.walls = [
         [{x: -1, y: -1},{x: -1, y: 751}],
@@ -138,23 +160,23 @@ create() {
         [{x: -1, y: 751},{x: 401, y: 751}],
         [{x: 401, y: -1},{x: 401, y: 751}],
 
-        [{x: 0, y: 400},{x: 100, y: 500}, {x: 100, y: 750}, {x: 0, y: 750}],
+        [{x: 0, y: 225},{x: 50, y: 275}, {x: 250, y: 275}, {x: 300, y: 325}, {x: 300, y: 450}, {x: 250, y: 500}, {x: 50, y: 500}, {x: 0, y: 550}],
 
-        [{x: 400, y: 400},{x: 400, y: 750}, {x: 300, y: 750}, {x: 300, y: 500}],
-
-        [{x: 200, y: 175},{x: 300, y: 275}, {x: 300, y: 350}, {x: 200, y: 450}, {x: 100, y: 350}, {x: 100, y: 275}]
-
+        [{x: 400, y: 250},{x: 350, y: 200}, {x: 150, y: 200}, {x: 75, y: 125}, {x: 150, y: 125}, {x: 150, y: 50}, {x: 400, y: 50}],
+        [{x: 400, y: 550},{x: 350, y: 575}, {x: 150, y: 575}, {x: 100, y: 625}, {x: 100, y: 750}, {x: 400, y: 750}]
+        // [{x: 80, y: 250},{x: 320, y: 250}, {x: 320, y: 470}, {x: 80, y: 470}],
+        // [{x: 70, y: 130},{x: 330, y: 130}, {x: 330, y: 180}, {x: 70, y: 180}]
     ];
 
-    this.numWalls = 7;
+    this.numWalls = this.walls.length;
     this.pointNums = [
         2,
         2,
         2,
         2,
-        4,
-        4,
-        6,
+        8,
+        7,
+        6
     ];
 
     this.strokeA = [
@@ -178,6 +200,10 @@ create() {
         new Phaser.Geom.Point(this.walls[4][1].x,this.walls[4][1].y),
         new Phaser.Geom.Point(this.walls[4][2].x,this.walls[4][2].y),
         new Phaser.Geom.Point(this.walls[4][3].x,this.walls[4][3].y),
+        new Phaser.Geom.Point(this.walls[4][4].x,this.walls[4][4].y),
+        new Phaser.Geom.Point(this.walls[4][5].x,this.walls[4][5].y),
+        new Phaser.Geom.Point(this.walls[4][6].x,this.walls[4][6].y),
+        new Phaser.Geom.Point(this.walls[4][7].x,this.walls[4][7].y),
         new Phaser.Geom.Point(this.walls[4][0].x,this.walls[4][0].y)
     ];
     this.strokeF = [
@@ -185,6 +211,9 @@ create() {
         new Phaser.Geom.Point(this.walls[5][1].x,this.walls[5][1].y),
         new Phaser.Geom.Point(this.walls[5][2].x,this.walls[5][2].y),
         new Phaser.Geom.Point(this.walls[5][3].x,this.walls[5][3].y),
+        new Phaser.Geom.Point(this.walls[5][4].x,this.walls[5][4].y),
+        new Phaser.Geom.Point(this.walls[5][5].x,this.walls[5][5].y),
+        new Phaser.Geom.Point(this.walls[5][6].x,this.walls[5][6].y),
         new Phaser.Geom.Point(this.walls[5][0].x,this.walls[5][0].y)
     ];
     this.strokeG = [
@@ -196,7 +225,6 @@ create() {
         new Phaser.Geom.Point(this.walls[6][5].x,this.walls[6][5].y),
         new Phaser.Geom.Point(this.walls[6][0].x,this.walls[6][0].y)
     ];
-    
 
     this.wallStrokes = [
         this.strokeA,
@@ -205,18 +233,16 @@ create() {
         this.strokeD,
         this.strokeE,
         this.strokeF,
-        this.strokeG,
+        this.strokeG
     ];
 
     
 
     //End goal door
-    this.door = new HitRect(180,220,51,56);
+    this.door = new HitRect(50,100,51,56);
     
     //Game vars
     this.p1 = this.add.existing(new Player(this, 40, 710));
-    this.p1.setX(200);
-    this.p1.setY(710);
     this.heart1 = this.add.sprite(305, 25, 'heart').setScale(0.1);
     this.heart2 = this.add.sprite(340, 25, 'heart').setScale(0.1);
     this.heart3 = this.add.sprite(375, 25, 'heart').setScale(0.1);
@@ -226,28 +252,30 @@ create() {
     this.rightArm = this.add.existing(new Arm(this, false));
 
     this.enemies = [
-        this.e1 = this.add.existing(new Enemy(this, 60, 160)),
-        this.e2 = this.add.existing(new Enemy(this, 340, 160))
+        this.e1 = this.add.existing(new Enemy(this, 200, 100)),
+        this.e2 = this.add.existing(new Enemy(this, 50, 250)),
+        this.e3 = this.add.existing(new Enemy(this, 350, 250))
     ];
+
     //this.enemySpawnTime = 2000;
 
-    // this.e3 = this.add.existing(new Enemy(this, 350, 250));
     // this.e4 = this.add.existing(new Enemy(this, 300, 650));
     // this.e5 = this.add.existing(new Enemy(this, 50, 500));
     // this.e6 = this.add.existing(new Enemy(this, 400, 500));
     
     //spawning enemies
-    this.enemies[0].activate(60, 160, 105 * Math.PI / 180);
-    this.enemies[1].activate(340, 160, 75 * Math.PI / 180);
-    // this.enemies[2].activate(360, 350, 180 * Math.PI / 180);
+    this.enemies[0].activate(110, 90, 180 * Math.PI / 180);
+    this.enemies[1].activate(225, 240, 0 * Math.PI / 180);
+    this.enemies[2].activate(275, 540, 180 * Math.PI / 180);
     // this.enemies[3].activate(300, 650, 0 * Math.PI / 180);
     // this.enemies[4].activate(50, 500, -90 * Math.PI / 180);
     // this.enemies[5].activate(400, 500, 180 * Math.PI / 180);
 
     this.enemies.forEach(e => {
-        e.visionDist = 150;
-        e.viewAngle = 20;
+        e.visionDist = 200;
+        e.viewAngle = 15;
     })
+
 
     //this.sound.play('background', {volume: 0.5, loop: true});
 
@@ -364,7 +392,7 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
             //     }
             //     //console.log(shouldMove);
             // });
-            //console.log(shouldMove);
+            // //console.log(shouldMove);
             // if (shouldMove) {
                 e.chase(deltaTime, this.p1.x, this.p1.y);
             // }
@@ -419,6 +447,29 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
         this.hitTime = 100;
     }
 
+    // this.walls.forEach(w => {
+    //     if (this.leftArm.isActive && isBoxCollision(this.leftArm, w)) {
+    //         this.leftArm.stopMoving();
+    //         if(this.wallIsCollidingLeft == false){
+    //             this.sound.play('splat', {volume: 0.5});
+    //             this.wallIsCollidingLeft = true;
+    //         } 
+    //     }
+    //     // else{
+    //     //     this.wallIsCollidingLeft = false;
+    //     // }
+    //     if (this.rightArm.isActive && isBoxCollision(this.rightArm, w)) {
+    //         this.rightArm.stopMoving();
+    //         if(this.wallIsCollidingRight == false){
+    //             this.sound.play('splat', {volume: 0.5});
+    //             this.wallIsCollidingRight = true;
+    //         } 
+    //     }
+    //     // else{
+    //     //     this.wallIsCollidingRight = false;
+    //     // }
+    // });
+
     let i;
     for(i = 0; i < this.numWalls; i++) {
         let j;
@@ -427,12 +478,11 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
             //console.log(i + ', ' + j + ', ' + this.walls[i][j-1] + ', ' + this.walls[i][j]);
             if(wallCollision(this.walls[i][j-1],this.walls[i][j],this.p1)) {
                 this.p1.isColliding = true;
-                //console.log('a');
-                //console.log(this.walls[i][j-1].x + ', ' + this.walls[i][j-1].y + '->' + this.walls[i][j].x + ', ' + this.walls[i][j].y);
                 this.bounceTime = 100;
             }
             // else {
             //     this.p1.isColliding = false;
+            //     console.log("free");
             // }
             if (this.leftArm.isMoving && wallCollision(this.walls[i][j-1],this.walls[i][j], this.leftArm)) {
                 this.leftArm.stopMoving();
@@ -448,7 +498,6 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
         //console.log(this.pointNums[i]);
         if(wallCollision(this.walls[i][this.pointNums[i] - 1],this.walls[i][0],this.p1) && !this.p1.isColliding) {
             this.p1.isColliding = true;
-            //console.log('b');
             this.bounceTime = 100;
         }
         if (this.leftArm.isActive && wallCollision(this.walls[i][this.pointNums[i] - 1],this.walls[i][0], this.leftArm)) {
@@ -461,13 +510,6 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
         }
         //console.log(this.p1.isColliding);
     }
-
-    // this.walls.forEach(w => {
-    //     if (isBoxCollision(this.p1, w)) {
-    //         this.p1.isColliding = true;
-    //         this.bounceTime = 100;
-    //     }
-    // });
 
     if ((this.bounceTime > 0) && (this.p1.isColliding)) {
         this.bounceTime -= deltaTime;
@@ -483,41 +525,34 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
         this.walkSound.destroy();
         this.walkSoundBack.destroy();
         //this.sound.sounds.find(s => s.key == 'background').destroy();
-        this.scene.start('Level3');
+        this.scene.start('Level4');
         //console.log('what?');
     }
 
     //quick select
     if(this.keys.one.isDown){
-        // this.sound.sounds.find(s => s.key == 'background').destroy();
-
-        // this.walkSound = this.sound.sounds.find(s => s.key == 'walking');
-        // this.walkSound.stop();
-
-        // this.walkSound = this.sound.sounds.find(s => s.key == 'walkingBack');
-        // this.walkSoundBack.stop();
         this.walkSound.destroy();
         this.walkSoundBack.destroy();
-        //this.sound.sounds.find(s => s.key == 'background').destroy();
-
-        this.scene.start('Level2');
+        this.scene.start('Level1');
     }
     if(this.keys.two.isDown){
         this.walkSound.destroy();
         this.walkSoundBack.destroy();
-        //this.sound.sounds.find(s => s.key == 'background').destroy();
-        this.scene.start('Level3');
+        this.scene.start('Level2');
     }
     if(this.keys.three.isDown){
         this.walkSound.destroy();
         this.walkSoundBack.destroy();
-        //this.sound.sounds.find(s => s.key == 'background').destroy();
-        this.scene.start('Level4');
+        this.scene.start('Level3');
     }
     if(this.keys.four.isDown){
         this.walkSound.destroy();
         this.walkSoundBack.destroy();
-        //this.sound.sounds.find(s => s.key == 'background').destroy();
+        this.scene.start('Level4');
+    }
+    if(this.keys.five.isDown){
+        this.walkSound.destroy();
+        this.walkSoundBack.destroy();
         this.scene.start('Level5');
     }
 

@@ -122,7 +122,8 @@ create() {
         one: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ONE),
         two: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TWO),
         three: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.THREE),
-        four: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FOUR)
+        four: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FOUR),
+        five: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FIVE)
     };
     
     this.graphics = this.add.graphics({
@@ -558,35 +559,28 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
 
     //quick select
     if(this.keys.one.isDown){
-        // this.sound.sounds.find(s => s.key == 'background').destroy();
-
-        // this.walkSound = this.sound.sounds.find(s => s.key == 'walking');
-        // this.walkSound.stop();
-
-        // this.walkSound = this.sound.sounds.find(s => s.key == 'walkingBack');
-        // this.walkSoundBack.stop();
         this.walkSound.destroy();
         this.walkSoundBack.destroy();
-        //this.sound.sounds.find(s => s.key == 'background').destroy();
-
-        this.scene.start('Level2');
+        this.scene.start('Level1');
     }
     if(this.keys.two.isDown){
         this.walkSound.destroy();
         this.walkSoundBack.destroy();
-        //this.sound.sounds.find(s => s.key == 'background').destroy();
-        this.scene.start('Level3');
+        this.scene.start('Level2');
     }
     if(this.keys.three.isDown){
         this.walkSound.destroy();
         this.walkSoundBack.destroy();
-        //this.sound.sounds.find(s => s.key == 'background').destroy();
-        this.scene.start('Level4');
+        this.scene.start('Level3');
     }
     if(this.keys.four.isDown){
         this.walkSound.destroy();
         this.walkSoundBack.destroy();
-        //this.sound.sounds.find(s => s.key == 'background').destroy();
+        this.scene.start('Level4');
+    }
+    if(this.keys.five.isDown){
+        this.walkSound.destroy();
+        this.walkSoundBack.destroy();
         this.scene.start('Level5');
     }
 

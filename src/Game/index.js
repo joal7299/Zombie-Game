@@ -3,9 +3,9 @@ const Phaser = require('phaser');
 const SerialPortReader = require('./SerialPortReader');
 
 const StartScreen = require('./Scenes/StartScreen');
-const MainScene = require('./Scenes/MainScene');
 const EndScreen = require('./Scenes/EndScreen');
 const LoseScreen = require('./Scenes/LoseScreen');
+const Level1 = require('./Scenes/Level1');
 const Level2 = require('./Scenes/Level2');
 const Level3 = require('./Scenes/Level3');
 const Level4 = require('./Scenes/Level4');
@@ -23,7 +23,7 @@ const phaserConfig = {
         debug: false
     }
   },
-  scene: [StartScreen, MainScene, EndScreen, LoseScreen, Level2, Level3, Level4, Level5],
+  scene: [StartScreen, EndScreen, LoseScreen, Level1, Level2, Level3, Level4, Level5],
 };
 
 

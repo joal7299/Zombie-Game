@@ -11,13 +11,19 @@ class StartScreen extends Phaser.Scene {
         SerialPortReader.addListener(this.onSerialMessage.bind(this));
     }
 
+    preload() {
+        this.load.audio('background', ['../assets/zombieBackground.mp3']);
+    }
+
     create() {
         this.overlay = document.querySelector('#start-screen');
         this.overlay.classList.remove('hidden');
 
         this.keys = {
             space: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE),
-          };
+        };
+
+        this.sound.play('background', {volume: 0.5, loop: true});
     }
 
     onSerialMessage(msg) {
@@ -31,7 +37,7 @@ class StartScreen extends Phaser.Scene {
     update() {
         if(this.keys.space.isDown || leftFire == 'h' || rightFire == 'h') {
             this.overlay.classList.add('hidden');
-            this.scene.start('MainScene');
+            this.scene.start('Level1');
         }
     }
 }

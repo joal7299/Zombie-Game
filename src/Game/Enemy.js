@@ -88,10 +88,12 @@ class Enemy extends Phaser.GameObjects.Sprite{
       this.currentY = this.y;
     }
     else {
-      this.x -= this.moveSpeed * forwardX * deltaTime / 1000;
-      this.y -= this.moveSpeed * forwardY * deltaTime / 1000;
+      this.x -= this.moveSpeed * forwardX * deltaTime / 700;
+      this.y -= this.moveSpeed * forwardY * deltaTime / 700;
       this.currentX = this.x;
       this.currentY = this.y;
+      this.collision = false;
+      this.isColliding = false;
     }
   }
 
