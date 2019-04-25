@@ -39,6 +39,8 @@ class LoseScreen extends Phaser.Scene {
     update() {
         if(this.keys.space.isDown || leftFire == 'h' || rightFire == 'h') {
             this.overlay.classList.add('hidden');
+            this.walkSound.destroy();
+            this.walkSoundBack.destroy();
             this.scene.start('Level1');
         }
     }
