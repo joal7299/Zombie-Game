@@ -92,7 +92,7 @@ create() {
     // this.overlay = document.querySelector('#main-screen');
     // this.overlay.classList.remove('hidden');
 
-    var bounceTime = 100;
+    var bounceTime = 200;
     var hitTime = 100;
 
     var wallIsCollidingLeft = false;
@@ -459,7 +459,7 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
                 this.p1.isColliding = true;
                 //console.log('a');
                 //console.log(this.walls[i][j-1].x + ', ' + this.walls[i][j-1].y + '->' + this.walls[i][j].x + ', ' + this.walls[i][j].y);
-                this.bounceTime = 100;
+                this.bounceTime = 200;
             }
             // else {
             //     this.p1.isColliding = false;
@@ -479,7 +479,7 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
         if(wallCollision(this.walls[i][this.pointNums[i] - 1],this.walls[i][0],this.p1) && !this.p1.isColliding) {
             this.p1.isColliding = true;
             //console.log('b');
-            this.bounceTime = 100;
+            this.bounceTime = 200;
         }
         if (this.leftArm.isActive && wallCollision(this.walls[i][this.pointNums[i] - 1],this.walls[i][0], this.leftArm.hitBox)) {
             this.leftArm.stopMoving();
@@ -506,7 +506,7 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
 
     if (this.bounceTime <= 0) {
         this.p1.isColliding = false;
-        this.bounceTime = 100;
+        this.bounceTime = 200;
     }
     if (isBoxCollision(this.p1,this.door)) {
         //console.log('yay?');
