@@ -552,11 +552,11 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
         }
         if (this.leftArm.isActive && wallCollision(this.walls[i][this.pointNums[i] - 1],this.walls[i][0], this.leftArm.hitBox)) {
             this.leftArm.stopMoving();
-            this.sound.play('splat', {volume: 0.5});
+            //this.sound.play('splat', {volume: 0.5});
         }
         if (this.rightArm.isActive && wallCollision(this.walls[i][this.pointNums[i] - 1],this.walls[i][0], this.rightArm.hitBox)) {
             this.rightArm.stopMoving();
-            this.sound.play('splat', {volume: 0.5});
+            //this.sound.play('splat', {volume: 0.5});
         }
         //console.log(this.p1.isColliding);
     }

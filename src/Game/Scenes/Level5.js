@@ -217,8 +217,8 @@ create() {
     
 
     //End goal door
-    this.door = new HitRect(180,220,51,56);
-    this.add.sprite(200, 55, 'zombieGirl').setScale(.35);
+    this.door = new HitRect(180,220,51,66);
+    this.add.sprite(200, 75, 'zombieGirl').setScale(.25);
     
     //Game vars
     this.p1 = this.add.existing(new Player(this, 200, 550));
@@ -231,10 +231,10 @@ create() {
     this.rightArm = this.add.existing(new Arm(this, false));
 
     this.enemies = [
-        this.e1 = this.add.existing(new Enemy(this, 200, 100)),
-        this.e2 = this.add.existing(new Enemy(this, 50, 250)),
-        this.e3 = this.add.existing(new Enemy(this, 350, 250)),
-        this.e4 = this.add.existing(new Enemy(this, 300, 650))
+        this.e1 = this.add.existing(new Enemy(this, 220, 100)),
+        this.e2 = this.add.existing(new Enemy(this, 200, 300)),
+        this.e3 = this.add.existing(new Enemy(this, 50, 125)),
+        this.e4 = this.add.existing(new Enemy(this, 350, 125))
     ];
     //this.enemySpawnTime = 2000;
 
@@ -242,8 +242,8 @@ create() {
     // this.e6 = this.add.existing(new Enemy(this, 400, 500));
     
     //spawning enemies
-    this.enemies[0].activate(200, 700, 270 * Math.PI / 180);
-    this.enemies[1].activate(200, 300, 90 * Math.PI / 180);
+    this.enemies[0].activate(220, 100, 240 * Math.PI / 180);
+    this.enemies[1].activate(190, 300, 90 * Math.PI / 180);
     this.enemies[2].activate(50, 125, 45 * Math.PI / 180);
     this.enemies[3].activate(350, 125, 135 * Math.PI / 180);
     // this.enemies[4].activate(50, 500, -90 * Math.PI / 180);
@@ -505,11 +505,11 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
         }
         if (this.leftArm.isActive && wallCollision(this.walls[i][this.pointNums[i] - 1],this.walls[i][0], this.leftArm.hitBox)) {
             this.leftArm.stopMoving();
-            this.sound.play('splat', {volume: 0.5});
+            //this.sound.play('splat', {volume: 0.5});
         }
         if (this.rightArm.isActive && wallCollision(this.walls[i][this.pointNums[i] - 1],this.walls[i][0], this.rightArm.hitBox)) {
             this.rightArm.stopMoving();
-            this.sound.play('splat', {volume: 0.5});
+            //this.sound.play('splat', {volume: 0.5});
         }
         //console.log(this.p1.isColliding);
     }

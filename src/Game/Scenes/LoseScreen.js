@@ -18,6 +18,14 @@ class LoseScreen extends Phaser.Scene {
         this.keys = {
             space: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE),
           };
+
+        this.sound.play('walking', {loop: true});
+        this.walkSound = this.sound.sounds.find(s => s.key == 'walking');
+        this.walkSound.stop();
+
+        this.sound.play('walkingBack', {loop: true});
+        this.walkSoundBack = this.sound.sounds.find(s => s.key == 'walkingBack');
+        this.walkSoundBack.stop();
     }
 
     onSerialMessage(msg) {
@@ -31,7 +39,9 @@ class LoseScreen extends Phaser.Scene {
     update() {
         if(this.keys.space.isDown || leftFire == 'h' || rightFire == 'h') {
             this.overlay.classList.add('hidden');
-            this.scene.start('MainScene');
+            this.walkSound.destroy();
+            this.walkSoundBack.destroy();
+            this.scene.start('Level1');
         }
     }
 }
