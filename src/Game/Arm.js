@@ -14,12 +14,12 @@ class Arm extends Phaser.GameObjects.Sprite {
 
     if(this.isLeftArm) {
       this.setTexture('__DEFAULT').setScale(.3);
-      this.hitBox = {x: this.x + 28.28 * Math.cos(this.rotation - Math.PI/4), y: this.y + 28.28 * Math.sin(this.rotation - Math.PI/4) , radius: this.radius};
+      this.hitBox = {x: this.x + 24.08 * Math.cos(this.rotation - Math.PI/4), y: this.y + 24.08 * Math.sin(this.rotation - Math.PI/4) , radius: this.radius};
     }
 
     else if(!this.isLeftArm){
       this.setTexture('__DEFAULT').setScale(.3);
-      this.hitBox = {x: this.x + 28.28 * Math.cos(this.rotation + Math.PI/4), y: this.y + 28.28 * Math.sin(this.rotation + Math.PI/4) , radius: this.radius};
+      this.hitBox = {x: this.x + 24.08 * Math.cos(this.rotation + Math.PI/4), y: this.y + 24.08 * Math.sin(this.rotation + Math.PI/4) , radius: this.radius};
     }
 
     this.moveTime = 0;
@@ -37,12 +37,12 @@ class Arm extends Phaser.GameObjects.Sprite {
     
     if(this.isLeftArm) {
       this.setTexture('leftarm').setScale(.3);
-      this.hitBox = {x: this.x + 28.28 * Math.cos(this.rotation - Math.PI/4), y: this.y + 28.28 * Math.sin(this.rotation - Math.PI/4), radius: this.radius};
+      this.hitBox = {x: this.x + 24.08 * Math.cos(this.rotation - Math.PI/4), y: this.y + 24.08 * Math.sin(this.rotation - Math.PI/4), radius: this.radius};
     }
 
     else if(!this.isLeftArm){
       this.setTexture('rightarm').setScale(.3);
-      this.hitBox = {x: this.x + 28.28 * Math.cos(this.rotation + Math.PI/4), y: this.y + 28.28 * Math.sin(this.rotation + Math.PI/4), radius: this.radius};
+      this.hitBox = {x: this.x + 24.08 * Math.cos(this.rotation + Math.PI/4), y: this.y + 24.08 * Math.sin(this.rotation + Math.PI/4), radius: this.radius};
     }
 
     //console.log(this.x);
@@ -67,10 +67,10 @@ class Arm extends Phaser.GameObjects.Sprite {
       this.x += this.moveSpeed * forwardX * deltaTime / 1000;
       this.y += this.moveSpeed * forwardY * deltaTime / 1000;
       if(this.isLeftArm) {
-        this.hitBox = {x: this.x + 28.28 * Math.cos(this.rotation - Math.PI/4), y: this.y + 28.28 * Math.sin(this.rotation - Math.PI/4), radius: this.radius};
+        this.hitBox = {x: this.x + 24.08 * Math.cos(this.rotation - Math.PI/4), y: this.y + 24.08 * Math.sin(this.rotation - Math.PI/4), radius: this.radius};
       }
       else if(!this.isLeftArm) {
-        this.hitBox = {x: this.x + 28.28 * Math.cos(this.rotation + Math.PI/4), y: this.y + 28.28 * Math.sin(this.rotation + Math.PI/4), radius: this.radius};
+        this.hitBox = {x: this.x + 24.08 * Math.cos(this.rotation + Math.PI/4), y: this.y + 24.08 * Math.sin(this.rotation + Math.PI/4), radius: this.radius};
       }
       // Deactivate arm when it's been alive for too long 
       this.moveTime -= deltaTime;

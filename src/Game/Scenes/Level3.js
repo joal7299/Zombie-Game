@@ -263,7 +263,7 @@ create() {
     //this.enemySpawnTime = 2000;
     
     //spawning enemies
-    this.enemies[0].activate(200, 90, 90 * Math.PI / 180, 100, 76);
+    this.enemies[0].activate(200, 90, 180 * Math.PI / 180, 200, 18);
     this.enemies[1].activate(50, 350, 90 * Math.PI / 180, 200, 18);
     this.enemies[2].activate(360, 350, 90 * Math.PI / 180, 200, 18);
     this.enemies[3].activate(300, 650, 180 * Math.PI / 180, 200, 20);
