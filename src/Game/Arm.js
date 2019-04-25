@@ -11,14 +11,15 @@ class Arm extends Phaser.GameObjects.Sprite {
     this.isActive = false;
     this.isMoving = false;
     this.isLeftArm = isLeftArm;
-    this.hitBox = {x: this.x - 18, y: this.y - 10, radius: this.radius};
 
     if(this.isLeftArm) {
       this.setTexture('__DEFAULT').setScale(.3);
+      this.hitBox = {x: this.x + 28.28 * Math.cos(this.rotation - Math.PI/4), y: this.y + 28.28 * Math.sin(this.rotation - Math.PI/4) , radius: this.radius};
     }
 
     else if(!this.isLeftArm){
       this.setTexture('__DEFAULT').setScale(.3);
+      this.hitBox = {x: this.x + 28.28 * Math.cos(this.rotation + Math.PI/4), y: this.y + 28.28 * Math.sin(this.rotation + Math.PI/4) , radius: this.radius};
     }
 
     this.moveTime = 0;
@@ -33,14 +34,15 @@ class Arm extends Phaser.GameObjects.Sprite {
     this.isMoving = true;
     this.moveTime = 400;
     this.moveSpeed = 400;
-    this.hitBox = {x: this.x - 18, y: this.y - 10, radius: this.radius};
     
     if(this.isLeftArm) {
       this.setTexture('leftarm').setScale(.3);
+      this.hitBox = {x: this.x + 28.28 * Math.cos(this.rotation - Math.PI/4), y: this.y + 28.28 * Math.sin(this.rotation - Math.PI/4), radius: this.radius};
     }
 
     else if(!this.isLeftArm){
       this.setTexture('rightarm').setScale(.3);
+      this.hitBox = {x: this.x + 28.28 * Math.cos(this.rotation + Math.PI/4), y: this.y + 28.28 * Math.sin(this.rotation + Math.PI/4), radius: this.radius};
     }
 
     //console.log(this.x);
@@ -64,8 +66,13 @@ class Arm extends Phaser.GameObjects.Sprite {
       const forwardY = Math.cos(this.forward);
       this.x += this.moveSpeed * forwardX * deltaTime / 1000;
       this.y += this.moveSpeed * forwardY * deltaTime / 1000;
-      this.hitBox = {x: this.x - 18 * forwardX, y: this.y - 10 * forwardY, radius: this.radius};
-      // Deactivate bullet when it's been alive for too long 
+      if(this.isLeftArm) {
+        this.hitBox = {x: this.x + 28.28 * Math.cos(this.rotation - Math.PI/4), y: this.y + 28.28 * Math.sin(this.rotation - Math.PI/4), radius: this.radius};
+      }
+      else if(!this.isLeftArm) {
+        this.hitBox = {x: this.x + 28.28 * Math.cos(this.rotation + Math.PI/4), y: this.y + 28.28 * Math.sin(this.rotation + Math.PI/4), radius: this.radius};
+      }
+      // Deactivate arm when it's been alive for too long 
       this.moveTime -= deltaTime;
       if (this.moveTime < 0) {
         this.stopMoving();
@@ -80,10 +87,10 @@ class Arm extends Phaser.GameObjects.Sprite {
       graphics.rotate(this.forward);
       //graphics.fillRect(0, 0, 15, 35);
       if(this.isLeftArm){
-        graphics.fillCircle(0,0,this.radius);
+        //graphics.fillCircle(0,0,this.radius);
       }
       else{
-        graphics.fillCircle(0,0,this.radius);
+        //graphics.fillCircle(0,0,this.radius);
       }
       graphics.restore();
     }

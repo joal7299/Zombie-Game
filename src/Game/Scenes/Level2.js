@@ -380,14 +380,14 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
     }
 
     // Reattach arm when player collides with fired left arm
-    if (!this.p1.leftArmIsOn && isCircleCollision(this.p1, this.leftArm) && this.leftArm.moveTime < 200) {
+    if (!this.p1.leftArmIsOn && isCircleCollision(this.p1, this.leftArm.hitBox) && this.leftArm.moveTime < 200) {
         this.leftArm.deactivate();
         this.p1.leftArmIsOn = true;
         this.wallIsCollidingLeft = false;
     }
 
     // Reattach arm when player collides with fired right arm
-    if (!this.p1.rightArmIsOn && isCircleCollision(this.p1, this.rightArm) && this.rightArm.moveTime < 200) {
+    if (!this.p1.rightArmIsOn && isCircleCollision(this.p1, this.rightArm.hitBox) && this.rightArm.moveTime < 200) {
         this.rightArm.deactivate();
         this.p1.rightArmIsOn = true;
         this.wallIsCollidingRight = false;
@@ -425,12 +425,12 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
             // }
             //isBlocked = false;
         }
-        if (e.isActive && this.leftArm.isActive && isCircleCollision(e, this.leftArm)) {
+        if (e.isActive && this.leftArm.isActive && isCircleCollision(e, this.leftArm.hitBox)) {
             e.deactivate();
             this.leftArm.stopMoving();
             this.sound.play('enemyHit');
         }
-        if (e.isActive && this.rightArm.isActive && isCircleCollision(e, this.rightArm)) {
+        if (e.isActive && this.rightArm.isActive && isCircleCollision(e, this.rightArm.hitBox)) {
             e.deactivate();
             this.rightArm.stopMoving();
             this.sound.play('enemyHit');
@@ -476,29 +476,6 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
         this.hitTime = 100;
     }
 
-    // this.walls.forEach(w => {
-    //     if (this.leftArm.isActive && isBoxCollision(this.leftArm, w)) {
-    //         this.leftArm.stopMoving();
-    //         if(this.wallIsCollidingLeft == false){
-    //             this.sound.play('splat', {volume: 0.5});
-    //             this.wallIsCollidingLeft = true;
-    //         } 
-    //     }
-    //     // else{
-    //     //     this.wallIsCollidingLeft = false;
-    //     // }
-    //     if (this.rightArm.isActive && isBoxCollision(this.rightArm, w)) {
-    //         this.rightArm.stopMoving();
-    //         if(this.wallIsCollidingRight == false){
-    //             this.sound.play('splat', {volume: 0.5});
-    //             this.wallIsCollidingRight = true;
-    //         } 
-    //     }
-    //     // else{
-    //     //     this.wallIsCollidingRight = false;
-    //     // }
-    // });
-
     let i;
     for(i = 0; i < this.numWalls; i++) {
         let j;
@@ -513,11 +490,11 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
             //     this.p1.isColliding = false;
             //     console.log("free");
             // }
-            if (this.leftArm.isMoving && wallCollision(this.walls[i][j-1],this.walls[i][j], this.leftArm)) {
+            if (this.leftArm.isMoving && wallCollision(this.walls[i][j-1],this.walls[i][j], this.leftArm.hitBox)) {
                 this.leftArm.stopMoving();
                 this.sound.play('splat', {volume: 0.5});
             }
-            if (this.rightArm.isMoving && wallCollision(this.walls[i][j-1],this.walls[i][j], this.rightArm)) {
+            if (this.rightArm.isMoving && wallCollision(this.walls[i][j-1],this.walls[i][j], this.rightArm.hitBox)) {
                 this.rightArm.stopMoving();
                 this.sound.play('splat', {volume: 0.5});
             }
@@ -529,11 +506,11 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
             this.p1.isColliding = true;
             this.bounceTime = 100;
         }
-        if (this.leftArm.isActive && wallCollision(this.walls[i][this.pointNums[i] - 1],this.walls[i][0], this.leftArm)) {
+        if (this.leftArm.isActive && wallCollision(this.walls[i][this.pointNums[i] - 1],this.walls[i][0], this.leftArm.hitBox)) {
             this.leftArm.stopMoving();
             this.sound.play('splat', {volume: 0.5});
         }
-        if (this.rightArm.isActive && wallCollision(this.walls[i][this.pointNums[i] - 1],this.walls[i][0], this.rightArm)) {
+        if (this.rightArm.isActive && wallCollision(this.walls[i][this.pointNums[i] - 1],this.walls[i][0], this.rightArm.hitBox)) {
             this.rightArm.stopMoving();
             this.sound.play('splat', {volume: 0.5});
         }
