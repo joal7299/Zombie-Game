@@ -421,6 +421,32 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
             }
             this.p1.isHit = true;
             this.hitTime = 100;
+            e.collision = true;
+        }
+
+        for(let i = 0; i < this.numWalls; i++) {
+            const wallSet = this.walls[i];
+            for(let j = 1; j < this.pointNums[i]; j++) {
+                if(wallCollision(wallSet[j-1], wallSet[j], e)) {
+                    //console.log('a');
+                    e.collision = true;
+                }
+                // else if(!wallCollision(this.walls[i][j-1],this.walls[i][j],e) ) {
+                //     e.isColliding = false;
+                // }
+            }
+            if(wallCollision(wallSet[this.pointNums[i] - 1],wallSet[0],e) && !e.isColliding) {
+                e.collision = true;
+                //console.log('b');
+            }
+            else if(!wallCollision(wallSet[this.pointNums[i] - 1],wallSet[0],e) && !e.collision) {
+                e.collision = false;
+                //console.log('c');
+            }
+        }
+        //console.log(e.collision);
+        if(e.collision) {
+            e.isColliding = true;
         }
     });
 

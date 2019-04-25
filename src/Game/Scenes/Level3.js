@@ -434,6 +434,7 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
             }
             this.p1.isHit = true;
             this.hitTime = 100;
+            e.collision = true;
         }
 
         for(let i = 0; i < this.numWalls; i++) {
@@ -537,7 +538,7 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
         this.walkSound.destroy();
         this.walkSoundBack.destroy();
         //this.sound.sounds.find(s => s.key == 'background').destroy();
-        this.scene.start('Level3');
+        this.scene.start('Level4');
         //console.log('what?');
     }
 

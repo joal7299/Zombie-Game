@@ -11,7 +11,7 @@ class Enemy extends Phaser.GameObjects.Sprite{
       this.currentY = y;
       this.x = y;
       this.y = x;
-      this.radius = 20; //for collision detection
+      this.radius = 25; //for collision detection
       this.forward = 0;
       this.angle = 0;
       this.visionDist = 200;
@@ -21,6 +21,7 @@ class Enemy extends Phaser.GameObjects.Sprite{
       this.viewAngle = 25;
       this.isColliding = false;
       this.collision = false;
+      this.bounceTime = 0;
   
       this.activeTime = 0;
 
@@ -78,22 +79,29 @@ class Enemy extends Phaser.GameObjects.Sprite{
     this.forward = Math.atan2((pY-this.currentY), (pX-this.currentX));
     const forwardX = Math.cos(this.forward);
     const forwardY = Math.sin(this.forward);
+    this.bounceTime -= deltaTime;
     // this.x += this.moveSpeed * forwardX * deltaTime / 1000;
     // this.y += this.moveSpeed * forwardY * deltaTime / 1000;
     //console.log(this.isColliding);
     if(!this.isColliding) {
+      //console.log('a');
       this.x += this.moveSpeed * forwardX * deltaTime / 1000;
       this.y += this.moveSpeed * forwardY * deltaTime / 1000;
       this.currentX = this.x;
       this.currentY = this.y;
     }
-    else {
+    else if(this.bounceTime > 0 && this.isColliding) {
+      //console.log('b');
       this.x -= this.moveSpeed * forwardX * deltaTime / 700;
       this.y -= this.moveSpeed * forwardY * deltaTime / 700;
       this.currentX = this.x;
       this.currentY = this.y;
+    }
+    else if(this.bounceTime <= 0 && this.isColliding) {
+      //console.log('c');
       this.collision = false;
       this.isColliding = false;
+      this.bounceTime = 100;
     }
   }
 
@@ -116,10 +124,10 @@ class Enemy extends Phaser.GameObjects.Sprite{
       graphics.save();
       graphics.translate(this.currentX, this.currentY);
       graphics.rotate(this.forward-Math.PI/2);
-      graphics.strokePoints(this.baseGeo);
+      //graphics.strokePoints(this.baseGeo);
       this.setPosition(this.currentX, this.currentY);
       this.setRotation(this.forward);
-      //graphics.fillCircle(0,0,this.radius);
+      graphics.fillCircle(0,0,this.radius);
       graphics.restore();
     }
   }

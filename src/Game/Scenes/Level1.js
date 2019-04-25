@@ -240,7 +240,7 @@ create() {
     // this.e6 = this.add.existing(new Enemy(this, 400, 500));
     
     //spawning enemies
-    this.enemies[0].activate(60, 160, 105 * Math.PI / 180);
+    this.enemies[0].activate(60, 161, 105 * Math.PI / 180);
     this.enemies[1].activate(340, 160, 75 * Math.PI / 180);
     // this.enemies[2].activate(360, 350, 180 * Math.PI / 180);
     // this.enemies[3].activate(300, 650, 0 * Math.PI / 180);
@@ -306,7 +306,7 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
     if ((this.keys.a.isDown || leftFire == 'h') && this.p1.leftArmIsOn) {
         this.leftArm.activate(this.p1.x, this.p1.y, this.p1.forwardRot);
         this.p1.leftArmIsOn = false;
-        console.log(this.leftArm.hitBox.x + ', ' + this.leftArm.hitBox.y);
+        //console.log(this.leftArm.hitBox.x + ', ' + this.leftArm.hitBox.y);
 
         this.leftFire = true;
         if(this.leftFire == true){
@@ -393,6 +393,29 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
             }
             this.p1.isHit = true;
             this.hitTime = 100;
+            e.collision = true;
+            console.log('?');
+        }
+
+        for(let i = 0; i < this.numWalls; i++) {
+            const wallSet = this.walls[i];
+            for(let j = 1; j < this.pointNums[i]; j++) {
+                if(wallCollision(wallSet[j-1], wallSet[j], e)) {
+                    console.log('a ' + wallSet[j-1].x + ', ' + wallSet[j-1].y + '; ' + wallSet[j].x + ', ' + wallSet[j].y);
+                    e.collision = true;
+                }
+                // else if(!wallCollision(this.walls[i][j-1],this.walls[i][j],e) ) {
+                //     e.isColliding = false;
+                // }
+            }
+            if(wallCollision(wallSet[this.pointNums[i] - 1],wallSet[0],e) && !e.isColliding) {
+                e.collision = true;
+                console.log('b ' + wallSet[this.pointNums[i] - 1].x + ', ' + wallSet[this.pointNums[i] - 1].y + '; ' + wallSet[0].x + ', ' + wallSet[0].y);
+            }
+        }
+        //console.log(e.collision);
+        if(e.collision) {
+            e.isColliding = true;
         }
     });
 

@@ -31,7 +31,7 @@ class EndScreen extends Phaser.Scene {
     update() {
         if(this.keys.space.isDown || leftFire == 'h' || rightFire == 'h') {
             this.overlay.classList.add('hidden');
-            this.scene.start('MainScene');
+            this.scene.start('Level1');
         }
     }
 }

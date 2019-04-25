@@ -22,7 +22,7 @@ class Player extends Phaser.GameObjects.Sprite {
       this.wasGoingBack = false;
       this.isColliding = false;
       this.isHit = false;
-      //this.bounceTime = 200;
+      this.bounceTime = 200;
 
       //arms
       this.leftArmIsOn = true;
@@ -108,13 +108,13 @@ class Player extends Phaser.GameObjects.Sprite {
 
     //collision
     if (this.isColliding && this.isGoingForward) {
-      this.x -= this.moveSpeed * forwardX * deltaTime / 500;
-      this.y -= this.moveSpeed * forwardY * deltaTime / 500;
+      this.x -= this.moveSpeed * forwardX * deltaTime / 700;
+      this.y -= this.moveSpeed * forwardY * deltaTime / 700;
     }
 
     if (this.isColliding && this.isGoingBack) {
-      this.x += this.moveSpeed * forwardX * deltaTime / 500;
-      this.y += this.moveSpeed * forwardY * deltaTime / 500;
+      this.x += this.moveSpeed * forwardX * deltaTime / 700;
+      this.y += this.moveSpeed * forwardY * deltaTime / 700;
     }
   }
 
