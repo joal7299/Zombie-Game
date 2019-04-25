@@ -127,7 +127,7 @@ class Enemy extends Phaser.GameObjects.Sprite{
       //graphics.strokePoints(this.baseGeo);
       this.setPosition(this.currentX, this.currentY);
       this.setRotation(this.forward);
-      graphics.fillCircle(0,0,this.radius);
+      //graphics.fillCircle(0,0,this.radius);
       graphics.restore();
     }
   }
