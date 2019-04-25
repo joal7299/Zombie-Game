@@ -92,7 +92,7 @@ create() {
     // this.overlay = document.querySelector('#main-screen');
     // this.overlay.classList.remove('hidden');
 
-    var bounceTime = 100;
+    var bounceTime = 200;
     var hitTime = 100;
 
     var wallIsCollidingLeft = false;
@@ -263,6 +263,31 @@ create() {
     this.walkSoundBack.stop();
 }
 
+startScreenShake(intensity, duration, speed) {
+    this.isShaking = true;
+    this.shakeIntesity = intensity;
+    this.shakeTime = duration;
+    this.shakeSpeed = speed;
+    this.shakeXScale = Math.random() > 0.5 ? 1 : -1;
+    this.shakeYScale = Math.random() > 0.5 ? 1 : -1;
+}
+
+updateScreenShake(deltaTime) {
+    if (this.isShaking) {
+        this.shakeTime -= deltaTime;
+
+        const shakeAmount = this.shakeTime / this.shakeSpeed;
+        this.game.canvas.style.left = window.innerWidth / 2 - 200 + (Math.cos(shakeAmount) * this.shakeXScale * this.shakeIntesity) + "px";
+        this.game.canvas.style.top = window.innerHeight / 2 - 375 + (Math.sin(shakeAmount) * this.shakeYScale * this.shakeIntesity) + "px";
+
+        if(this.shakeTime < 0) {
+            this.isShaking = false;
+            this.game.canvas.style.left = window.innerWidth / 2 - 200 + 'px';
+            this.game.canvas.style.top = window.innerHeight / 2 - 375 + 'px';
+        }
+    }
+}
+
 
 update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it is not used
     // Update Player
@@ -386,10 +411,12 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
         if (e.isActive && isCircleCollision(e, this.p1)) {
             //e.deactivate();
             this.p1.alpha = 0.5;
+            this.startScreenShake(6,100,4);
 
             if (!this.p1.isHit) {
                 this.p1.health -= 1;
                 this.sound.play('damage', {volume: 0.7});
+                this.startScreenShake(6,100,4);
             }
             this.p1.isHit = true;
             this.hitTime = 100;
@@ -455,7 +482,7 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
                 this.p1.isColliding = true;
                 //console.log('a');
                 //console.log(this.walls[i][j-1].x + ', ' + this.walls[i][j-1].y + '->' + this.walls[i][j].x + ', ' + this.walls[i][j].y);
-                this.bounceTime = 100;
+                this.bounceTime = 200;
             }
             // else {
             //     this.p1.isColliding = false;
@@ -475,15 +502,16 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
         if(wallCollision(this.walls[i][this.pointNums[i] - 1],this.walls[i][0],this.p1) && !this.p1.isColliding) {
             this.p1.isColliding = true;
             //console.log('b');
-            this.bounceTime = 100;
+            this.bounceTime = 200;
         }
         if (this.leftArm.isActive && wallCollision(this.walls[i][this.pointNums[i] - 1],this.walls[i][0], this.leftArm.hitBox)) {
             this.leftArm.stopMoving();
-            this.sound.play('splat', {volume: 0.5});
+            //this.sound.play('splat', {volume: 0.5});
+            
         }
         if (this.rightArm.isActive && wallCollision(this.walls[i][this.pointNums[i] - 1],this.walls[i][0], this.rightArm.hitBox)) {
             this.rightArm.stopMoving();
-            this.sound.play('splat', {volume: 0.5});
+            //this.sound.play('splat', {volume: 0.5});
         }
         //console.log(this.p1.isColliding);
     }
@@ -501,7 +529,7 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
 
     if (this.bounceTime <= 0) {
         this.p1.isColliding = false;
-        this.bounceTime = 100;
+        this.bounceTime = 200;
     }
     if (isBoxCollision(this.p1,this.door)) {
         //console.log('yay?');
@@ -573,6 +601,8 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
     //     this.graphics.strokePoints(s);
     // });
     //this.graphics.lineStyle(0xeeeeee, 1);
+
+    this.updateScreenShake(deltaTime);
     
 }
 }

@@ -278,10 +278,10 @@ create() {
     this.rightArm = this.add.existing(new Arm(this, false));
 
     this.enemies = [
-        this.e1 = this.add.existing(new Enemy(this, 200, 100)),
-        this.e2 = this.add.existing(new Enemy(this, 50, 250)),
-        this.e3 = this.add.existing(new Enemy(this, 350, 250)),
-        this.e4 = this.add.existing(new Enemy(this, 300, 650))
+        this.e1 = this.add.existing(new Enemy(this, 75, 575)),
+        this.e2 = this.add.existing(new Enemy(this, 325, 575)),
+        this.e3 = this.add.existing(new Enemy(this, 200, 350)),
+        this.e4 = this.add.existing(new Enemy(this, 220, 150))
     ];
     //this.enemySpawnTime = 2000;
 
@@ -289,8 +289,8 @@ create() {
     // this.e6 = this.add.existing(new Enemy(this, 400, 500));
     
     //spawning enemies
-    this.enemies[0].activate(75, 575, 30 * Math.PI / 180);
-    this.enemies[1].activate(325, 575, 150 * Math.PI / 180);
+    this.enemies[0].activate(85, 575, 30 * Math.PI / 180);
+    this.enemies[1].activate(335, 565, 150 * Math.PI / 180);
     this.enemies[2].activate(200, 350, 90 * Math.PI / 180);
     this.enemies[3].activate(220, 150, 135 * Math.PI / 180);
     // this.enemies[4].activate(50, 500, -90 * Math.PI / 180);
@@ -578,11 +578,11 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
         }
         if (this.leftArm.isActive && wallCollision(this.walls[i][this.pointNums[i] - 1],this.walls[i][0], this.leftArm.hitBox)) {
             this.leftArm.stopMoving();
-            this.sound.play('splat', {volume: 0.5});
+            //this.sound.play('splat', {volume: 0.5});
         }
         if (this.rightArm.isActive && wallCollision(this.walls[i][this.pointNums[i] - 1],this.walls[i][0], this.rightArm.hitBox)) {
             this.rightArm.stopMoving();
-            this.sound.play('splat', {volume: 0.5});
+            //this.sound.play('splat', {volume: 0.5});
         }
         //console.log(this.p1.isColliding);
     }
