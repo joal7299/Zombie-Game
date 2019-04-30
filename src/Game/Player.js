@@ -22,7 +22,7 @@ class Player extends Phaser.GameObjects.Sprite {
       this.wasGoingBack = false;
       this.isColliding = false;
       this.isHit = false;
-      this.bounceTime = 200;
+      //this.bounceTime = 200;
 
       //arms
       this.leftArmIsOn = true;
