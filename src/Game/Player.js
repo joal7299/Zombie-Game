@@ -51,11 +51,11 @@ class Player extends Phaser.GameObjects.Sprite {
     
     // Player Movement
     //rotate left
-    if (keys.left.isDown || movement == 'S') {
+    if (keys.left.isDown || movement == 'P') {
       this.forwardRot -= this.rotSpeed * deltaTime / 1000
     }
     //rotate right
-    if (keys.right.isDown || movement == 'P') {
+    if (keys.right.isDown || movement == 'S') {
       this.forwardRot += this.rotSpeed * deltaTime / 1000
     }
 

@@ -30,7 +30,7 @@ class LoseScreen extends Phaser.Scene {
 
     onSerialMessage(msg) {
         // Put your serial reading code in here. msg will be a string
-        console.log(msg);
+        //console.log(msg);
         movement = msg[0];
         leftFire = msg[2];
         rightFire = msg[4];
@@ -39,6 +39,8 @@ class LoseScreen extends Phaser.Scene {
     update() {
         if(this.keys.space.isDown || leftFire == 'h' || rightFire == 'h') {
             this.overlay.classList.add('hidden');
+            this.walkSound.destroy();
+            this.walkSoundBack.destroy();
             this.scene.start('Level1');
         }
     }
