@@ -65,7 +65,7 @@ preload() {
 
 onSerialMessage(msg) {
     // Put your serial reading code in here. msg will be a string
-    console.log(msg);
+    //console.log(msg);
     movement = msg[0];
     leftFire = msg[2];
     rightFire = msg[4];
@@ -428,7 +428,7 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
             const wallSet = this.walls[i];
             for(let j = 1; j < this.pointNums[i]; j++) {
                 if(wallCollision(wallSet[j-1], wallSet[j], e)) {
-                    console.log('a ' + wallSet[j-1].x + ', ' + wallSet[j-1].y + '; ' + wallSet[j].x + ', ' + wallSet[j].y);
+                    //console.log('a ' + wallSet[j-1].x + ', ' + wallSet[j-1].y + '; ' + wallSet[j].x + ', ' + wallSet[j].y);
                     e.collision = true;
                 }
                 // else if(!wallCollision(this.walls[i][j-1],this.walls[i][j],e) ) {
@@ -437,7 +437,7 @@ update(totalTime,deltaTime) {  //could replace totalTime with _ to indicate it i
             }
             if(wallCollision(wallSet[this.pointNums[i] - 1],wallSet[0],e) && !e.isColliding) {
                 e.collision = true;
-                console.log('b ' + wallSet[this.pointNums[i] - 1].x + ', ' + wallSet[this.pointNums[i] - 1].y + '; ' + wallSet[0].x + ', ' + wallSet[0].y);
+                //console.log('b ' + wallSet[this.pointNums[i] - 1].x + ', ' + wallSet[this.pointNums[i] - 1].y + '; ' + wallSet[0].x + ', ' + wallSet[0].y);
             }
         }
         //console.log(e.collision);
